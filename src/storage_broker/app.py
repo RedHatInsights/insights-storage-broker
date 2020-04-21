@@ -185,7 +185,7 @@ def announce(msg):
 def bucket_store(data):
     timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
     aws.upload(
-        f"{timestamp}-{data['request-id']}",
+        f"{timestamp}-{data['request_id']}",
         json.dumps(data, ensure_ascii=False).encode("utf-8"),
         config.EGRESS_JSON_BUCKET,
     )
