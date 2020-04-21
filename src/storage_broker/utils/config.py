@@ -45,6 +45,7 @@ STAGE_BUCKET = os.getenv("STAGE_BUCKET", "insights-dev-upload-perm")
 REJECT_BUCKET = os.getenv("REJECT_BUCKET", "insights-dev-upload-rejected")
 S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL", None)
 BUCKET_MAP_FILE = os.getenv("BUCKET_MAP_FILE", "/opt/app-root/src/default_map.yaml")
+EGRESS_JSON_BUCKET = os.getenv("EGRESS_JSON_BUCKET", "insights-inventory-json-bucket")
 
 # Logging
 CW_AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", None)

@@ -8,6 +8,8 @@ message_publish_error = Counter("storage_broker_message_publish_error_count", "T
 message_json_unpack_error = Counter("storage_broker_message_json_upack_error_count", "Total message with bad json")
 storage_copy_error = Counter("storage_broker_object_copy_error_count", "Total errors encountered by the copy operation")
 storage_copy_success = Counter("storage_broker_object_copy_success_count", "Total successful object moves")
+storage_put_error = Counter("storage_broker_object_put_error_count", "Total errors for upload operations")
+storage_put_success = Counter("storage_broker_object_put_success_count", "Total successful upload operations")
 invalid_validation_status = Counter("storage_broker_invalid_status_count", "Total invalid status messages received")
 
 

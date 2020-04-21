@@ -16,6 +16,15 @@ s3 = boto3.client(
 )
 
 
+def upload(key, _object, dest):
+    try:
+        s3.put_object(Body=_object, Key=key, Bucket=dest)
+        metrics.storage_put_success.inc()
+    except ClientError:
+        logger.exception(f"Unable to upload object {key} to {dest}")
+        metrics.storage_put_error.inc()
+
+
 @metrics.storage_copy_time.time()
 def copy(key, src, dest, new_key):
     copy_src = {"Bucket": src, "Key": key}

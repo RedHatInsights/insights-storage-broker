@@ -10,6 +10,7 @@ from storage_broker import KeyMap
 from confluent_kafka import KafkaError
 from prometheus_client import start_http_server
 from functools import partial
+from datetime import datetime
 
 logger = broker_logging.initialize_logging()
 
@@ -88,6 +89,7 @@ def main():
                     aws.copy(data["request_id"], config.STAGE_BUCKET, bucket, key)
             else:
                 announce(data)
+                bucket_store(data)
         except Exception:
             metrics.message_json_unpack_error.inc()
             logger.exception("An error occurred during message processing")
@@ -165,6 +167,11 @@ def announce(msg):
         available_message, "success", f"sent message to {config.ANNOUNCER_TOPIC}"
     )
     send_message(config.TRACKER_TOPIC, tracker_msg)
+
+
+def bucket_store(data):
+    timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+    aws.upload(f"{timestamp}-{data['request-id']}", json.dumps(data, ensure_ascii=False).encode("utf-8"), config.EGRESS_JSON_BUCKET)
 
 
 def send_message(topic, msg):
