@@ -101,8 +101,8 @@ def main():
                 if key != "pass":
                     aws.copy(data["request_id"], config.STAGE_BUCKET, bucket, key)
             else:
-                announce(data)
                 bucket_store(data)
+                announce(data)
         except Exception:
             metrics.message_json_unpack_error.inc()
             logger.exception("An error occurred during message processing")
@@ -185,7 +185,7 @@ def announce(msg):
 def bucket_store(data):
     timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
     aws.upload(
-        f"{timestamp}-{data['request_id']}",
+        f"{timestamp}-{data['platform_metadata']['request_id']}.json",
         json.dumps(data, ensure_ascii=False).encode("utf-8"),
         config.EGRESS_JSON_BUCKET,
     )
