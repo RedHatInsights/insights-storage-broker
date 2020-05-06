@@ -1,8 +1,6 @@
-import attr
 import json
 import logging
 
-from base64 import b64decode
 from datetime import datetime
 
 from storage_broker.utils import config
@@ -10,28 +8,20 @@ from storage_broker.utils import config
 logger = logging.getLogger(config.APP_NAME)
 
 
-@attr.s
-class KeyMap(object):
-    org_id = attr.ib(default=None)
-    request_id = attr.ib(default="-1")
-    category = attr.ib(default=None)
-    account = attr.ib(default=None)
-    timestamp = attr.ib(default=None)
-    cluster_id = attr.ib(default=None)
-    principal = attr.ib(default=None)
-    service = attr.ib(default="default")
-    b64_identity = attr.ib(default=None)
-    size = attr.ib(default=None)
+class TrackerMessage(object):
 
-    @classmethod
-    def from_json(cls, doc):
+    def __init__(self, data):
+        self.service = data["service"]
+        self.account = data["account"]
+        self.inventory_id = data["id"]
+
+    def tracker(self, status, status_msg):
+        self.status = status
+        self.status_msg = status_msg
+        self.date = datetime.now().isoformat()
+
         try:
-            doc = {a.name: doc.get(a.name, a.default) for a in attr.fields(KeyMap)}
-            doc["timestamp"] = datetime.utcnow().strftime("%Y%m%d%H%M%S")
-            return cls(**doc)
+            _bytes = json.dumps(self.__dict__, ensure_ascii=False).encode("utf-8")
+            return _bytes
         except Exception:
-            logger.exception("failed to deserialize message: %s", doc)
-            raise
-
-    def identity(self):
-        return json.loads(b64decode(self.b64_identity))
+            logger.exception("Unable to encode tracker JSON")
