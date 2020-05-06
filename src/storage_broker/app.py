@@ -67,15 +67,15 @@ def main():
             logger.error("Consumer error: %s", msg.error())
             continue
 
-        metrics.message_consume_count.inc()
-        if msg.topic() == config.EGRESS_TOPIC:
-            announce(msg.value())
-            continue
-
         try:
             decoded_msg = json.loads(msg.value().decode("utf-8"))
         except Exception:
             logger.exception("Unable to decode message from topic: %s", msg.topic())
+
+        metrics.message_consume_count.inc()
+        if msg.topic() == config.EGRESS_TOPIC:
+            announce(decoded_msg)
+            continue
 
         try:
             _map = get_map(bucket_map, msg.topic(), decoded_msg)
@@ -145,18 +145,13 @@ def handle_bucket(topic, data):
 # This is is a way to support legacy uploads that are expected to be on the
 # platform.upload.available queue
 def announce(msg):
-    msg = json.loads(msg.decode("utf-8"))
     logger.debug("Incoming Egress Message Content: %s", msg)
     platform_metadata = msg.pop("platform_metadata")
     msg["id"] = msg["host"].get("id")
     if msg["host"].get("system_profile"):
         del msg["host"]["system_profile"]
     available_message = {**msg, **platform_metadata}
-    tracker_msg = msgs.create_msg(
-        available_message, "received", "received egress message"
-    )
-    send_message(config.TRACKER_TOPIC, tracker_msg)
-    send_message(config.ANNOUNCER_TOPIC, available_message)
+    send_message(config.ANNOUNCER_TOPIC, available_message, msg["request_id"])
     tracker_msg = msgs.create_msg(
         available_message, "success", f"sent message to {config.ANNOUNCER_TOPIC}"
     )
@@ -171,7 +166,7 @@ def send_message(topic, msg, request_id):
         producer.produce(topic, msg, callback=partial(produce.delivery_report, request_id=request_id))
     except KafkaError:
         logger.exception(
-            "Unable to topic [%s] for request id [%s]", topic, msg.get("request_id")
+            "Unable to produce to topic [%s] for request id [%s]", topic, msg.get("request_id")
         )
 
 
