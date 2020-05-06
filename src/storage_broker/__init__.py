@@ -15,7 +15,7 @@ class TrackerMessage(object):
         self.account = data["account"]
         self.inventory_id = data["id"]
 
-    def tracker(self, status, status_msg):
+    def message(self, status, status_msg):
         self.status = status
         self.status_msg = status_msg
         self.date = datetime.now().isoformat()
