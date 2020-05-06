@@ -68,6 +68,9 @@ def main():
             continue
 
         metrics.message_consume_count.inc()
+        if msg.topic() == config.EGRESS_TOPIC:
+            announce(msg.value())
+            continue
         try:
             data = json.loads(msg.value().decode("utf-8"))
             if msg.topic() == config.VALIDATION_TOPIC:
@@ -157,6 +160,7 @@ def get_key(msg, bucket_map):
 # This is is a way to support legacy uploads that are expected to be on the
 # platform.upload.available queue
 def announce(msg):
+    msg = json.loads(msg.decode("utf-8"))
     logger.debug("Incoming Egress Message Content: %s", msg)
     platform_metadata = msg.pop("platform_metadata")
     msg["id"] = msg["host"].get("id")
