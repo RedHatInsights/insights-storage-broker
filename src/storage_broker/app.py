@@ -46,7 +46,8 @@ def main():
 
     config.log_config()
 
-    start_prometheus()
+    if config.PROMETHEUS == "True":
+        start_prometheus()
     bucket_map = load_bucket_map(config.BUCKET_MAP_FILE)
 
     consumer = consume.init_consumer()

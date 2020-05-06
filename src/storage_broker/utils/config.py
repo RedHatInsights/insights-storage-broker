@@ -55,3 +55,4 @@ NAMESPACE = get_namespace()
 
 # Metrics
 PROMETHEUS_PORT = os.getenv("PROMETHEUS_PORT", 8080)
+PROMETHEUS = os.getenv("PROMETHEUS", "True")
