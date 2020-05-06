@@ -1,11 +1,12 @@
 import signal
 import json
 import yaml
+import attr
 
 from storage_broker.mq import consume, produce, msgs
 from storage_broker.storage import aws
 from storage_broker.utils import broker_logging, config, metrics
-from storage_broker import KeyMap
+from storage_broker import TrackerMessage, normalizers
 
 from confluent_kafka import KafkaError
 from prometheus_client import start_http_server
@@ -15,6 +16,7 @@ logger = broker_logging.initialize_logging()
 
 running = True
 producer = None
+bucket_map = {}
 
 
 def start_prometheus():
@@ -48,6 +50,8 @@ def main():
 
     if config.PROMETHEUS == "True":
         start_prometheus()
+
+    global bucket_map
     bucket_map = load_bucket_map(config.BUCKET_MAP_FILE)
 
     consumer = consume.init_consumer()
@@ -168,6 +172,17 @@ def announce(msg):
         available_message, "success", f"sent message to {config.ANNOUNCER_TOPIC}"
     )
     send_message(config.TRACKER_TOPIC, tracker_msg)
+
+
+def handle_bucket(topic, data):
+    try:
+        _map = bucket_map[topic][data.service]
+        formatter = _map["format"]
+        key = formatter.format(attr.asdict(data))
+        bucket = _map["bucket"]
+        return key, bucket
+    except Exception:
+        logger.exception("Unable to find bucket map for %s", data.service)
 
 
 def send_message(topic, msg):
