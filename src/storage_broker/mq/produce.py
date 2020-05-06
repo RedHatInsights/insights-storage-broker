@@ -1,6 +1,11 @@
+import logging
+import json
+
 from confluent_kafka import Producer
 
-from storage_broker.utils import config
+from storage_broker.utils import config, metrics
+
+logger = logging.getLogger(__name__)
 
 
 def init_producer():
