@@ -16,7 +16,6 @@ logger = broker_logging.initialize_logging()
 
 running = True
 producer = None
-bucket_map = {}
 
 
 def start_prometheus():
@@ -51,7 +50,6 @@ def main():
     if config.PROMETHEUS == "True":
         start_prometheus()
 
-    global bucket_map
     bucket_map = load_bucket_map(config.BUCKET_MAP_FILE)
 
     consumer = consume.init_consumer()
@@ -125,7 +123,7 @@ def main():
                         data.request_id,
                     )
             else:
-                key, bucket = handle_bucket(msg.topic(), data)
+                key, bucket = handle_bucket(_map, data)
                 aws.copy(
                     data.request_id,
                     config.STAGE_BUCKET,
@@ -146,7 +144,9 @@ def main():
 
 
 def get_map(bucket_map, topic, decoded_msg):
-    _map = bucket_map[topic].get(decoded_msg["service"])
+    for i in bucket_map[topic]:
+        if i["service"] == decoded_msg.get("service"):
+            _map = i
     if _map is not None:
         return _map
     else:
@@ -168,11 +168,10 @@ def handle_validation(data):
         return "invalid"
 
 
-def handle_bucket(topic, data):
+def handle_bucket(_map, data):
     try:
-        _map = bucket_map[topic][data.service]
         formatter = _map["format"]
-        key = formatter.format(attr.asdict(data))
+        key = formatter.format(**attr.asdict(data))
         bucket = _map["bucket"]
         return key, bucket
     except Exception:
