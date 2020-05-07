@@ -12,7 +12,10 @@ class TrackerMessage(object):
     def __init__(self, data):
         self.service = data["service"]
         self.account = data["account"]
-        self.inventory_id = data["id"]
+        if data.get("host"):
+            self.inventory_id = data.get("id")
+        else:
+            self.inventory_id = None
 
     def message(self, status, status_msg):
         self.status = status
