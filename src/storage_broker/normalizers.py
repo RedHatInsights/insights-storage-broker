@@ -13,6 +13,7 @@ class Validation(object):
     """
     A class meant to handle validation messages from the platform
     """
+
     validation = attr.ib(default=None)
     service = attr.ib(default=None)
     topic = attr.ib(default=None)
@@ -24,9 +25,7 @@ class Validation(object):
             validation = data["validation"]
             service = data["service"]
             topic = msg.topic()
-            return cls(validation=validation,
-                       service=service,
-                       topic=topic)
+            return cls(validation=validation, service=service, topic=topic)
         except Exception:
             logger.exception("Unable to deserialize JSON: %s", msg.value())
             raise
@@ -55,14 +54,16 @@ class Ansible(object):
             request_id = doc["request_id"]
             size = doc["size"]
             topic = topic
-            return cls(cluster_id=cluster_id,
-                       org_id=org_id,
-                       account=account,
-                       service=service,
-                       request_id=request_id,
-                       size=size,
-                       topic=topic,
-                       timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
+            return cls(
+                cluster_id=cluster_id,
+                org_id=org_id,
+                account=account,
+                service=service,
+                request_id=request_id,
+                size=size,
+                topic=topic,
+                timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"),
+            )
         except Exception:
             logger.exception("Unable to deserialize JSON")
             raise
@@ -91,14 +92,16 @@ class Openshift(object):
             request_id = doc["request_id"]
             size = doc["size"]
             topic = topic
-            return cls(cluster_id=cluster_id,
-                       org_id=org_id,
-                       account=account,
-                       service=service,
-                       request_id=request_id,
-                       size=size,
-                       topic=topic,
-                       timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
+            return cls(
+                cluster_id=cluster_id,
+                org_id=org_id,
+                account=account,
+                service=service,
+                request_id=request_id,
+                size=size,
+                topic=topic,
+                timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"),
+            )
         except Exception:
             logger.exception("Unable to deserialize JSON")
             raise

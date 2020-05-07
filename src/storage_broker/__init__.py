@@ -9,7 +9,6 @@ logger = logging.getLogger(config.APP_NAME)
 
 
 class TrackerMessage(object):
-
     def __init__(self, data):
         self.service = data["service"]
         self.account = data["account"]

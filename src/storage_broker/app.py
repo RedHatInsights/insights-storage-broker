@@ -82,21 +82,58 @@ def main():
             data = normalize(_map, decoded_msg)
             tracker_msg = TrackerMessage(attr.asdict(data))
             if msg.topic() == config.VALIDATION_TOPIC:
-                send_message(config.TRACKER_TOPIC, tracker_msg.message("received", "received validation response"), data.request_id)
+                send_message(
+                    config.TRACKER_TOPIC,
+                    tracker_msg.message("received", "received validation response"),
+                    data.request_id,
+                )
                 result = handle_validation(data)
                 if result == "success":
                     send_message(config.ANNOUNCER_TOPIC, decoded_msg, data.request_id)
-                    send_message(config.TRACKER_TOPIC, tracker_msg.message("success", f"announced to {config.ANNOUNCER_TOPIC}"), data.request_id)
+                    send_message(
+                        config.TRACKER_TOPIC,
+                        tracker_msg.message(
+                            "success", f"announced to {config.ANNOUNCER_TOPIC}"
+                        ),
+                        data.request_id,
+                    )
                 elif result == "failure":
-                    aws.copy(data.request_id, config.STAGE_BUCKET, config.REJECT_BUCKET, data.request_id, data.size, data.service)
-                    send_message(config.TRACKER_TOPIC, tracker_msg.message("success", f"copied failed payload to {config.REJECT_BUCKET}"), data.request_id)
+                    aws.copy(
+                        data.request_id,
+                        config.STAGE_BUCKET,
+                        config.REJECT_BUCKET,
+                        data.request_id,
+                        data.size,
+                        data.service,
+                    )
+                    send_message(
+                        config.TRACKER_TOPIC,
+                        tracker_msg.message(
+                            "success",
+                            f"copied failed payload to {config.REJECT_BUCKET}",
+                        ),
+                        data.request_id,
+                    )
                 else:
                     logger.error(f"Invalid validation response: {data.validation}")
                     metrics.invalid_validation_status.labels(service=data.service).inc()
-                    send_message(config.TRACKER_TOPIC, tracker_msg.message("error", f"invalid validation response: {data.validation}"), data.request_id)
+                    send_message(
+                        config.TRACKER_TOPIC,
+                        tracker_msg.message(
+                            "error", f"invalid validation response: {data.validation}"
+                        ),
+                        data.request_id,
+                    )
             else:
                 key, bucket = handle_bucket(msg.topic(), data)
-                aws.copy(data.request_id, config.STAGE_BUCKET, bucket, key, data.size, data.service)
+                aws.copy(
+                    data.request_id,
+                    config.STAGE_BUCKET,
+                    bucket,
+                    key,
+                    data.size,
+                    data.service,
+                )
         except Exception:
             metrics.message_json_unpack_error.labels(topic=msg.topic()).inc()
             logger.exception("An error occured during message processing")
@@ -163,10 +200,14 @@ def send_message(topic, msg, request_id=None):
         producer.poll(0)
         if type(msg) != bytes:
             msg = json.dumps(msg, ensure_ascii=False).encode("utf-8")
-        producer.produce(topic, msg, callback=partial(produce.delivery_report, request_id=request_id))
+        producer.produce(
+            topic, msg, callback=partial(produce.delivery_report, request_id=request_id)
+        )
     except KafkaError:
         logger.exception(
-            "Unable to produce to topic [%s] for request id [%s]", topic, msg.get("request_id")
+            "Unable to produce to topic [%s] for request id [%s]",
+            topic,
+            msg.get("request_id"),
         )
 
 

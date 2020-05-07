@@ -9,11 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 def init_producer():
-    producer = Producer(
-        {
-            "bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS),
-        }
-    )
+    producer = Producer({"bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS),})
     return producer
 
 
@@ -26,7 +22,7 @@ def delivery_report(err, msg=None, request_id=None):
             "Message delivery for topic %s failed for request_id [%s]: %s",
             msg.topic(),
             err,
-            request_id
+            request_id,
         )
         logger.info("Message contents: %s", json.loads(msg.value().decode("utf-8")))
         metrics.message_publish_error.inc()

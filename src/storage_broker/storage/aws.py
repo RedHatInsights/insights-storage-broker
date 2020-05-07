@@ -26,8 +26,6 @@ def copy(key, src, dest, new_key, size, service):
         metrics.storage_copy_success.labels(bucket=dest).inc()
     except ClientError:
         logger.exception(
-            "Unable to move %s to %s bucket",
-            key,
-            dest,
+            "Unable to move %s to %s bucket", key, dest,
         )
         metrics.storage_copy_error.labels(bucket=dest).inc()
