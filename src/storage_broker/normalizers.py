@@ -39,11 +39,10 @@ class Ansible(object):
     org_id = attr.ib(default=None)
     account = attr.ib(default=None)
     service = attr.ib(default=None)
-    topic = attr.ib(default=None)
     timestamp = attr.ib(default=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
 
     @classmethod
-    def from_json(cls, doc, topic):
+    def from_json(cls, doc):
         try:
             ident = json.loads(b64decode(doc["b64_identity"]).decode("utf-8"))
             if ident["identity"].get("system"):
@@ -53,7 +52,6 @@ class Ansible(object):
             service = doc["service"]
             request_id = doc["request_id"]
             size = doc["size"]
-            topic = topic
             return cls(
                 cluster_id=cluster_id,
                 org_id=org_id,
@@ -61,7 +59,6 @@ class Ansible(object):
                 service=service,
                 request_id=request_id,
                 size=size,
-                topic=topic,
                 timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"),
             )
         except Exception:
@@ -77,11 +74,10 @@ class Openshift(object):
     org_id = attr.ib(default=None)
     account = attr.ib(default=None)
     service = attr.ib(default=None)
-    topic = attr.ib(default=None)
     timestamp = attr.ib(default=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
 
     @classmethod
-    def from_json(cls, doc, topic):
+    def from_json(cls, doc):
         try:
             ident = json.loads(b64decode(doc["b64_identity"]).decode("utf-8"))
             if ident["identity"].get("system"):
@@ -91,7 +87,6 @@ class Openshift(object):
             service = doc["service"]
             request_id = doc["request_id"]
             size = doc["size"]
-            topic = topic
             return cls(
                 cluster_id=cluster_id,
                 org_id=org_id,
@@ -99,7 +94,6 @@ class Openshift(object):
                 service=service,
                 request_id=request_id,
                 size=size,
-                topic=topic,
                 timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"),
             )
         except Exception:
