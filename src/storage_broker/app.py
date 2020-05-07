@@ -118,7 +118,7 @@ def get_map(bucket_map, topic, decoded_msg):
 
 def normalize(_map, decoded_msg):
     normalizer = getattr(normalizers, _map["normalizer"])
-    data = normalizer.from_json(attr.asdict(decoded_msg))
+    data = normalizer.from_json(decoded_msg)
     return data
 
 
@@ -151,14 +151,14 @@ def announce(msg):
     if msg["host"].get("system_profile"):
         del msg["host"]["system_profile"]
     available_message = {**msg, **platform_metadata}
-    send_message(config.ANNOUNCER_TOPIC, available_message, msg["request_id"])
+    send_message(config.ANNOUNCER_TOPIC, available_message)
     tracker_msg = msgs.create_msg(
         available_message, "success", f"sent message to {config.ANNOUNCER_TOPIC}"
     )
     send_message(config.TRACKER_TOPIC, tracker_msg)
 
 
-def send_message(topic, msg, request_id):
+def send_message(topic, msg, request_id=None):
     try:
         producer.poll(0)
         if type(msg) != bytes:
