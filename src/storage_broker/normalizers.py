@@ -21,10 +21,12 @@ class Validation(object):
     def from_json(cls, msg):
         try:
             data = json.loads(msg.value().decode("utf-8"))
-            cls.validation = data["validation"]
-            cls.service = data["service"]
-            cls.topic = msg.topic()
-            return cls
+            validation = data["validation"]
+            service = data["service"]
+            topic = msg.topic()
+            return cls(validation=validation,
+                       service=service,
+                       topic=topic)
         except Exception:
             logger.exception("Unable to deserialize JSON: %s", msg.value())
             raise
@@ -46,15 +48,21 @@ class Ansible(object):
         try:
             ident = json.loads(b64decode(doc["b64_identity"]).decode("utf-8"))
             if ident["identity"].get("system"):
-                cls.cluster_id = ident["identity"]["system"].get("cluster_id")
-            cls.org_id = ident["identity"]["internal"].get("org_id")
-            cls.account = ident["identity"]["account_number"]
-            cls.service = doc["service"]
-            cls.request_id = doc["request_id"]
-            cls.size = doc["size"]
-            cls.topic = topic
-            cls.timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
-            return cls
+                cluster_id = ident["identity"]["system"].get("cluster_id")
+            org_id = ident["identity"]["internal"].get("org_id")
+            account = ident["identity"]["account_number"]
+            service = doc["service"]
+            request_id = doc["request_id"]
+            size = doc["size"]
+            topic = topic
+            return cls(cluster_id=cluster_id,
+                       org_id=org_id,
+                       account=account,
+                       service=service,
+                       request_id=request_id,
+                       size=size,
+                       topic=topic,
+                       timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
         except Exception:
             logger.exception("Unable to deserialize JSON")
             raise
@@ -76,15 +84,21 @@ class Openshift(object):
         try:
             ident = json.loads(b64decode(doc["b64_identity"]).decode("utf-8"))
             if ident["identity"].get("system"):
-                cls.cluster_id = ident["identity"]["system"].get("cluster_id")
-            cls.org_id = ident["identity"]["internal"].get("org_id")
-            cls.account = ident["identity"]["account_number"]
-            cls.service = doc["service"]
-            cls.request_id = doc["request_id"]
-            cls.size = doc["size"]
-            cls.topic = topic
-            cls.timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
-            return cls
+                cluster_id = ident["identity"]["system"].get("cluster_id")
+            org_id = ident["identity"]["internal"].get("org_id")
+            account = ident["identity"]["account_number"]
+            service = doc["service"]
+            request_id = doc["request_id"]
+            size = doc["size"]
+            topic = topic
+            return cls(cluster_id=cluster_id,
+                       org_id=org_id,
+                       account=account,
+                       service=service,
+                       request_id=request_id,
+                       size=size,
+                       topic=topic,
+                       timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
         except Exception:
             logger.exception("Unable to deserialize JSON")
             raise
