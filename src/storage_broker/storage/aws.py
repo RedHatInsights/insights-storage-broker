@@ -18,7 +18,7 @@ s3 = boto3.client(
 
 @metrics.storage_copy_time.time()
 def copy(key, src, dest, new_key, size, service):
-    metrics.payload_size.labels(service=service).observice(size)
+    metrics.payload_size.labels(service=service).observe(size)
     copy_src = {"Bucket": src, "Key": key}
     try:
         s3.copy(copy_src, dest, new_key)
