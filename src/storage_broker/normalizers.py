@@ -16,18 +16,21 @@ class Validation(object):
 
     validation = attr.ib(default=None)
     service = attr.ib(default=None)
-    topic = attr.ib(default=None)
+    request_id = attr.ib(default=None)
+    size = attr.ib(default=None)
 
     @classmethod
-    def from_json(cls, msg):
+    def from_json(cls, doc):
         try:
-            data = json.loads(msg.value().decode("utf-8"))
-            validation = data["validation"]
-            service = data["service"]
-            topic = msg.topic()
-            return cls(validation=validation, service=service, topic=topic)
+            validation = doc["validation"]
+            service = doc["service"]
+            request_id = doc["request_id"]
+            size = doc["size"]
+            return cls(
+                validation=validation, service=service, request_id=request_id, size=size
+            )
         except Exception:
-            logger.exception("Unable to deserialize JSON: %s", msg.value())
+            logger.exception("Unable to deserialize JSON: %s", doc)
             raise
 
 
