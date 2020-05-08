@@ -76,7 +76,7 @@ def main():
             continue
 
         try:
-            _map = get_map(bucket_map, msg.topic(), decoded_msg)
+            _map = bucket_map[msg.topic()]
             data = normalize(_map, decoded_msg)
             tracker_msg = TrackerMessage(attr.asdict(data))
             if msg.topic() == config.VALIDATION_TOPIC:
@@ -143,16 +143,6 @@ def main():
     producer.flush()
 
 
-def get_map(bucket_map, topic, decoded_msg):
-    for i in bucket_map[topic]:
-        if i["service"] == decoded_msg.get("service"):
-            _map = i
-    if _map is not None:
-        return _map
-    else:
-        logger.error("Service key not in decoded msg: %s", decoded_msg)
-
-
 def normalize(_map, decoded_msg):
     normalizer = getattr(normalizers, _map["normalizer"])
     data = normalizer.from_json(decoded_msg)
@@ -170,9 +160,9 @@ def handle_validation(data):
 
 def handle_bucket(_map, data):
     try:
-        formatter = _map["format"]
+        formatter = _map["services"][data.service]["format"]
         key = formatter.format(**attr.asdict(data))
-        bucket = _map["bucket"]
+        bucket = _map["services"][data.service]["bucket"]
         return key, bucket
     except Exception:
         logger.exception("Unable to find bucket map for %s", data.service)

@@ -1,14 +1,11 @@
 platform.upload.validation:
-  - service: None
-    format: "{request_id}"
-    bucket: "insights-upload-rejected"
-    normalizer: Validation
+  normalizer: Validation
 platform.upload.buckit:
-  - service: openshift
-    format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
-    bucket: "insights-buck-it-openshift"
-    normalizer: Openshift
-  - service: ansible
-    format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
-    bucket: "insights-buck-it-ansible"
-    normalizer: Openshift
+  normalizer: Openshift
+  services:
+    openshift:
+      format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
+      bucket: "insights-buck-it-openshift"
+    ansible:
+      format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
+      bucket: "insights-buck-it-ansible"
