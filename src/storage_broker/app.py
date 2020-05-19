@@ -179,7 +179,11 @@ def announce(msg):
     available_message = json.dumps({**msg, **platform_metadata})
     send_message(config.ANNOUNCER_TOPIC, available_message)
     tracker_msg = TrackerMessage(attr.asdict(available_message))
-    send_message(config.TRACKER_TOPIC, tracker_msg.message("success", f"sent message to {config.ANNOUNCER_TOPIC}"), msg["request_id"])
+    send_message(
+        config.TRACKER_TOPIC,
+        tracker_msg.message("success", f"sent message to {config.ANNOUNCER_TOPIC}"),
+        msg["request_id"],
+    )
 
 
 def send_message(topic, msg, request_id=None):
