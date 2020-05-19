@@ -1,16 +1,14 @@
-import logging
 import json
+import logging
 
 from confluent_kafka import Producer
-
 from storage_broker.utils import config, metrics
 
 logger = logging.getLogger(__name__)
 
 
 def init_producer():
-    producer = Producer({"bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS),})
-    return producer
+    return Producer({"bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS)})
 
 
 def delivery_report(err, msg=None, request_id=None):

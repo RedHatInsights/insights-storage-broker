@@ -1,16 +1,15 @@
-import signal
 import json
-import yaml
+import signal
+from functools import partial
+
 import attr
-
-from storage_broker.mq import consume, produce, msgs
-from storage_broker.storage import aws
-from storage_broker.utils import broker_logging, config, metrics
-from storage_broker import TrackerMessage, normalizers
-
+import yaml
 from confluent_kafka import KafkaError
 from prometheus_client import start_http_server
-from functools import partial
+from storage_broker import TrackerMessage, normalizers
+from storage_broker.mq import consume, produce
+from storage_broker.storage import aws
+from storage_broker.utils import broker_logging, config, metrics
 
 logger = broker_logging.initialize_logging()
 
@@ -39,6 +38,39 @@ def handle_signal(signal, frame):
 
 
 signal.signal(signal.SIGTERM, handle_signal)
+
+
+def handle_legacy_validation(msg, decoded_msg, data, tracker_msg):
+    def track(m):
+        send_message(config.TRACKER_TOPIC, m, request_id=data.request_id)
+
+    track(tracker_msg.message("received", "received validation response"))
+    if data.validation == "success":
+        send_message(config.ANNOUNCER_TOPIC, decoded_msg, data.request_id)
+        track(tracker_msg.message("success", f"announced to {config.ANNOUNCER_TOPIC}"))
+        return
+
+    if data.validation == "failure":
+        aws.copy(
+            data.request_id,
+            config.STAGE_BUCKET,
+            config.REJECT_BUCKET,
+            data.request_id,
+            data.size,
+            data.service,
+        )
+        track(
+            tracker_msg.message(
+                "success", f"copied failed payload to {config.REJECT_BUCKET}"
+            )
+        )
+        return
+
+    logger.error(f"Invalid validation response: {data.validation}")
+    metrics.invalid_validation_status.labels(service=data.service).inc()
+    track(
+        tracker_msg.message("error", f"invalid validation response: {data.validation}")
+    )
 
 
 def main():
@@ -80,48 +112,7 @@ def main():
             data = normalize(_map, decoded_msg)
             tracker_msg = TrackerMessage(attr.asdict(data))
             if msg.topic() == config.VALIDATION_TOPIC:
-                send_message(
-                    config.TRACKER_TOPIC,
-                    tracker_msg.message("received", "received validation response"),
-                    data.request_id,
-                )
-                result = handle_validation(data)
-                if result == "success":
-                    send_message(config.ANNOUNCER_TOPIC, decoded_msg, data.request_id)
-                    send_message(
-                        config.TRACKER_TOPIC,
-                        tracker_msg.message(
-                            "success", f"announced to {config.ANNOUNCER_TOPIC}"
-                        ),
-                        data.request_id,
-                    )
-                elif result == "failure":
-                    aws.copy(
-                        data.request_id,
-                        config.STAGE_BUCKET,
-                        config.REJECT_BUCKET,
-                        data.request_id,
-                        data.size,
-                        data.service,
-                    )
-                    send_message(
-                        config.TRACKER_TOPIC,
-                        tracker_msg.message(
-                            "success",
-                            f"copied failed payload to {config.REJECT_BUCKET}",
-                        ),
-                        data.request_id,
-                    )
-                else:
-                    logger.error(f"Invalid validation response: {data.validation}")
-                    metrics.invalid_validation_status.labels(service=data.service).inc()
-                    send_message(
-                        config.TRACKER_TOPIC,
-                        tracker_msg.message(
-                            "error", f"invalid validation response: {data.validation}"
-                        ),
-                        data.request_id,
-                    )
+                handle_legacy_validation(msg, decoded_msg, data, tracker_msg)
             else:
                 key, bucket = handle_bucket(_map, data)
                 aws.copy(
@@ -147,15 +138,6 @@ def normalize(_map, decoded_msg):
     normalizer = getattr(normalizers, _map["normalizer"])
     data = normalizer.from_json(decoded_msg)
     return data
-
-
-def handle_validation(data):
-    if data.validation == "success":
-        return "success"
-    elif data.validation == "failure":
-        return "failure"
-    else:
-        return "invalid"
 
 
 def handle_bucket(_map, data):
