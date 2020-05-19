@@ -8,6 +8,7 @@ logger = logging.getLogger(APP_NAME)
 
 def log_config():
     import sys
+
     for k, v in sys.modules[__name__].__dict__.items():
         if k == k.upper():
             if "AWS" in k.split("_"):
@@ -25,7 +26,9 @@ def get_namespace():
 
 
 # Inventory
-INVENTORY_URL = os.getenv("INVENTORY_URL", "http://insights-inventory:8080/api/inventory/v1/hosts")
+INVENTORY_URL = os.getenv(
+    "INVENTORY_URL", "http://insights-inventory:8080/api/inventory/v1/hosts"
+)
 
 # Kafka
 VALIDATION_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.validation")
