@@ -176,19 +176,15 @@ def announce(msg):
     msg["id"] = msg["host"].get("id")
     if msg["host"].get("system_profile"):
         del msg["host"]["system_profile"]
-    available_message = {**msg, **platform_metadata}
+    available_message = json.dumps({**msg, **platform_metadata})
     send_message(config.ANNOUNCER_TOPIC, available_message)
-    tracker_msg = msgs.create_msg(
-        available_message, "success", f"sent message to {config.ANNOUNCER_TOPIC}"
-    )
-    send_message(config.TRACKER_TOPIC, tracker_msg)
+    tracker_msg = TrackerMessage(attr.asdict(available_message))
+    send_message(config.TRACKER_TOPIC, tracker_msg.message("success", f"sent message to {config.ANNOUNCER_TOPIC}"), msg["request_id"])
 
 
 def send_message(topic, msg, request_id=None):
     try:
         producer.poll(0)
-        if type(msg) != bytes:
-            msg = json.dumps(msg, ensure_ascii=False).encode("utf-8")
         producer.produce(
             topic, msg, callback=partial(produce.delivery_report, request_id=request_id)
         )
