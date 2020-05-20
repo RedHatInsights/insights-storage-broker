@@ -1,5 +1,6 @@
 import json
 import logging
+import uuid
 
 from datetime import datetime
 
@@ -12,6 +13,7 @@ class TrackerMessage(object):
     def __init__(self, data):
         self.service = data.get("service")
         self.account = data.get("account")
+        self.request_id = data.get("request_id", str(uuid.uuid4().hex))
         if data.get("host"):
             self.inventory_id = data.get("id")
         else:
