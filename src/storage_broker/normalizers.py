@@ -24,8 +24,8 @@ class Validation(object):
         try:
             validation = doc["validation"]
             service = doc["service"]
-            request_id = doc["request_id"]
-            size = doc["size"]
+            request_id = doc.get("request_id")
+            size = doc.get("size")
             return cls(
                 validation=validation, service=service, request_id=request_id, size=size
             )
@@ -53,8 +53,8 @@ class Ansible(object):
             org_id = ident["identity"]["internal"].get("org_id")
             account = ident["identity"]["account_number"]
             service = doc["service"]
-            request_id = doc["request_id"]
-            size = doc["size"]
+            request_id = doc.get("request_id")
+            size = doc.get("size")
             return cls(
                 cluster_id=cluster_id,
                 org_id=org_id,
@@ -88,8 +88,8 @@ class Openshift(object):
             org_id = ident["identity"]["internal"].get("org_id")
             account = ident["identity"]["account_number"]
             service = doc["service"]
-            request_id = doc["request_id"]
-            size = doc["size"]
+            request_id = doc.get("request_id")
+            size = doc.get("size")
             return cls(
                 cluster_id=cluster_id,
                 org_id=org_id,
