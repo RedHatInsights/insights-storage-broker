@@ -40,7 +40,7 @@ def handle_signal(signal, frame):
 signal.signal(signal.SIGTERM, handle_signal)
 
 
-def handle_legacy_validation(msg, decoded_msg, data, tracker_msg):
+def handle_failure(msg, decoded_msg, data, tracker_msg):
     def track(m):
         send_message(config.TRACKER_TOPIC, m, request_id=data.request_id)
 
@@ -100,7 +100,10 @@ def main():
         try:
             decoded_msg = json.loads(msg.value().decode("utf-8"))
         except Exception:
-            logger.exception("Unable to decode message from topic: %s", msg.topic())
+            logger.exception("Unable to decode message from topic: %s - %s", msg.topic(), msg.value())
+            metrics.message_consume_error_count.inc()
+            consumer.commit()
+            continue
 
         metrics.message_consume_count.inc()
         if msg.topic() == config.EGRESS_TOPIC:
@@ -112,7 +115,7 @@ def main():
             data = normalize(_map, decoded_msg)
             tracker_msg = TrackerMessage(attr.asdict(data))
             if msg.topic() == config.VALIDATION_TOPIC:
-                handle_legacy_validation(msg, decoded_msg, data, tracker_msg)
+                handle_failure(msg, decoded_msg, data, tracker_msg)
             else:
                 key, bucket = handle_bucket(_map, data)
                 aws.copy(
@@ -148,6 +151,7 @@ def handle_bucket(_map, data):
         return key, bucket
     except Exception:
         logger.exception("Unable to find bucket map for %s", data.service)
+        raise
 
 
 # This is is a way to support legacy uploads that are expected to be on the
