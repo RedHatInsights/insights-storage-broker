@@ -36,41 +36,6 @@ class Validation(object):
 
 
 @attr.s
-class Ansible(object):
-    size = attr.ib(default="0")
-    request_id = attr.ib(default=str(uuid.uuid4().hex))
-    cluster_id = attr.ib(default=None)
-    org_id = attr.ib(default=None)
-    account = attr.ib(default=None)
-    service = attr.ib(default=None)
-    timestamp = attr.ib(default=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
-
-    @classmethod
-    def from_json(cls, doc):
-        try:
-            ident = json.loads(b64decode(doc["b64_identity"]).decode("utf-8"))
-            if ident["identity"].get("system"):
-                cluster_id = ident["identity"]["system"].get("cluster_id")
-            org_id = ident["identity"]["internal"].get("org_id")
-            account = ident["identity"]["account_number"]
-            service = doc["service"]
-            request_id = doc.get("request_id", str(uuid.uuid4().hex))
-            size = doc.get("size")
-            return cls(
-                cluster_id=cluster_id,
-                org_id=org_id,
-                account=account,
-                service=service,
-                request_id=request_id,
-                size=size,
-                timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"),
-            )
-        except Exception:
-            logger.exception("Unable to deserialize JSON")
-            raise
-
-
-@attr.s
 class Openshift(object):
     size = attr.ib(default="0")
     request_id = attr.ib(default=str(uuid.uuid4().hex))
