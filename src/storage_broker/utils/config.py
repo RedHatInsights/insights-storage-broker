@@ -55,6 +55,7 @@ CW_AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", None)
 LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 NAMESPACE = get_namespace()
+HOSTNAME = os.environ.get("HOSTNAME")
 
 # Metrics
 PROMETHEUS_PORT = os.getenv("PROMETHEUS_PORT", 8080)
