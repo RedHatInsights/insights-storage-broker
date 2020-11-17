@@ -24,40 +24,69 @@ def get_namespace():
     except EnvironmentError:
         logger.info("Not running in openshift")
 
-
 # Inventory
 INVENTORY_URL = os.getenv(
     "INVENTORY_URL", "http://insights-inventory:8080/api/inventory/v1/hosts"
 )
 
+from app_common_python import LoadedConfig, KafkaTopics, ObjectBuckets
+cfg = LoadedConfig
+
 # Kafka
-VALIDATION_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.validation")
-ANNOUNCER_TOPIC = os.getenv("ANNOUNCER_TOPIC", "platform.upload.available")
-STORAGE_TOPIC = os.getenv("STORAGE_TOPIC", "platform.upload.buckit")
-EGRESS_TOPIC = os.getenv("EGRESS_TOPIC", "platform.inventory.events")
-TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")
-BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split()
+if os.getenv("CLOWDER_ENABLED") == "true":
+    VALIDATION_TOPIC = KafkaTopics["platform.upload.validation"].name
+    ANNOUNCER_TOPIC = KafkaTopics["platform.upload.available"].name
+    STORAGE_TOPIC = KafkaTopics["platform.upload.buckit"].name
+    EGRESS_TOPIC = KafkaTopics["platform.inventory.events"].name
+    TRACKER_TOPIC = KafkaTopics["platform.payload-status"].name
+    BOOTSTRAP_SERVERS = [f"{cfg.kafka.brokers[0].hostname}:{cfg.kafka.brokers[0].port}"]
+else:    
+    VALIDATION_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.validation")
+    ANNOUNCER_TOPIC = os.getenv("ANNOUNCER_TOPIC", "platform.upload.available")
+    STORAGE_TOPIC = os.getenv("STORAGE_TOPIC", "platform.upload.buckit")
+    EGRESS_TOPIC = os.getenv("EGRESS_TOPIC", "platform.inventory.events")
+    TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")
+    BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split()
+    
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
 KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 
 # S3
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", None)
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", None)
+if os.getenv("CLOWDER_ENABLED") == "true":
+    AWS_ACCESS_KEY_ID = cfg.objectStore.accessKey
+    AWS_SECRET_ACCESS_KEY = cfg.objectStore.secretKey
+    STAGE_BUCKET = ObjectBuckets["insights-dev-upload-perm"].name
+    REJECT_BUCKET = ObjectBuckets["insights-dev-upload-rejected"].name
+    
+else:    
+    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", None)
+    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", None)
+    STAGE_BUCKET = os.getenv("STAGE_BUCKET", "insights-dev-upload-perm")
+    REJECT_BUCKET = os.getenv("REJECT_BUCKET", "insights-dev-upload-rejected")
+    
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
-STAGE_BUCKET = os.getenv("STAGE_BUCKET", "insights-dev-upload-perm")
-REJECT_BUCKET = os.getenv("REJECT_BUCKET", "insights-dev-upload-rejected")
 S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL", None)
 BUCKET_MAP_FILE = os.getenv("BUCKET_MAP_FILE", "/opt/app-root/src/default_map.yaml")
 
 # Logging
-CW_AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", None)
-CW_AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", None)
-LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")
+if os.getenv("CLOWDER_ENABLED") == "true":
+    CW_AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", cfg.logging.cloudwatch.accessKeyId)
+    CW_AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", cfg.logging.cloudwatch.secretAccessKey)
+    LOG_GROUP = os.getenv("LOG_GROUP", cfg.logging.cloudwatch.logGroup)
+else:
+    CW_AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", None)
+    CW_AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", None)
+    LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")
+
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 NAMESPACE = get_namespace()
 HOSTNAME = os.environ.get("HOSTNAME")
 
 # Metrics
-PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", 8080))
+if os.getenv("CLOWDER_ENABLED") == "true":
+    PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", cfg.metricsPort))
+else:
+    PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", 8080))
+    
 PROMETHEUS = os.getenv("PROMETHEUS", "True")

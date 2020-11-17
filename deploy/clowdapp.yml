@@ -1,0 +1,109 @@
+---
+apiVersion: v1
+kind: Template
+metadata:
+  name: insights-storage-broker
+objects:
+- apiVersion: cloud.redhat.com/v1alpha1
+  kind: ClowdApp
+  metadata:
+    name: insights-storage-broker
+  spec:
+    envName: ${ENV_NAME}
+    pods:
+    - name: service
+      image: ${IMAGE_NAME}:${IMAGE_TAG}
+      minReplicas: 1
+      web: true
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /metrics
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 27
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /metrics
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 30
+      resources:
+        limits:
+          cpu: ${CPU_LIMIT}
+          memory: ${MEMORY_LIMIT}
+        requests:
+          cpu: 250m
+          memory: 64Mi
+        volumeMounts:
+        - mountPath: /var
+          name: storage-broker-map
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: storage-broker-map
+          name: storage-broker-map
+      env:
+        - name: CLOWDER_ENABLED
+          value: ${CLOWDER_ENABLED}
+        - name: LOG_LEVEL
+          value: ${LOG_LEVEL}
+    objectStore:
+      - insights-dev-upload-perm
+      - insights-dev-upload-rejected
+    kafkaTopics:
+      - replicas: 3
+        partitions: 24
+        topicName: platform.upload.validation
+      - replicas: 3
+        partitions: 16
+        topicName: platform.upload.buckit
+      - replicas: 3
+        partitions: 64
+        topicName: platform.upload.available
+      - replicas: 3
+        partitions: 64
+        topicName: platform.inventory.events
+      - replicas: 3
+        partitions: 4
+        topicName: platform.payload-status
+
+parameters:
+- description: Name of the namespace app images are pulled from (if not buildfactory)
+  name: IMAGE_NAMESPACE
+  value: buildfactory
+- name: KAFKA_BOOTSTRAP_HOST
+  value: mq-kafka
+- name: KAFKA_BOOTSTRAP_PORT
+  value: '29092'
+- description: The LOG_GROUP associated with cloudwatch
+  name: LOG_GROUP
+  value: platform-dev
+- name: LOG_LEVEL
+  value: INFO
+- description: Cpu limit of service
+  name: CPU_LIMIT
+  value: 500m
+- description: memory limit of service
+  name: MEMORY_LIMIT
+  value: 512Mi
+- description: Image tag
+  name: IMAGE_TAG
+  required: true
+- description: Determines Clowder deployment
+  name: CLOWDER_ENABLED
+  value: "true"
+- description: ClowdEnv Name
+  name: ENV_NAME
+  value: "insights-storage-broker"
+  required: true
+- descripton: Insights-storage-broker image name
+  name: IMAGE_NAME
+  value: "quay.io/cloudservices/insights-storage-broker"
