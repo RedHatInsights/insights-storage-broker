@@ -4,7 +4,7 @@
 # Options that must be configured by app owner
 # --------------------------------------------
 APP_NAME="ingress"  # name of app-sre "application" folder this component lives in
-COMPONENT_NAME="storage-broker"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
+COMPONENT_NAME="insights-storage-broker"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
 IMAGE="quay.io/cloudservices/insights-storage-broker"  
 
 IQE_PLUGINS="ingress"
