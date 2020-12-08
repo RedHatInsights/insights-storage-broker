@@ -55,9 +55,13 @@ objects:
           value: ${CLOWDER_ENABLED}
         - name: LOG_LEVEL
           value: ${LOG_LEVEL}
+        - name: PERM_BUCKET
+          value: ${PERM_BUCKET}
+        - name: REJECT_BUCKET
+          value: ${REJECT_BUCKET}
     objectStore:
-      - insights-dev-upload-perm
-      - insights-dev-upload-rejected
+      - ${PERM_BUCKET}
+      - ${REJECT_BUCKET}
     kafkaTopics:
       - replicas: 3
         partitions: 24
@@ -107,3 +111,9 @@ parameters:
 - descripton: Insights-storage-broker image name
   name: IMAGE_NAME
   value: "quay.io/cloudservices/insights-storage-broker"
+- description: Permanent Bucket
+  name: PERM_BUCKET
+  value: "insights-dev-upload-perm"
+- description: Reject Bucket
+  name: REJECT_BUCKET
+  value: "insights-dev-upload-rejected"

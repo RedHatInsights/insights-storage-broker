@@ -24,13 +24,15 @@ def get_namespace():
     except EnvironmentError:
         logger.info("Not running in openshift")
 
+if os.getenv("CLOWDER_ENABLED") == "true":
+    from app_common_python import LoadedConfig, KafkaTopics, ObjectBuckets
+    cfg = LoadedConfig
+
+
 # Inventory
 INVENTORY_URL = os.getenv(
     "INVENTORY_URL", "http://insights-inventory:8080/api/inventory/v1/hosts"
 )
-
-from app_common_python import LoadedConfig, KafkaTopics, ObjectBuckets
-cfg = LoadedConfig
 
 # Kafka
 if os.getenv("CLOWDER_ENABLED") == "true":
@@ -56,8 +58,8 @@ KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 if os.getenv("CLOWDER_ENABLED") == "true":
     AWS_ACCESS_KEY_ID = cfg.objectStore.accessKey
     AWS_SECRET_ACCESS_KEY = cfg.objectStore.secretKey
-    STAGE_BUCKET = ObjectBuckets["insights-dev-upload-perm"].name
-    REJECT_BUCKET = ObjectBuckets["insights-dev-upload-rejected"].name
+    STAGE_BUCKET = ObjectBuckets[os.environ.get("PERM_BUCKET")].name
+    REJECT_BUCKET = ObjectBuckets[os.environ.get("REJECT_BUCKET")].name
     
 else:    
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", None)
