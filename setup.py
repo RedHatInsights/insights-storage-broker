@@ -14,7 +14,7 @@ setup(
         "confluent-kafka==1.5.0",
         "pyyaml==5.3.1",
         "attrs==18.2.0",
-        "app-common-python"
+        "app-common-python==0.1.2"
     ],
     extras_require={"test": ["pytest>=5.4.1", "flake8>=3.7.9"]},
     entry_points={"console_scripts": ["storage_broker = storage_broker.app:main"]},
