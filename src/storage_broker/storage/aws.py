@@ -3,8 +3,8 @@ import boto3
 
 from botocore.exceptions import ClientError
 
-from storage_broker.utils import config
-from storage_broker.utils import metrics
+from src.storage_broker.utils import config
+from src.storage_broker.utils import metrics
 
 logger = logging.getLogger(config.APP_NAME)
 

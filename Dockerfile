@@ -1,6 +1,7 @@
 FROM registry.redhat.io/ubi8/python-36
 COPY src src
-COPY setup.py .
+COPY poetry.lock .
+COPY pyproject.toml .
 COPY default_map.yaml .
 RUN pip3 install --upgrade pip setuptools && pip3 install .
 USER 0

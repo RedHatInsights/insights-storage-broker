@@ -6,10 +6,10 @@ import attr
 import yaml
 from confluent_kafka import KafkaError
 from prometheus_client import start_http_server
-from storage_broker import TrackerMessage, normalizers
-from storage_broker.mq import consume, produce
-from storage_broker.storage import aws
-from storage_broker.utils import broker_logging, config, metrics
+from src.storage_broker import TrackerMessage, normalizers
+from src.storage_broker.mq import consume, produce
+from src.storage_broker.storage import aws
+from src.storage_broker.utils import broker_logging, config, metrics
 
 logger = broker_logging.initialize_logging()
 

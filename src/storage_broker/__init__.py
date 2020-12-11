@@ -4,7 +4,7 @@ import uuid
 
 from datetime import datetime
 
-from storage_broker.utils import config
+from src.storage_broker.utils import config
 
 logger = logging.getLogger(config.APP_NAME)
 
