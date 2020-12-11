@@ -1,10 +1,10 @@
+
 FROM registry.redhat.io/ubi8/python-36
+USER 0
+RUN yum install -y git && yum remove -y nodejs npm kernel-headers && yum update -y && yum clean all
 COPY src src
 COPY poetry.lock .
 COPY pyproject.toml .
-COPY default_map.yaml .
-RUN pip3 install --upgrade pip setuptools && pip3 install .
-USER 0
-RUN yum remove -y npm nodejs kernel-headers && yum update -y && yum clean all
+RUN pip3 install --upgrade pip && pip3 install .
 USER 1001
 ENTRYPOINT ["storage_broker"]
