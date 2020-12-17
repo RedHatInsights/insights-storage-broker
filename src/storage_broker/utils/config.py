@@ -60,13 +60,16 @@ if os.getenv("CLOWDER_ENABLED") == "true":
     AWS_SECRET_ACCESS_KEY = cfg.objectStore.secretKey
     STAGE_BUCKET = ObjectBuckets[os.environ.get("PERM_BUCKET")].name
     REJECT_BUCKET = ObjectBuckets[os.environ.get("REJECT_BUCKET")].name
-    
 else:    
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", None)
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", None)
     STAGE_BUCKET = os.getenv("STAGE_BUCKET", "insights-dev-upload-perm")
     REJECT_BUCKET = os.getenv("REJECT_BUCKET", "insights-dev-upload-rejected")
-    
+
+# We need to support local or policy based keys that don't work with clowder
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", AWS_ACCESS_KEY_ID)
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", AWS_SECRET_ACCESS_KEY)
+
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL", None)
 BUCKET_MAP_FILE = os.getenv("BUCKET_MAP_FILE", "/opt/app-root/src/default_map.yaml")

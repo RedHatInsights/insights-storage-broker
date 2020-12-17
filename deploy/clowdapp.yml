@@ -62,6 +62,18 @@ objects:
             value: ${REJECT_BUCKET}
           - name: BUCKET_MAP_FILE
             value: ${BUCKET_MAP_FILE}
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                optional: true
+                name: ${POLICY_BASED_KEY}
+                key: aws_access_key_id
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                optional: true
+                name: ${POLICY_BASED_KEY}
+                key: aws_secret_access_key
     objectStore:
       - ${PERM_BUCKET}
       - ${REJECT_BUCKET}
@@ -144,3 +156,6 @@ parameters:
 - description: bucket config map location
   name: BUCKET_MAP_FILE
   value: "/var/config.yaml"
+- description: policy based key
+  name: POLICY_BASED_KEY
+  value: "insights-buckets-read-write"
