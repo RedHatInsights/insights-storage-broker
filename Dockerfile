@@ -1,9 +1,21 @@
 FROM registry.redhat.io/ubi8/python-36
-COPY src src
-COPY setup.py .
-COPY default_map.yaml .
-RUN pip3 install --upgrade pip setuptools && pip3 install .
+
 USER 0
-RUN yum remove -y npm nodejs kernel-headers && yum update -y && yum clean all
+
+RUN REMOVE_PKGS="npm nodejs kernel-headers" && \
+    yum remove -y $REMOVE_PKGS && \
+    yum clean all
+
+COPY src src
+
+COPY poetry.lock poetry.lock
+
+COPY pyproject.toml pyproject.toml
+
+COPY default_map.yaml /opt/app-root/src/default_map.yaml
+
+RUN pip3 install --upgrade pip && pip3 install .
+
 USER 1001
+
 ENTRYPOINT ["storage_broker"]
