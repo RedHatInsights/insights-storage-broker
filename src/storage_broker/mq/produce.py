@@ -2,7 +2,7 @@ import json
 import logging
 
 from confluent_kafka import Producer
-from storage_broker.utils import config, metrics
+from src.storage_broker.utils import config, metrics
 
 logger = logging.getLogger(__name__)
 

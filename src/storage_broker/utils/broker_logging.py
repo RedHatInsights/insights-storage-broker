@@ -7,7 +7,7 @@ import watchtower
 from logstash_formatter import LogstashFormatterV1
 from boto3.session import Session
 
-from storage_broker.utils import config
+from src.storage_broker.utils import config
 
 
 def config_cloudwatch(logger):
