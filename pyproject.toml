@@ -16,6 +16,7 @@ logstash-formatter = "0.5.17"
 watchtower = "0.7.3"
 pyyaml = "5.3.1"
 boto3 = "1.12.38"
+app-common-python = "0.1.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"

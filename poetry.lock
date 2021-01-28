@@ -1,4 +1,12 @@
 [[package]]
+name = "app-common-python"
+version = "0.1.4"
+description = ""
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "atomicwrites"
 version = "1.4.0"
 description = "Atomic file writes."
@@ -326,10 +334,13 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.7"
-content-hash = "13d7432af69a1fa0999adf76fee4acf76f443f8cd8f70e183f55200092e30802"
+python-versions = "3.6"
+content-hash = "839170fd2684a96a38f48d61fda1035094253fa516ce78929adac59402f8a3db"
 
 [metadata.files]
+app-common-python = [
+    {file = "app-common-python-0.1.4.tar.gz", hash = "sha256:b603102f6781162acc3d7ec075582b54f51b642c75f7e826ca05f45ac82dd594"},
+]
 atomicwrites = [
     {file = "atomicwrites-1.4.0-py2.py3-none-any.whl", hash = "sha256:6d1784dea7c0c8d4a5172b6c620f40b6e4cbfdf96d783691f2e1302a7b88e197"},
     {file = "atomicwrites-1.4.0.tar.gz", hash = "sha256:ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a"},
