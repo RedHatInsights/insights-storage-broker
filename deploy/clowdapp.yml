@@ -60,6 +60,16 @@ objects:
             value: ${PERM_BUCKET}
           - name: REJECT_BUCKET
             value: ${REJECT_BUCKET}
+          - name: HABERDASHER_EMITTER
+            value: ${HABERDASHER_EMITTER}
+          - name: HABERDASHER_KAFKA_BOOTSTRAP
+            value: ${HABERDASHER_KAFKA_BOOTSTRAP}
+          - name: HABERDASHER_KAFKA_TOPIC
+            value: ${HABERDASHER_KAFKA_TOPIC}
+          - name: HABERDASHER_LABELS
+            value: ${HABERDASHER_LABELS}
+          - name: HABERDASHER_TAGS
+            value: ${HABERDASHER_TAGS}
           - name: BUCKET_MAP_FILE
             value: ${BUCKET_MAP_FILE}
           - name: AWS_ACCESS_KEY_ID
@@ -95,6 +105,9 @@ objects:
       - replicas: 3
         partitions: 4
         topicName: platform.payload-status
+      - replicas: 3
+        partitions: 4
+        topicName: platform.logging.logs
 - apiVersion: v1
   kind: ConfigMap
   metadata:
@@ -159,3 +172,18 @@ parameters:
 - description: policy based key
   name: POLICY_BASED_KEY
   value: "ingress-buckets-read-write"
+- description: The haberdasher emitter type for logging
+  name: HABERDASHER_EMITTER
+  value: stderr
+- description: The haberdasher kafka bootstrap server
+  name: HABERDASHER_KAFKA_BOOTSTRAP
+  value: kafka:29092
+- description: Topic for haberdasher logs
+  name: HABERDASHER_KAFKA_TOPIC
+  value: platform.logging.logs
+- description: App label for haberdasher logs
+  name: HABERDASHER_LABELS
+  value: '{"app": "storage-broker"}'
+- description: Tags for haberdasher logs
+  name: HABERDASHER_TAGS
+  value: '["storage-broker"]'
