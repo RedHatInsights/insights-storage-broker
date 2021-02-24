@@ -22,7 +22,7 @@ def delivery_report(err, msg=None, request_id=None):
             err,
             request_id,
         )
-        logger.info("Message contents: %s", json.loads(msg.value().decode("utf-8")))
+        logger.debug("Message contents: %s", json.loads(msg.value().decode("utf-8")))
         metrics.message_publish_error.inc()
     else:
         logger.info(
@@ -31,5 +31,5 @@ def delivery_report(err, msg=None, request_id=None):
             msg.partition(),
             request_id,
         )
-        logger.info("Message contents: %s", json.loads(msg.value().decode("utf-8")))
+        logger.debug("Message contents: %s", json.loads(msg.value().decode("utf-8")))
         metrics.message_publish_count.inc()
