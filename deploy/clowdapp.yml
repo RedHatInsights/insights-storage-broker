@@ -10,6 +10,9 @@ objects:
     name: storage-broker
   spec:
     envName: ${ENV_NAME}
+    optionalDependencies:
+    - ingress
+    - puptoo
     deployments:
     - name: processor
       minReplicas: ${{MIN_REPLICAS}}
