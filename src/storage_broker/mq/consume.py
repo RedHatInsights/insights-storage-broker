@@ -13,7 +13,7 @@ def init_consumer():
     }
 
     if config.KAFKA_BROKER:
-        connection_info["bootstrap_servers"] = config.BOOTSTRAP_SERVERS
+        connection_info["bootstrap.servers"] = config.BOOTSTRAP_SERVERS
         if config.KAFKA_BROKER.cacert:
             connection_info["ssl.ca.location"] = "/tmp/cacert.pem"
         if config.KAFKA_BROKER.sasl and config.KAFKA_BROKER.sasl.username:
