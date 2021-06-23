@@ -21,6 +21,11 @@ def start_prometheus():
     start_http_server(config.PROMETHEUS_PORT)
 
 
+def write_cert(cert):
+    with open("/tmp/cacert.pem", "w") as f:
+        f.write(cert)
+
+
 def load_bucket_map(_file):
     try:
         with open(_file, "rb") as f:
@@ -81,6 +86,9 @@ def main():
 
     if config.PROMETHEUS == "True":
         start_prometheus()
+
+    if config.KAFKA_BROKER and config.KAFKA_BROKER.cacert:
+        write_cert(config.KAFKA_BROKER.cacert)
 
     bucket_map = load_bucket_map(config.BUCKET_MAP_FILE)
 

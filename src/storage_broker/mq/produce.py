@@ -8,7 +8,22 @@ logger = logging.getLogger(__name__)
 
 
 def init_producer():
-    return Producer({"bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS)})
+    connection_info = {}
+
+    if config.KAFKA_BROKER:
+        connection_info["bootstrap_servers"] = config.BOOTSTRAP_SERVERS
+        if config.KAFKA_BROKER.cacert:
+            connection_info["ssl.ca.location"] = "/tmp/cacert.pem"
+        if config.KAFKA_BROKER.sasl and config.KAFKA_BROKER.sasl.username:
+            connection_info.update({
+                "security.protocol": "sasl_ssl",
+                "sasl.mechanisms": "SCRAM-SHA-512",
+                "sasl.username": config.KAFKA_BROKER.sasl.username,
+                "sasl.password": config.KAFKA_BROKER.sasl.password
+            })
+        return Producer(connection_info)
+    else:
+        return Producer({"bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS)})
 
 
 def delivery_report(err, msg=None, request_id=None):
