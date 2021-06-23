@@ -46,6 +46,7 @@ if os.getenv("CLOWDER_ENABLED") == "true":
     TRACKER_TOPIC = KafkaTopics["platform.payload-status"].name
     BOOTSTRAP_SERVERS = [f"{KAFKA_BROKER.hostname}:{KAFKA_BROKER.port}"]
 else:
+    KAFKA_BROKER = None
     VALIDATION_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.validation")
     ANNOUNCER_TOPIC = os.getenv("ANNOUNCER_TOPIC", "platform.upload.available")
     STORAGE_TOPIC = os.getenv("STORAGE_TOPIC", "platform.upload.buckit")
