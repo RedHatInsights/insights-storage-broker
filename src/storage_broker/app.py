@@ -87,8 +87,9 @@ def main():
     if config.PROMETHEUS == "True":
         start_prometheus()
 
-    if config.KAFKA_BROKER and config.KAFKA_BROKER.cacert:
-        write_cert(config.KAFKA_BROKER.cacert)
+    if config.KAFKA_BROKER:
+        if config.KAFKA_BROKER.cacert:
+            write_cert(config.KAFKA_BROKER.cacert)
 
     bucket_map = load_bucket_map(config.BUCKET_MAP_FILE)
 
