@@ -41,7 +41,7 @@ if os.getenv("ACG_CONFIG"):
     STORAGE_TOPIC = KafkaTopics["platform.upload.buckit"].name
     EGRESS_TOPIC = KafkaTopics["platform.inventory.events"].name
     TRACKER_TOPIC = KafkaTopics["platform.payload-status"].name
-    BOOTSTRAP_SERVERS = [f"{KAFKA_BROKER.hostname}:{KAFKA_BROKER.port}"]
+    BOOTSTRAP_SERVERS = f"{KAFKA_BROKER.hostname}:{KAFKA_BROKER.port}"
     # S3
     AWS_ACCESS_KEY_ID = cfg.objectStore.accessKey
     AWS_SECRET_ACCESS_KEY = cfg.objectStore.secretKey
