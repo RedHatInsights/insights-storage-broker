@@ -9,7 +9,7 @@ Storage Workflow
 
 Insights Storage Broker can be configured to consume from multiple topics by supplying a configuration file in YAML format with the specified topic, bucket, and formatter for the resulting object in cloud storage.
 
-Example Configuration: 
+Example Configuration:
 
     platform.upload.validation:                                     # topic
       normalizer: Validation                                        # normalizer (to be covered further down)
