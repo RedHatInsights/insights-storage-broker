@@ -1,10 +1,8 @@
 import logging
 import boto3
 
-from botocore.exceptions import ClientError
-
-from storage_broker.utils import config
-from storage_broker.utils import metrics
+from src.storage_broker.utils import config
+from src.storage_broker.utils import metrics
 
 logger = logging.getLogger(config.APP_NAME)
 
@@ -24,6 +22,6 @@ def copy(key, src, dest, new_key, size, service):
         s3.copy(copy_src, dest, new_key)
         logger.info("Request ID [%s] moved to [%s]", new_key, dest)
         metrics.storage_copy_success.labels(bucket=dest).inc()
-    except ClientError:
+    except Exception:
         logger.exception("Unable to move %s to %s bucket", key, dest)
         metrics.storage_copy_error.labels(bucket=dest).inc()

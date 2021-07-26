@@ -65,7 +65,7 @@ data:
           "pluginVersion": "7.2.1",
           "targets": [
             {
-              "expr": "avg(avg_over_time(up{service=\"insights-storage-broker\"}[24h]))",
+              "expr": "avg(avg_over_time(up{service=\"storage-broker-processor\"}[24h]))",
               "interval": "",
               "legendFormat": "",
               "refId": "A"

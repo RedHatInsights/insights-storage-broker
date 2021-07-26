@@ -1,0 +1,189 @@
+---
+apiVersion: v1
+kind: Template
+metadata:
+  name: storage-broker
+objects:
+- apiVersion: cloud.redhat.com/v1alpha1
+  kind: ClowdApp
+  metadata:
+    name: storage-broker
+  spec:
+    envName: ${ENV_NAME}
+    optionalDependencies:
+    - ingress
+    - puptoo
+    deployments:
+    - name: processor
+      minReplicas: ${{MIN_REPLICAS}}
+      web: true
+      podSpec:
+        image: ${IMAGE_NAME}:${IMAGE_TAG}
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /metrics
+            port: 9000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 27
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /metrics
+            port: 9000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        resources:
+          limits:
+            cpu: ${CPU_LIMIT}
+            memory: ${MEMORY_LIMIT}
+          requests:
+            cpu: 250m
+            memory: 64Mi
+        volumeMounts:
+        - mountPath: /var
+          name: storage-broker-map
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: storage-broker-map
+          name: storage-broker-map
+        env:
+          - name: CLOWDER_ENABLED
+            value: ${CLOWDER_ENABLED}
+          - name: LOG_LEVEL
+            value: ${LOG_LEVEL}
+          - name: PERM_BUCKET
+            value: ${PERM_BUCKET}
+          - name: REJECT_BUCKET
+            value: ${REJECT_BUCKET}
+          - name: HABERDASHER_EMITTER
+            value: ${HABERDASHER_EMITTER}
+          - name: HABERDASHER_KAFKA_BOOTSTRAP
+            value: ${HABERDASHER_KAFKA_BOOTSTRAP}
+          - name: HABERDASHER_KAFKA_TOPIC
+            value: ${HABERDASHER_KAFKA_TOPIC}
+          - name: HABERDASHER_LABELS
+            value: ${HABERDASHER_LABELS}
+          - name: HABERDASHER_TAGS
+            value: ${HABERDASHER_TAGS}
+          - name: BUCKET_MAP_FILE
+            value: ${BUCKET_MAP_FILE}
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                optional: true
+                name: ${POLICY_BASED_KEY}
+                key: aws_access_key_id
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                optional: true
+                name: ${POLICY_BASED_KEY}
+                key: aws_secret_access_key
+    objectStore:
+      - ${PERM_BUCKET}
+      - ${REJECT_BUCKET}
+      - ${OPENSHIFT_BUCKET}
+      - ${ANSIBLE_BUCKET}
+    kafkaTopics:
+      - replicas: 3
+        partitions: 24
+        topicName: platform.upload.validation
+      - replicas: 3
+        partitions: 16
+        topicName: platform.upload.buckit
+      - replicas: 3
+        partitions: 64
+        topicName: platform.upload.available
+      - replicas: 3
+        partitions: 64
+        topicName: platform.inventory.events
+      - replicas: 3
+        partitions: 4
+        topicName: platform.payload-status
+      - replicas: 3
+        partitions: 4
+        topicName: platform.logging.logs
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: storage-broker-map
+  data: 
+    config.yaml: |-
+      platform.upload.validation:
+        normalizer: Validation
+      platform.upload.buckit:
+        normalizer: Openshift
+        services:
+          openshift:
+            format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
+            bucket: ${OPENSHIFT_BUCKET}
+          ansible:
+            format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
+            bucket: ${ANSIBLE_BUCKET}
+  
+parameters:
+- description: Minimum number of replicas required
+  name: MIN_REPLICAS
+  value: "1"
+- name: LOG_LEVEL
+  value: INFO
+- description: Cpu limit of service
+  name: CPU_LIMIT
+  value: 500m
+- description: memory limit of service
+  name: MEMORY_LIMIT
+  value: 512Mi
+- description: Image tag
+  name: IMAGE_TAG
+  required: true
+- description: Determines Clowder deployment
+  name: CLOWDER_ENABLED
+  value: "true"
+- description: ClowdEnv Name
+  name: ENV_NAME
+  value: "insights-storage-broker"
+  required: true
+- descripton: Insights-storage-broker image name
+  name: IMAGE_NAME
+  value: "quay.io/cloudservices/insights-storage-broker"
+- description: Permanent Bucket
+  name: PERM_BUCKET
+  value: "insights-dev-upload-perm"
+- description: Reject Bucket
+  name: REJECT_BUCKET
+  value: "insights-dev-upload-rejected"
+- description: openshift ccx bucket
+  name: OPENSHIFT_BUCKET
+  value: "insights-buck-it-openshift"
+- description: ansible tower bucket
+  name: ANSIBLE_BUCKET
+  value: "insights-buck-it-ansible"
+- description: bucket config map location
+  name: BUCKET_MAP_FILE
+  value: "/var/config.yaml"
+- description: policy based key
+  name: POLICY_BASED_KEY
+  value: "ingress-buckets-read-write"
+- description: The haberdasher emitter type for logging
+  name: HABERDASHER_EMITTER
+  value: stderr
+- description: The haberdasher kafka bootstrap server
+  name: HABERDASHER_KAFKA_BOOTSTRAP
+  value: kafka:29092
+- description: Topic for haberdasher logs
+  name: HABERDASHER_KAFKA_TOPIC
+  value: platform.logging.logs
+- description: App label for haberdasher logs
+  name: HABERDASHER_LABELS
+  value: '{"app": "storage-broker"}'
+- description: Tags for haberdasher logs
+  name: HABERDASHER_TAGS
+  value: '["storage-broker"]'

@@ -6,10 +6,10 @@ import attr
 import yaml
 from confluent_kafka import KafkaError
 from prometheus_client import start_http_server
-from storage_broker import TrackerMessage, normalizers
-from storage_broker.mq import consume, produce
-from storage_broker.storage import aws
-from storage_broker.utils import broker_logging, config, metrics
+from src.storage_broker import TrackerMessage, normalizers
+from src.storage_broker.mq import consume, produce
+from src.storage_broker.storage import aws
+from src.storage_broker.utils import broker_logging, config, metrics
 
 logger = broker_logging.initialize_logging()
 
@@ -19,6 +19,11 @@ producer = None
 
 def start_prometheus():
     start_http_server(config.PROMETHEUS_PORT)
+
+
+def write_cert(cert):
+    with open("/tmp/cacert.pem", "w") as f:
+        f.write(cert)
 
 
 def load_bucket_map(_file):
@@ -81,6 +86,10 @@ def main():
 
     if config.PROMETHEUS == "True":
         start_prometheus()
+
+    if config.KAFKA_BROKER:
+        if config.KAFKA_BROKER.cacert:
+            write_cert(config.KAFKA_BROKER.cacert)
 
     bucket_map = load_bucket_map(config.BUCKET_MAP_FILE)
 
