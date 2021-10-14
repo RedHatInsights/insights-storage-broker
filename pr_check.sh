@@ -21,4 +21,8 @@ source $CICD_ROOT/build.sh
 # uncomment when unit tests are present
 #source $APP_ROOT/unit_test.sh
 source $CICD_ROOT/deploy_ephemeral_env.sh
+
+# Deploy HBI app required for the smoke tests
+bonfire deploy host-inventory --source=appsre --ref-env insights-stage --namespace ${NAMESPACE}
+
 source $CICD_ROOT/cji_smoke_test.sh
