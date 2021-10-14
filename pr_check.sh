@@ -7,9 +7,10 @@ APP_NAME="ingress"  # name of app-sre "application" folder this component lives 
 COMPONENT_NAME="storage-broker"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
 IMAGE="quay.io/cloudservices/insights-storage-broker"  
 
-IQE_PLUGINS="ingress"
+IQE_PLUGINS="e2e"
 IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
+IQE_CJI_TIMEOUT="30m"
 
 
 # Install bonfire repo/initialize
@@ -20,4 +21,4 @@ source $CICD_ROOT/build.sh
 # uncomment when unit tests are present
 #source $APP_ROOT/unit_test.sh
 source $CICD_ROOT/deploy_ephemeral_env.sh
-source $CICD_ROOT/smoke_test.sh
+source $CICD_ROOT/cji_smoke_test.sh

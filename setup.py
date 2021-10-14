@@ -12,7 +12,7 @@ setup(
         "boto3==1.12.38",
         "watchtower==0.7.3",
         "confluent-kafka==1.5.0",
-        "pyyaml==5.3.1",
+        "pyyaml==5.4.1",
         "attrs==18.2.0",
         "app-common-python==0.1.4"
     ],
