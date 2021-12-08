@@ -18,7 +18,6 @@ objects:
     deployments:
     - name: processor
       minReplicas: ${{MIN_REPLICAS}}
-      web: true
       podSpec:
         image: ${IMAGE_NAME}:${IMAGE_TAG}
         livenessProbe:
