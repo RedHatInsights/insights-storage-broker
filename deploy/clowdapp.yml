@@ -45,8 +45,8 @@ objects:
             cpu: ${CPU_LIMIT}
             memory: ${MEMORY_LIMIT}
           requests:
-            cpu: 250m
-            memory: 64Mi
+            cpu: ${CPU_REQUEST}
+            memory: ${MEMORY_REQUEST}
         volumeMounts:
         - mountPath: /var
           name: storage-broker-map
@@ -145,6 +145,12 @@ parameters:
 - description: memory limit of service
   name: MEMORY_LIMIT
   value: 512Mi
+- description: cpu request of service
+  name: CPU_REQUEST
+  value: 250m
+- description: memory request of service
+  name: MEMORY_REQUEST
+  value: 64Mi
 - description: Image tag
   name: IMAGE_TAG
   required: true
