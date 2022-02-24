@@ -34,6 +34,21 @@ If a failure message is recieved, Storage Broker will copy the file to the rejec
 Validation Workflow:
 ![UML](http://www.plantuml.com/plantuml/png/hLAxRjmm4Epr5GlMbWzvL48W6EbI94tQ0C8UjISpvaFXBXKSZFnxI4idMxX74KG50N5dPdU6-y22KPApyCMp6Hw5uRk4Y0F1vnYUA5PZhXjjHlG24rhJenW_T4nnCfegycBa2AD5EOJekZJQW7rtGWQ_4U1PkzlFsbV8EA6nkBTKPGdS8rCclj2IVY9vlOtqaxIShi-dgzlhSpN0IMjYtXrojnG9NFx9NIgqCjUeXpS-87_VWX34aXE4muKu6dXMaNubOkbChnfGkDTz_UxzXu_gxeTNhtAbjWoW_XJj6n7MxJQtTVHrvCBVOkhsQgeDO3zH5CFaoByuMMimuh6WBxYzeVVyAMIOyMZ1yG0wUCd2xHse56rn-YWoShFRuM--dr_hFbUoSR9CK1xWF6l_NxDU7laVibwODxD-kvvDzZyUy-4S-aj1Ri7gQvY8Jxc3X6MhOGQe8h2XrErcxPkLMjfMb5i-v2Cv-nS0 "Validation Workflow")
 
+
+## Support for Notifications
+
+Storage Broker can interact with the notifications service in order to send our reports of failed payloads to customers. In order to take advantage of the service, the validator must send some additional keys so that the proper message can be assembled to the end user.
+
+    {
+        "request_id": <request_id>,
+        "account": "123456",
+        "reason": "the payload failed because <error>"
+        "hostname": "bigserver1",
+        "system_id": <system_id>,
+        "reporter": <system rejecting the payload>
+    }
+
+
 ## Normalizers
 
 In order to make Storage Broker more dynamic, it supports the ability for a user to define their own data normalizer to provide the required keys to the service. Normalizers can be found in `normalizers.py` and more can be added
