@@ -155,6 +155,7 @@ def main():
 def normalize(_map, decoded_msg):
     normalizer = getattr(normalizers, _map["normalizer"])
     data = normalizer.from_json(decoded_msg)
+    logger.debug("Normalized Data structure: %s", data)
     return data
 
 
