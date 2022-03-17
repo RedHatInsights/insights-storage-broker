@@ -37,11 +37,16 @@ class Validation(object):
         try:
             # default dictionary in case we don't have an identity
             ident = {"identity": {"account": None,
-                                  "org_id": None
+                                  "org_id": None,
+                                  "internal": {
+                                      "org_id": None,
+                                      }
                                   }
                      }
             if doc.get("b64_identity"):
                 ident = parse_identity(doc["b64_identity"])
+            if not ident["identity"].get("org_id") and ident["identity"]["internal"].get("org_id"):
+                ident["identity"]["org_id"] == ident["identity"]["internal"]["org_id"]
             validation = doc["validation"]
             service = doc.get("service")
             request_id = doc.get("request_id", str(uuid.uuid4().hex))
@@ -78,7 +83,9 @@ class Openshift(object):
             ident = parse_identity(doc["b64_identity"])
             if ident["identity"].get("system"):
                 cluster_id = ident["identity"]["system"].get("cluster_id")
-            org_id = ident["identity"].get("org_id")
+            if not ident["identity"].get("org_id") and ident["identity"]["internal"].get("org_id"):
+                ident["identity"]["org_id"] = ident["identity"]["internal"]["org_id"]
+            org_id = ident["identity"]["org_id"]
             account = ident["identity"]["account_number"]
             service = doc["service"]
             request_id = doc.get("request_id", str(uuid.uuid4().hex))
