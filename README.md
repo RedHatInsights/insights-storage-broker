@@ -84,6 +84,33 @@ Available Message:
           }
       }
 
+## Local Development
+
+### Prerequisites
+
+* Python 3.6
+* docker-compose
+
+### Step 1: Spin-up dependencies
+
+```
+docker-compose -f compose.yml up
+```
+
+### Step 2: Start storage broker
+
+```
+pip install .
+
+BOOTSTRAP_SERVERS=localhost:29092 BUCKET_MAP_FILE=default_map.yaml storage_broker
+```
+
+### Step 3: Produce a sample validation message
+
+```
+make produce_validation_message
+```
+
 ## Authors
 
 Stephen Adams - Initial Work - [SteveHNH](https://www.github.com/SteveHNH)

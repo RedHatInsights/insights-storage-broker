@@ -1,4 +1,4 @@
-# Some portions copied from playbook-dispatcher
+# Some portions were copied from insights-ingress-go and playbook-dispatcher
 version: "3"
 services:
   zookeeper:
@@ -14,7 +14,9 @@ services:
     depends_on:
       - zookeeper
     environment:
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092
+      - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://localhost:29092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
       - KAFKA_BROKER_ID=1
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
@@ -51,10 +53,11 @@ services:
   ingress:
     image: quay.io/cloudservices/insights-ingress:latest
     ports:
-      - '8080:3000'
+      - '3000:3000'
     environment:
+      - INGRESS_KAFKA_BROKERS=kafka:9092
       - INGRESS_STAGEBUCKET=insights-upload-perma
-      - INGRESS_VALIDTOPICS=playbook,playbook-sat
+      - INGRESS_VALIDTOPICS=announce
       - OPENSHIFT_BUILD_COMMIT=somestring
       - INGRESS_MAXSIZE=104857600
       - INGRESS_MINIODEV=true
