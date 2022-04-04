@@ -1,6 +1,6 @@
 # Insights Storage Broker
 
-The Insights Storage Broker microservice handles interaction between the platform and remote stores for storage of payloads that pass through the platform. It also supports the legacy `platform.upload.available` topic by reproducing messages from `platform.inventory.host-egress` to announce new payloads.
+The Insights Storage Broker microservice handles interaction between the platform and remote stores for storage of payloads that pass through the platform.
 
 ## How it Works
 
@@ -27,7 +27,7 @@ The configuration file allows for new buckets, topics, and formatters to be adde
 
 ## Support for Validation Messages
 
-Insights Storage Broker consumes from the `platform.upload.validation` topic. If the payload has succeeded validation, the storage broker will pass the message along with a download url to the `platform.upload.available` topic so that other services on the platform can consume it. Storage broker expects to recieve **all** the data in the message that the validation service originally recieved in addition to the the `validation` key.
+Insights Storage Broker consumes from the `platform.upload.validation` topic. Storage broker expects to recieve **all** the data in the message that the validation service originally recieved in addition to the the `validation` key.
 
 If a failure message is recieved, Storage Broker will copy the file to the rejected bucket and not advertise the availability of the payload to the platform.
 

@@ -37,7 +37,6 @@ if os.getenv("ACG_CONFIG"):
     cfg = LoadedConfig
     KAFKA_BROKER = cfg.kafka.brokers[0]
     VALIDATION_TOPIC = KafkaTopics["platform.upload.validation"].name
-    ANNOUNCER_TOPIC = KafkaTopics["platform.upload.available"].name
     STORAGE_TOPIC = KafkaTopics["platform.upload.buckit"].name
     EGRESS_TOPIC = KafkaTopics["platform.inventory.events"].name
     NOTIFICATIONS_TOPIC = KafkaTopics["platform.notifications.ingress"].name
@@ -61,7 +60,6 @@ if os.getenv("ACG_CONFIG"):
 else:
     KAFKA_BROKER = None
     VALIDATION_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.validation")
-    ANNOUNCER_TOPIC = os.getenv("ANNOUNCER_TOPIC", "platform.upload.available")
     STORAGE_TOPIC = os.getenv("STORAGE_TOPIC", "platform.upload.buckit")
     EGRESS_TOPIC = os.getenv("EGRESS_TOPIC", "platform.inventory.events")
     NOTIFICATIONS_TOPIC = os.getenv("NOTIFICATIONS_TOPIC", "platform.notifications.ingress")

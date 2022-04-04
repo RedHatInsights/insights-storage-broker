@@ -102,9 +102,6 @@ objects:
         topicName: platform.upload.buckit
       - replicas: 3
         partitions: 64
-        topicName: platform.upload.available
-      - replicas: 3
-        partitions: 64
         topicName: platform.inventory.events
       - replicas: 3
         partitions: 4

@@ -46,14 +46,13 @@ def handle_signal(signal, frame):
 signal.signal(signal.SIGTERM, handle_signal)
 
 
-def handle_failure(msg, decoded_msg, data, tracker_msg):
+def handle_failure(data, tracker_msg):
     def track(m):
         send_message(config.TRACKER_TOPIC, m, request_id=data.request_id)
 
     track(tracker_msg.message("received", "received validation response"))
     if data.validation == "success":
-        send_message(config.ANNOUNCER_TOPIC, json.dumps(decoded_msg), data.request_id)
-        track(tracker_msg.message("success", f"announced to {config.ANNOUNCER_TOPIC}"))
+        track(tracker_msg.message("success", "payload validation successful"))
         return
 
     if data.validation == "failure":
@@ -122,7 +121,7 @@ def main():
         metrics.message_consume_count.inc()
         if msg.topic() == config.EGRESS_TOPIC:
             if decoded_msg['type'] in ('updated', 'created'):
-                announce(decoded_msg)
+                track_inventory_payload(decoded_msg)
             continue
 
         try:
@@ -130,7 +129,7 @@ def main():
             data = normalize(_map, decoded_msg)
             tracker_msg = TrackerMessage(attr.asdict(data))
             if msg.topic() == config.VALIDATION_TOPIC:
-                handle_failure(msg, decoded_msg, data, tracker_msg)
+                handle_failure(data, tracker_msg)
             else:
                 key, bucket = handle_bucket(_map, data)
                 aws.copy(
@@ -170,9 +169,8 @@ def handle_bucket(_map, data):
         raise
 
 
-# This is is a way to support legacy uploads that are expected to be on the
-# platform.upload.available queue
-def announce(msg):
+# Sends inventory messages to the tracker topic
+def track_inventory_payload(msg):
     logger.debug("Incoming Egress Message Content: %s", msg)
     platform_metadata = msg.pop("platform_metadata")
     msg["id"] = msg["host"].get("id")
@@ -182,11 +180,11 @@ def announce(msg):
         available_message = {**msg, **platform_metadata}
     else:
         available_message = msg
-    send_message(config.ANNOUNCER_TOPIC, json.dumps(available_message))
+
     tracker_msg = TrackerMessage(available_message)
     send_message(
         config.TRACKER_TOPIC,
-        tracker_msg.message("success", f"sent message to {config.ANNOUNCER_TOPIC}"),
+        tracker_msg.message("success", f"message received from {config.EGRESS_TOPIC}"),
         available_message.get("request_id"),
     )
 
