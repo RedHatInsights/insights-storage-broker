@@ -105,6 +105,12 @@ pip install .
 BOOTSTRAP_SERVERS=localhost:29092 BUCKET_MAP_FILE=default_map.yaml storage_broker
 ```
 
+#### (Optional) Start the storage broker API
+
+```
+storage_broker_api
+```
+
 ### Step 3: Produce a sample validation message
 
 ```

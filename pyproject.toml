@@ -17,6 +17,7 @@ app-common-python = "0.1.8"
 boto3 = "^1.17.14"
 watchtower = "^1.0.6"
 logstash_formatter = "^0.5.17"
+Flask = "2.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
@@ -28,3 +29,4 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry.scripts]
 storage_broker = "src.storage_broker.app:main"
+storage_broker_api = "src.storage_broker.api:main"
