@@ -51,3 +51,7 @@ storage_copy_time = Histogram(
     "storage_broker_object_copy_time_seconds",
     "Total time it takes to copy an object from one bucket to another",
 )
+presigned_url_gen_time = Histogram(
+    "storage_broker_presigned_url_gen_time_seconds",
+    "Total time it takes to generate a presigned url for a payload",
+)

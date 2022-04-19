@@ -25,3 +25,8 @@ def copy(key, src, dest, new_key, size, service):
     except Exception:
         logger.exception("Unable to move %s to %s bucket", key, dest)
         metrics.storage_copy_error.labels(bucket=dest).inc()
+
+@metrics.presigned_url_gen_time.time()
+def get_url(bucket, request_id, expiry):
+    url = s3.generate_presigned_url("get_object", Params={"Bucket": bucket, "Key": request_id}, ExpiresIn=expiry)
+    return url

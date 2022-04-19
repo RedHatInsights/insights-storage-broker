@@ -50,9 +50,10 @@ components:
       format: url
 
     Timeout:
-      description: AWS download url timeout.
+      description: AWS download url timeout in iso format date-time string.
       type: string
       format: date-time
+      example: "2022-04-19T21:54:57+00:00"
 
     Error:
       type: object
