@@ -117,6 +117,25 @@ storage_broker_api
 make produce_validation_message
 ```
 
+### Local AWS S3 interaction testing using Minio
+
+You can test the AWS interaction of storage broker using Minio.
+To do so, you will need to set the following environment variables to the storage broker consumer or API.
+
+```
+S3_ENDPOINT_URL=<minio_api_endpoint/>
+AWS_ACCESS_KEY_ID=<minio_access_key_id/>
+AWS_SECRET_ACCESS_KEY=<minio_secret_access_key/>
+STAGE_BUCKET=<bucket_name/>
+```
+
+For example
+```
+AWS_ACCESS_KEY_ID=$MINIO_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$MINIO_SECRET_KEY S3_ENDPOINT_URL=minio_api_endpoint:9000 STAGE_BUCKET=insights-dev-upload-perm storage_brokerer_api
+```
+
+Local Minio access keys are provided [here](https://github.com/RedHatInsights/insights-storage-broker/blob/master/.env).
+
 ## Authors
 
 Stephen Adams - Initial Work - [SteveHNH](https://www.github.com/SteveHNH)
