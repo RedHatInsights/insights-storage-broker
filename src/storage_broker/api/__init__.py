@@ -23,9 +23,12 @@ def get_archive_url():
     except ValueError:
         return error_message('invalid request_id'), 400
 
+    key_check_exception = aws.check_key(config.STAGE_BUCKET, request_id)
+    if key_check_exception:
+        client_error_msg, error_code = key_check_exception.response["Error"]["Message"], key_check_exception.response["Error"]["Code"]
+        return error_message(f"{client_error_msg} - {error_code}"), 400
+
     url = aws.get_url(config.STAGE_BUCKET, request_id, config.API_URL_EXPIRY)
-    if not url:
-        return error_message('aws client error'), 500
 
     timeout = datetime.utcnow() + timedelta(seconds=config.API_URL_EXPIRY)
     timeout_str = str(timeout.replace(microsecond=0, tzinfo=timezone.utc).isoformat())
