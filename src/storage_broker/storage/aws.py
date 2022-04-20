@@ -1,5 +1,6 @@
 import logging
 import boto3
+from botocore.exceptions import ClientError
 
 from src.storage_broker.utils import config
 from src.storage_broker.utils import metrics
@@ -28,5 +29,9 @@ def copy(key, src, dest, new_key, size, service):
 
 @metrics.presigned_url_gen_time.time()
 def get_url(bucket, request_id, expiry):
-    url = s3.generate_presigned_url("get_object", Params={"Bucket": bucket, "Key": request_id}, ExpiresIn=expiry)
+    try:
+        url = s3.generate_presigned_url("get_object", Params={"Bucket": bucket, "Key": request_id}, ExpiresIn=expiry)
+    except ClientError:
+        return None
+
     return url

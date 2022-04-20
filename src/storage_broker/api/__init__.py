@@ -23,8 +23,9 @@ def get_archive_url():
     except ValueError:
         return error_message('invalid request_id'), 400
 
-    # url = aws.get_url(config.STAGE_BUCKET, request_id, config.API_URL_EXPIRY)
-    url = "example.com"
+    url = aws.get_url(config.STAGE_BUCKET, request_id, config.API_URL_EXPIRY)
+    if not url:
+        return error_message('payload for the request_id may not be available'), 400
 
     timeout = datetime.utcnow() + timedelta(seconds=config.API_URL_EXPIRY)
     timeout_str = str(timeout.replace(microsecond=0, tzinfo=timezone.utc).isoformat())
