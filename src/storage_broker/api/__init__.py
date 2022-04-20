@@ -25,7 +25,7 @@ def get_archive_url():
 
     url = aws.get_url(config.STAGE_BUCKET, request_id, config.API_URL_EXPIRY)
     if not url:
-        return error_message('payload for the request_id may not be available'), 400
+        return error_message('aws client error'), 500
 
     timeout = datetime.utcnow() + timedelta(seconds=config.API_URL_EXPIRY)
     timeout_str = str(timeout.replace(microsecond=0, tzinfo=timezone.utc).isoformat())
