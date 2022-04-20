@@ -30,9 +30,9 @@ def get_archive_url():
     timeout = datetime.utcnow() + timedelta(seconds=config.API_URL_EXPIRY)
     timeout_str = str(timeout.replace(microsecond=0, tzinfo=timezone.utc).isoformat())
 
-    sample_response = {"request_id": request_id, "url": url, "timeout": timeout_str}
+    response = {"request_id": request_id, "url": url, "timeout": timeout_str}
 
-    return jsonify(sample_response)
+    return jsonify(response)
 
 
 def main():
