@@ -26,3 +26,4 @@ source $CICD_ROOT/deploy_ephemeral_env.sh
 bonfire deploy host-inventory --source=appsre --ref-env insights-stage --namespace ${NAMESPACE}
 
 source $CICD_ROOT/cji_smoke_test.sh
+source $CICD_ROOT/post_test_results.sh
