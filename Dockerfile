@@ -14,4 +14,4 @@ COPY default_map.yaml /opt/app-root/src/default_map.yaml
 
 RUN pip3 install --upgrade pip && pip3 install .
 
-CMD ["storage_broker"]
+CMD ["storage_broker_consumer_api"]

@@ -82,7 +82,7 @@ def handle_failure(data, tracker_msg):
     )
 
 
-def main():
+def main(event=None):
 
     logger.info("Starting Storage Broker")
 
@@ -102,7 +102,11 @@ def main():
     producer = produce.init_producer()
 
     while running:
+        if event and event.is_set():
+            logger.info("Exit event received. Exiting consumer.")
+            break
         msg = consumer.poll(1.0)
+
         if msg is None:
             continue
         if msg.error():
