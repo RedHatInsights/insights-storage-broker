@@ -7,6 +7,7 @@ import attr
 import yaml
 from confluent_kafka import KafkaError
 from prometheus_client import start_http_server
+from threading import Event
 from src.storage_broker import TrackerMessage, normalizers
 from src.storage_broker.mq import consume, produce, msgs
 from src.storage_broker.storage import aws
@@ -14,7 +15,7 @@ from src.storage_broker.utils import broker_logging, config, metrics
 
 logger = broker_logging.initialize_logging()
 
-running = True
+event = Event()
 producer = None
 
 
@@ -39,8 +40,7 @@ def load_bucket_map(_file):
 
 
 def handle_signal(signal, frame):
-    global running
-    running = False
+    event.set()
 
 
 signal.signal(signal.SIGTERM, handle_signal)
@@ -82,7 +82,7 @@ def handle_failure(data, tracker_msg):
     )
 
 
-def main(event=None):
+def main(exit_event=event):
 
     logger.info("Starting Storage Broker")
 
@@ -101,10 +101,7 @@ def main(event=None):
     global producer
     producer = produce.init_producer()
 
-    while running:
-        if event and event.is_set():
-            logger.info("Exit event received. Exiting consumer.")
-            break
+    while not exit_event.is_set():
         msg = consumer.poll(1.0)
 
         if msg is None:
@@ -151,6 +148,7 @@ def main(event=None):
         consumer.commit()
         producer.flush()
 
+    logger.info("Exit event received. Exiting consumer.")
     consumer.commit()
     producer.flush()
 
