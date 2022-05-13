@@ -57,6 +57,7 @@ if os.getenv("ACG_CONFIG"):
     LOG_GROUP = os.getenv("LOG_GROUP", cfg.logging.cloudwatch.logGroup)
     # Metrics
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", cfg.metricsPort))
+    API_PORT = int(os.getenv("API_PORT", cfg.publicPort))
 else:
     KAFKA_BROKER = None
     VALIDATION_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.validation")
@@ -76,12 +77,12 @@ else:
     LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")
     # Metrics
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", 8080))
+    API_PORT = int(os.getenv("API_PORT", 5000))
 
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
 KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 
-API_PORT = os.getenv("API_PORT", 5000)
 API_URL_EXPIRY = int(os.getenv("API_URL_EXPIRY", 3600))
 
 # We need to support local or policy based keys that don't work with clowder
