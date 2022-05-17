@@ -47,7 +47,7 @@ if os.getenv("ACG_CONFIG"):
     AWS_SECRET_ACCESS_KEY = cfg.objectStore.secretKey
     STAGE_BUCKET = ObjectBuckets[os.environ.get("PERM_BUCKET")].name
     REJECT_BUCKET = ObjectBuckets[os.environ.get("REJECT_BUCKET")].name
-    S3_ENDPOINT_URL = cfg.objectStore.hostname
+    S3_ENDPOINT_URL = f"http://{cfg.objectStore.hostname}:{cfg.objectStore.port}"
     # Logging
     CW_AWS_ACCESS_KEY_ID = os.getenv(
         "CW_AWS_ACCESS_KEY_ID", cfg.logging.cloudwatch.accessKeyId
