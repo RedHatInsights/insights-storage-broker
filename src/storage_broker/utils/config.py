@@ -86,7 +86,7 @@ KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 
 API_LISTEN_ADDRESS = os.getenv("API_LISTEN_ADDRESS", "0.0.0.0")
-API_URL_EXPIRY = int(os.getenv("API_URL_EXPIRY", 3600))
+API_URL_EXPIRY = int(os.getenv("API_URL_EXPIRY", 30))
 
 # We need to support local or policy based keys that don't work with clowder
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", AWS_ACCESS_KEY_ID)
