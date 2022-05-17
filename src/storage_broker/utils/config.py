@@ -47,6 +47,7 @@ if os.getenv("ACG_CONFIG"):
     AWS_SECRET_ACCESS_KEY = cfg.objectStore.secretKey
     STAGE_BUCKET = ObjectBuckets[os.environ.get("PERM_BUCKET")].name
     REJECT_BUCKET = ObjectBuckets[os.environ.get("REJECT_BUCKET")].name
+    S3_ENDPOINT_URL = f"{cfg.objectStore.hostname}:{cfg.objectStore.port}"
     # Logging
     CW_AWS_ACCESS_KEY_ID = os.getenv(
         "CW_AWS_ACCESS_KEY_ID", cfg.logging.cloudwatch.accessKeyId
@@ -71,6 +72,7 @@ else:
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", None)
     STAGE_BUCKET = os.getenv("STAGE_BUCKET", "insights-dev-upload-perm")
     REJECT_BUCKET = os.getenv("REJECT_BUCKET", "insights-dev-upload-rejected")
+    S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL", None)
     # Logging
     CW_AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", None)
     CW_AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", None)
@@ -91,7 +93,6 @@ AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", AWS_ACCESS_KEY_ID)
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", AWS_SECRET_ACCESS_KEY)
 
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
-S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL", None)
 BUCKET_MAP_FILE = os.getenv("BUCKET_MAP_FILE", "/opt/app-root/src/default_map.yaml")
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
