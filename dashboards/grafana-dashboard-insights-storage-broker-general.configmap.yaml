@@ -121,7 +121,7 @@ data:
           "pluginVersion": "7.2.1",
           "targets": [
             {
-              "expr": "sum(increase(storage_broker_object_copy_error_count_total[24h]) or (up * 0)) / sum(increase(storage_broker_object_copy_success_count_total[24h])) + sum(increase(storage_broker_object_copy_error_count_total[24h]) or (up * 0))",
+              "expr": "sum(increase(storage_broker_object_copy_error_count_total[24h]) or (up * 0)) / (sum(increase(storage_broker_object_copy_error_count_total[24h]) or (up * 0)) + sum(increase(storage_broker_object_copy_success_count_total[24h])))",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
