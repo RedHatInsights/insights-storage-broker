@@ -97,12 +97,14 @@ def main(exit_event=event):
 
     bucket_map = load_bucket_map(config.BUCKET_MAP_FILE)
 
-    consumer = consume.init_consumer()
+    consumer = consume.init_consumer(logger)
     global producer
     producer = produce.init_producer()
 
     while not exit_event.is_set():
+        logger.debug("Polling Broker")
         msg = consumer.poll(1.0)
+        logger.debug("Finished Polling")
 
         if msg is None:
             continue
@@ -113,6 +115,7 @@ def main(exit_event=event):
 
         try:
             decoded_msg = json.loads(msg.value().decode("utf-8"))
+            logger.debug("Incoming Message Content: %s", decoded_msg)
         except Exception:
             logger.exception("Unable to decode message from topic: %s - %s", msg.topic(), msg.value())
             metrics.message_consume_error_count.inc()

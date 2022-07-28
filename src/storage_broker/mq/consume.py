@@ -3,7 +3,7 @@ from confluent_kafka import Consumer
 from src.storage_broker.utils import config
 
 
-def init_consumer():
+def init_consumer(logger):
     connection_info = {
             "bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS),
             "group.id": config.APP_NAME,
@@ -25,8 +25,12 @@ def init_consumer():
             })
 
     consumer = Consumer(connection_info)
+    logger.debug("Connected to consumer")
 
     consumer.subscribe(
         [config.VALIDATION_TOPIC, config.EGRESS_TOPIC, config.STORAGE_TOPIC]
     )
+    logger.debug("Subscribed to topics [%s, %s, %s]", config.VALIDATION_TOPIC,
+                                                      config.EGRESS_TOPIC, 
+                                                      config.STORAGE_TOPIC)
     return consumer
