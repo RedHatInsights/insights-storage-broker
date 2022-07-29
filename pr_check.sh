@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# adding comment to create test MR
 # --------------------------------------------
 # Options that must be configured by app owner
 # --------------------------------------------
