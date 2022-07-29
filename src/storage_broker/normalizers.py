@@ -51,7 +51,7 @@ class Validation(object):
             service = doc.get("service")
             request_id = doc.get("request_id", str(uuid.uuid4().hex))
             reason = doc.get("reason")
-            account = doc.get("account") if doc.get("account") else ident["identity"]["account_number"]
+            account = doc.get("account") if doc.get("account") else ident["identity"].get("account_number")
             org_id = doc.get("org_id") if doc.get("org_id") else ident["identity"]["org_id"]
             reporter = doc.get("reporter")
             system_id = doc.get("system_id")
@@ -86,7 +86,7 @@ class Openshift(object):
             if not ident["identity"].get("org_id") and ident["identity"]["internal"].get("org_id"):
                 ident["identity"]["org_id"] = ident["identity"]["internal"]["org_id"]
             org_id = ident["identity"]["org_id"]
-            account = ident["identity"]["account_number"]
+            account = ident["identity"].get("account_number")
             service = doc["service"]
             request_id = doc.get("request_id", str(uuid.uuid4().hex))
             size = doc.get("size")

@@ -7,6 +7,7 @@ import attr
 import yaml
 from confluent_kafka import KafkaError
 from prometheus_client import start_http_server
+from threading import Event
 from src.storage_broker import TrackerMessage, normalizers
 from src.storage_broker.mq import consume, produce, msgs
 from src.storage_broker.storage import aws
@@ -14,7 +15,7 @@ from src.storage_broker.utils import broker_logging, config, metrics
 
 logger = broker_logging.initialize_logging()
 
-running = True
+event = Event()
 producer = None
 
 
@@ -39,8 +40,7 @@ def load_bucket_map(_file):
 
 
 def handle_signal(signal, frame):
-    global running
-    running = False
+    event.set()
 
 
 signal.signal(signal.SIGTERM, handle_signal)
@@ -82,7 +82,7 @@ def handle_failure(data, tracker_msg):
     )
 
 
-def main():
+def main(exit_event=event):
 
     logger.info("Starting Storage Broker")
 
@@ -97,12 +97,15 @@ def main():
 
     bucket_map = load_bucket_map(config.BUCKET_MAP_FILE)
 
-    consumer = consume.init_consumer()
+    consumer = consume.init_consumer(logger)
     global producer
     producer = produce.init_producer()
 
-    while running:
+    while not exit_event.is_set():
+        logger.debug("Polling Broker")
         msg = consumer.poll(1.0)
+        logger.debug("Finished Polling")
+
         if msg is None:
             continue
         if msg.error():
@@ -112,6 +115,7 @@ def main():
 
         try:
             decoded_msg = json.loads(msg.value().decode("utf-8"))
+            logger.debug("Incoming Message Content: %s", decoded_msg)
         except Exception:
             logger.exception("Unable to decode message from topic: %s - %s", msg.topic(), msg.value())
             metrics.message_consume_error_count.inc()
@@ -147,6 +151,7 @@ def main():
         consumer.commit()
         producer.flush()
 
+    logger.info("Exit event received. Exiting consumer.")
     consumer.commit()
     producer.flush()
 

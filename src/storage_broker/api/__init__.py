@@ -37,10 +37,14 @@ def get_archive_url():
 
     return jsonify(response)
 
+@app.route("/", methods=['GET'])
+def health_check():
+    return jsonify({"status": "ok"})
+
 
 def main():
     logger.info("Starting storage broker api...")
-    app.run(port=config.API_PORT)
+    app.run(host=config.API_LISTEN_ADDRESS, port=config.API_PORT)
 
 
 def error_message(message):

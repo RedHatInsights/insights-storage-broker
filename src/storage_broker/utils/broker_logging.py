@@ -32,7 +32,7 @@ def non_clowder_config():
 
 def initialize_logging():
     kafkalogger = logging.getLogger("kafka")
-    kafkalogger.setLevel("ERROR")
+    kafkalogger.setLevel(config.KAFKA_LOG_LEVEL)
     if any("OPENSHIFT" in k for k in os.environ):
         handler = logging.StreamHandler(sys.stdout)
         handler.setFormatter(LogstashFormatterV1())

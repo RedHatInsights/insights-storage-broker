@@ -1,0 +1,11 @@
+platform-mq-stage.platform.upload.validation:
+  normalizer: Validation
+platform-mq-stage.platform.upload.buckit:
+  normalizer: Openshift
+  services:
+    openshift:
+      format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
+      bucket: "insights-buck-it-openshift"
+    ansible:
+      format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
+      bucket: "insights-buck-it-ansible"

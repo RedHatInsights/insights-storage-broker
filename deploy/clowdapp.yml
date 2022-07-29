@@ -18,6 +18,9 @@ objects:
     deployments:
     - name: processor
       minReplicas: ${{MIN_REPLICAS}}
+      webServices:
+        public:
+          enabled: true
       podSpec:
         image: ${IMAGE_NAME}:${IMAGE_TAG}
         livenessProbe:
@@ -60,6 +63,8 @@ objects:
             value: ${CLOWDER_ENABLED}
           - name: LOG_LEVEL
             value: ${LOG_LEVEL}
+          - name: KAFKA_LOG_LEVEL
+            value: ${KAFKA_LOG_LEVEL}
           - name: PERM_BUCKET
             value: ${PERM_BUCKET}
           - name: REJECT_BUCKET
@@ -136,6 +141,8 @@ parameters:
   value: "1"
 - name: LOG_LEVEL
   value: INFO
+- name: KAFKA_LOG_LEVEL
+  value: ERROR
 - description: Cpu limit of service
   name: CPU_LIMIT
   value: 500m
