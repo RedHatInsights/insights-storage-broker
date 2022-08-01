@@ -34,6 +34,18 @@ def handle_signal(signal, frame):
 signal.signal(signal.SIGTERM, handle_signal)
 
 
+def service_check(msg):
+    """
+    Check if the service header in the message contains a monitored
+    service
+    """
+    service = dict(msg.headers() or []).get('service')
+    if service:
+        service = service.decode('utf-8')
+        return service in config.MONITORED_SERVICES
+    return False
+
+
 def handle_failure(data, tracker_msg):
     def track(m):
         send_message(config.TRACKER_TOPIC, m, request_id=data.request_id)
@@ -116,6 +128,9 @@ def main(exit_event=event):
                 track_inventory_payload(decoded_msg)
             continue
 
+        if not service_check(msg):
+            logger.debug("Message not for monitored service")
+            continue
         try:
             _map = bucket_map[msg.topic()]
             data = normalize(_map, decoded_msg)

@@ -1,6 +1,6 @@
 platform.upload.validation:
   normalizer: Validation
-platform.upload.buckit:
+platform.upload.announce:
   normalizer: Openshift
   services:
     openshift:

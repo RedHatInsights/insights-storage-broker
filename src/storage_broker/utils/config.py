@@ -60,7 +60,7 @@ if os.getenv("ACG_CONFIG"):
     KAFKA_BROKER = cfg.kafka.brokers[0]
     BUCKET_MAP = clowderize_bucket_map(load_bucket_map(BUCKET_MAP_FILE), KafkaTopics)
     VALIDATION_TOPIC = KafkaTopics["platform.upload.validation"].name
-    STORAGE_TOPIC = KafkaTopics["platform.upload.buckit"].name
+    INGRESS_TOPIC = KafkaTopics["platform.upload.announce"].name
     EGRESS_TOPIC = KafkaTopics["platform.inventory.events"].name
     NOTIFICATIONS_TOPIC = KafkaTopics["platform.notifications.ingress"].name
     TRACKER_TOPIC = KafkaTopics["platform.payload-status"].name
@@ -89,7 +89,7 @@ else:
     KAFKA_BROKER = None
     BUCKET_MAP = load_bucket_map(BUCKET_MAP_FILE)
     VALIDATION_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.validation")
-    STORAGE_TOPIC = os.getenv("STORAGE_TOPIC", "platform.upload.buckit")
+    INGRESS_TOPIC = os.getenv("INGRESS_TOPIC", "platform.upload.announce")
     EGRESS_TOPIC = os.getenv("EGRESS_TOPIC", "platform.inventory.events")
     NOTIFICATIONS_TOPIC = os.getenv("NOTIFICATIONS_TOPIC", "platform.notifications.ingress")
     TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")
@@ -112,6 +112,7 @@ GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
 KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 KAFKA_LOG_LEVEL = os.getenv("KAFKA_LOG_LEVEL", "ERROR")
+MONITORED_SERVICES = os.getenv("MONITORED_SERVICES", "openshift,ansible").split(",")
 
 API_LISTEN_ADDRESS = os.getenv("API_LISTEN_ADDRESS", "0.0.0.0")
 API_URL_EXPIRY = int(os.getenv("API_URL_EXPIRY", 30))

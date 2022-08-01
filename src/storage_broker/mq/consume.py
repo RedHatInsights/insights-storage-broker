@@ -30,11 +30,11 @@ def init_consumer(logger):
        logger.debug("Connected to consumer")
 
        consumer.subscribe(
-           [config.VALIDATION_TOPIC, config.EGRESS_TOPIC, config.STORAGE_TOPIC]
+           [config.VALIDATION_TOPIC, config.EGRESS_TOPIC, config.INGRESS_TOPIC]
        )
        logger.debug("Subscribed to topics [%s, %s, %s]", config.VALIDATION_TOPIC,
                                                          config.EGRESS_TOPIC, 
-                                                         config.STORAGE_TOPIC)
+                                                         config.INGRESS_TOPIC)
        return consumer
     except Exception as e:
         logger.error("Failed to initialize consumer: %s", e)

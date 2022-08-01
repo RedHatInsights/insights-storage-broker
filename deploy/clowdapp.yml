@@ -117,6 +117,9 @@ objects:
       - replicas: 3
         partitions: 3
         topicName: platform.notifications.ingress
+      - replicas: 3
+        partitions: 64
+        topicName: platform.upload.announce
 - apiVersion: v1
   kind: ConfigMap
   metadata:
@@ -125,7 +128,7 @@ objects:
     config.yaml: |-
       platform.upload.validation:
         normalizer: Validation
-      platform.upload.buckit:
+      platform.upload.announce:
         normalizer: Openshift
         services:
           openshift:
