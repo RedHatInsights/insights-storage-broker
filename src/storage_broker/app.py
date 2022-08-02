@@ -113,6 +113,9 @@ def main(exit_event=event):
             logger.error("Consumer error: %s", msg.error())
             continue
 
+        if msg.topic() != config.EGRESS_TOPIC and not service_check(msg):
+            continue
+
         try:
             decoded_msg = json.loads(msg.value().decode("utf-8"))
             logger.debug("Incoming Message Content: %s", decoded_msg)
@@ -128,9 +131,6 @@ def main(exit_event=event):
                 track_inventory_payload(decoded_msg)
             continue
 
-        if not service_check(msg):
-            logger.debug("Message not for monitored service")
-            continue
         try:
             _map = bucket_map[msg.topic()]
             data = normalize(_map, decoded_msg)
