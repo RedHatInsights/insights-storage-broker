@@ -131,6 +131,11 @@ def main(exit_event=event):
                 track_inventory_payload(decoded_msg)
             continue
 
+        tracker_msg = TrackerMessage(decoded_msg)
+        send_message(TRACKER_TOPIC, tracker_msg.message("received",
+                                                        "received message for {}".format(tracker_msg.service)),
+                                                        request_id=tracker_msg.request_id)
+
         try:
             _map = bucket_map[msg.topic()]
             data = normalize(_map, decoded_msg)
