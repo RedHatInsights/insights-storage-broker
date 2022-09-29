@@ -61,7 +61,6 @@ if os.getenv("ACG_CONFIG"):
     BUCKET_MAP = clowderize_bucket_map(load_bucket_map(BUCKET_MAP_FILE), KafkaTopics)
     VALIDATION_TOPIC = KafkaTopics["platform.upload.validation"].name
     INGRESS_TOPIC = KafkaTopics["platform.upload.announce"].name
-    NOTIFICATIONS_TOPIC = KafkaTopics["platform.notifications.ingress"].name
     TRACKER_TOPIC = KafkaTopics["platform.payload-status"].name
     BOOTSTRAP_SERVERS = f"{KAFKA_BROKER.hostname}:{KAFKA_BROKER.port}"
     # S3
@@ -89,7 +88,6 @@ else:
     BUCKET_MAP = load_bucket_map(BUCKET_MAP_FILE)
     VALIDATION_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.validation")
     INGRESS_TOPIC = os.getenv("INGRESS_TOPIC", "platform.upload.announce")
-    NOTIFICATIONS_TOPIC = os.getenv("NOTIFICATIONS_TOPIC", "platform.notifications.ingress")
     TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")
     BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split()
     # S3

@@ -69,10 +69,6 @@ def handle_validation(data, tracker_msg):
                 "success", f"copied payload to {config.REJECT_BUCKET}"
             )
         )
-        if data.reason:
-            notification_id = uuid4().hex.encode('utf-8')
-            message = msgs.notification_msg(data)
-            send_message(config.NOTIFICATIONS_TOPIC, json.dumps(message), data.request_id, headers=[("rh-message-id", notification_id)])
         return
 
     logger.error(f"Invalid validation response: {data.validation}")

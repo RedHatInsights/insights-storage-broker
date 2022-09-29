@@ -19,29 +19,3 @@ def create_msg(data, status, status_msg):
 
     return msg
 
-
-def notification_msg(data):
-    msg = {
-        "version": "v1.1.0",
-        "bundle": "console",
-        "application": "storage-broker",
-        "event_type": "upload-rejection",
-        "timestamp": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "account": data.account,
-        "events": [
-            {
-                "metadata": {},
-                "payload": json.dumps({
-                    "request_id": data.request_id,
-                    "reason": data.reason,
-                    "system_id": data.system_id,
-                    "hostname": data.hostname,
-                    "reporter": data.reporter,
-                })
-            }
-        ],
-        "context": "{}",
-        "recipients": []
-    }
-
-    return msg
