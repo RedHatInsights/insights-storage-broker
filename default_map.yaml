@@ -9,3 +9,9 @@ platform.upload.announce:
     ansible:
       format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
       bucket: "insights-buck-it-ansible"
+    tower:
+      format: "{org_id}/{request_id}"
+      bucket: "insights-upload-tower-analytics-stage"
+    pinakes:
+      format: "{org_id}/{request_id}"
+      bucket: "insights-upload-tower-analytics-stage"
