@@ -113,7 +113,7 @@ def main(exit_event=event):
             logger.error("Consumer error: %s", msg.error())
             continue
 
-        if not service_check(msg):
+        if not service_check(msg) and msg.topic() != config.VALIDATION_TOPIC:
             continue
 
         try:
