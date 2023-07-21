@@ -10,8 +10,6 @@ objects:
     name: storage-broker
   spec:
     envName: ${ENV_NAME}
-    testing:
-      iqePlugin: e2e
     optionalDependencies:
     - ingress
     - puptoo
