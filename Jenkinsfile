@@ -21,8 +21,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                mkdir -p $ARTIFACTS_DIR
-cat << EOF > $ARTIFACTS_DIR/junit-dummy.xml
+                mkdir -p ${WORKSPACE}/artifacts
+cat << EOF > ${WORKSPACE}/artifacts/junit-dummy.xml
 <testsuite tests="1">
     <testcase classname="dummy" name="dummytest"/>
 </testsuite>
