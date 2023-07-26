@@ -128,7 +128,10 @@ objects:
           pinakes:
             format: "{org_id}/{request_id}"
             bucket: ${TOWER_BUCKET}
-  
+          automation-hub:
+            format: "{org_id}/{request_id}"
+            bucket: ${TOWER_BUCKET}
+
 parameters:
 - description: Minimum number of replicas required
   name: MIN_REPLICAS

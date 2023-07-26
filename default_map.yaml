@@ -12,6 +12,9 @@ platform.upload.announce:
     tower:
       format: "{org_id}/{request_id}"
       bucket: "insights-upload-tower-analytics-stage"
+    automation-hub:
+      format: "{org_id}/{request_id}"
+      bucket: "insights-upload-tower-analytics-stage"
     pinakes:
       format: "{org_id}/{request_id}"
       bucket: "insights-upload-tower-analytics-stage"
