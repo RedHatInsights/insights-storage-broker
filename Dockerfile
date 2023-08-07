@@ -1,8 +1,12 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal
+FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
 WORKDIR /app-root/
 
-RUN microdnf install -y python311 python3-devel curl python3-pip
+RUN INSTALL_PKGS="python3.11 python3.11-devel curl python3.11-setuptools python3.11-pip" && \
+    microdnf --nodocs -y upgrade && \
+    microdnf -y --setopt=tsflags=nodocs --setopt=install_weak_deps=0 install $INSTALL_PKGS && \
+    rpm -V $INSTALL_PKGS && \
+    microdnf -y clean all --enablerepo='*'
 
 COPY src src
 
@@ -13,6 +17,6 @@ COPY pyproject.toml pyproject.toml
 COPY default_map.yaml /opt/app-root/src/default_map.yaml
 COPY rhosak_map.yaml /opt/app-root/src/rhosak_map.yaml
 
-RUN pip3 install --upgrade pip && pip3 install .
+RUN python3.11 -m pip install --upgrade pip && python3.11 -m pip install .
 
 CMD ["storage_broker_consumer_api"]

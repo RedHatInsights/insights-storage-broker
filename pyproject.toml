@@ -9,7 +9,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.11"
-confluent-kafka = "^1.5.0"
+confluent-kafka = "^2.2.0"
 attrs = "18.2.0"
 prometheus-client = "0.7.1"
 pyyaml = "6.0.1"
