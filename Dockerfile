@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
 WORKDIR /app-root/
 
-RUN INSTALL_PKGS="python3.11 python3.11-devel curl python3.11-setuptools python3.11-pip" && \
+RUN INSTALL_PKGS="python3.11 python3.11-devel curl python3.11-pip" && \
     microdnf --nodocs -y upgrade && \
     microdnf -y --setopt=tsflags=nodocs --setopt=install_weak_deps=0 install $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
