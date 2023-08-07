@@ -328,14 +328,17 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "watchtower"
-version = "1.0.6"
+version = "3.0.1"
 description = "Python CloudWatch Logging"
 category = "main"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.7"
 
 [package.dependencies]
 boto3 = ">=1.9.253,<2"
+
+[package.extras]
+tests = ["pyyaml", "flake8", "coverage", "build", "wheel", "mypy"]
 
 [[package]]
 name = "wcwidth"
@@ -362,7 +365,7 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "39108c9320b230c7b2372cf61b48511036ef5d9063b22ce0ac9a774bf0d799d2"
+content-hash = "5d6a60add1e52d42ec58f9ad1efc203f09559429c29539f3c4882ab4788328d5"
 
 [metadata.files]
 app-common-python = []
