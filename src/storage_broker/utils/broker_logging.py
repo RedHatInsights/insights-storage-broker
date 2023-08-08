@@ -59,7 +59,7 @@ def initialize_logging():
                                 aws_secret_access_key=aws_secret_access_key,
                                 region_name=aws_region_name)
 
-        cw_handler = watchtower.CloudWatchLogHandler(boto3_session=boto3_session,
+        cw_handler = watchtower.CloudWatchLogHandler(boto3_client=boto3_session.client(),
                                                      log_group=aws_log_group,
                                                      stream_name=socket.gethostname(),
                                                      create_log_group=create_log_group)
