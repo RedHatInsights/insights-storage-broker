@@ -62,7 +62,7 @@ if os.getenv("ACG_CONFIG"):
     VALIDATION_TOPIC = KafkaTopics["platform.upload.validation"].name
     INGRESS_TOPIC = KafkaTopics["platform.upload.announce"].name
     TRACKER_TOPIC = KafkaTopics["platform.payload-status"].name
-    BOOTSTRAP_SERVERS = f"{KAFKA_BROKER.hostname}:{KAFKA_BROKER.port}"
+    BOOTSTRAP_SERVERS = cfg.KafkaServers
     # S3
     AWS_ACCESS_KEY_ID = cfg.objectStore.accessKey
     AWS_SECRET_ACCESS_KEY = cfg.objectStore.secretKey

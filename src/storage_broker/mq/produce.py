@@ -8,10 +8,19 @@ logger = logging.getLogger(__name__)
 
 
 def init_producer():
-    connection_info = {}
+
+   connection_info = _build_confluent_kafka_config(config)
+
+   return Producer(connection_info)
+
+
+def _build_confluent_kafka_config(config):
+
+    connection_info = {
+            "bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS),
+    }
 
     if config.KAFKA_BROKER:
-        connection_info["bootstrap.servers"] = config.BOOTSTRAP_SERVERS
         if config.KAFKA_BROKER.cacert:
             connection_info["ssl.ca.location"] = "/tmp/cacert.pem"
         if config.KAFKA_BROKER.sasl and config.KAFKA_BROKER.sasl.username:
@@ -21,9 +30,8 @@ def init_producer():
                 "sasl.username": config.KAFKA_BROKER.sasl.username,
                 "sasl.password": config.KAFKA_BROKER.sasl.password
             })
-        return Producer(connection_info)
-    else:
-        return Producer({"bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS)})
+
+    return connection_info
 
 
 def delivery_report(err, msg=None, request_id=None):
