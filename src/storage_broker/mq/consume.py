@@ -6,13 +6,13 @@ from src.storage_broker.utils import config
 def init_consumer(logger):
     logger.debug("initializing consumer")
     try:
-
-       connection_info = _build_confluent_kafka_config(config)
-
-       connection_info["group.id"] = config.APP_NAME
-       connection_info["queued.max.messages.kbytes"] = config.KAFKA_QUEUE_MAX_KBYTES
-       connection_info["enable.auto.commit"] = True
-       connection_info["allow.auto.create.topics"] = config.KAFKA_ALLOW_CREATE_TOPICS,
+       connection_info = {
+               "group.id": config.APP_NAME,
+               "queued.max.messages.kbytes": config.KAFKA_QUEUE_MAX_KBYTES,
+               "enable.auto.commit": True,
+               "allow.auto.create.topics": config.KAFKA_ALLOW_CREATE_TOPICS,
+       }
+       connection_info.update(_build_confluent_kafka_config(config))
 
        consumer = Consumer(connection_info)
        logger.debug("Connected to consumer")
