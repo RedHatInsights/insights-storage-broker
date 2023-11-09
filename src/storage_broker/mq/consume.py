@@ -1,12 +1,13 @@
 from confluent_kafka import Consumer
 
 from src.storage_broker.utils import config
+from src.storage_broker.mq import common
 
 
 def init_consumer(logger):
     logger.debug("initializing consumer")
     try:
-       connection_info = _build_confluent_kafka_config(config)
+       connection_info = common.build_confluent_kafka_config(config)
 
        consumer_config = {
                "group.id": config.APP_NAME,
