@@ -54,7 +54,7 @@ INVENTORY_URL = os.getenv(
 
 # Kafka
 if os.getenv("ACG_CONFIG"):
-    from app_common_python import LoadedConfig, KafkaTopics, ObjectBuckets
+    from app_common_python import LoadedConfig, KafkaServers, KafkaTopics, ObjectBuckets
 
     cfg = LoadedConfig
     KAFKA_BROKER = cfg.kafka.brokers[0]
@@ -62,7 +62,7 @@ if os.getenv("ACG_CONFIG"):
     VALIDATION_TOPIC = KafkaTopics["platform.upload.validation"].name
     INGRESS_TOPIC = KafkaTopics["platform.upload.announce"].name
     TRACKER_TOPIC = KafkaTopics["platform.payload-status"].name
-    BOOTSTRAP_SERVERS = cfg.KafkaServers
+    BOOTSTRAP_SERVERS = KafkaServers
     # S3
     AWS_ACCESS_KEY_ID = cfg.objectStore.accessKey
     AWS_SECRET_ACCESS_KEY = cfg.objectStore.secretKey
