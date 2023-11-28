@@ -100,3 +100,4 @@ Local Minio access keys are provided [here](https://github.com/RedHatInsights/in
 ## Authors
 
 Stephen Adams - Initial Work - [SteveHNH](https://www.github.com/SteveHNH)
+Me
