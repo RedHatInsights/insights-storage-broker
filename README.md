@@ -97,6 +97,33 @@ AWS_ACCESS_KEY_ID=$MINIO_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$MINIO_SECRET_KEY S3_E
 
 Local Minio access keys are provided [here](https://github.com/RedHatInsights/insights-storage-broker/blob/master/.env).
 
+## Updating dependencies
+
+### Updating base image dependencies
+
+We are currently using the [ubi8/ubi-minimal](https://catalog.redhat.com/software/containers/ubi8/ubi-minimal/5c359a62bed8bd75a2c3fba8?architecture=amd64&image=65bba3c874ca1a2ae9885926) base image.
+If you want to update dependencies that reside within this base image, you can trigger a new image build.
+One quick way to accomplish this is by opening a pull request with an empty commit.
+```
+git commit --allow-empty -m "Triggering image build"
+```
+Once the PR with the empty commit is merged, it will pull in the latest version of the ubi8/ubi-minimal image during build. Afterwards, a new image tag with the updated dependencies will be available in Quay.
+
+### Updating direct dependencies
+
+At the present moment, the direct dependencies are listed in three places:
+
+* `pyproject.toml`
+* `setup.py`
+* `requirements.txt` (This does not get used by storage broker, it was added to accomodate a security scanner)
+
+To update a direct dependency, find out where the dependency is listed and bump it up to the desired version.
+Then, run `poetry update` to update `poetry.lock`.
+This poetry update command will look into the `pyproject.toml` file and "lock" your changes in place.
+
+Once the `poetry update` command is successful, it is recommended to do a simple manual test (Follow Step 1-3 under the "Local Development" section).
+Finally, you can open a PR and merge it to finish updating the direct dependencies.
+
 ## Authors
 
 Stephen Adams - Initial Work - [SteveHNH](https://www.github.com/SteveHNH)
