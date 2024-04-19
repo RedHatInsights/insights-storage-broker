@@ -127,3 +127,4 @@ Finally, you can open a PR and merge it to finish updating the direct dependenci
 ## Authors
 
 Stephen Adams - Initial Work - [SteveHNH](https://www.github.com/SteveHNH)
+Dalia Cervantes
