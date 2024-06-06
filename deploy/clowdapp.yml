@@ -97,9 +97,6 @@ objects:
         partitions: 4
         topicName: platform.payload-status
       - replicas: 3
-        partitions: 4
-        topicName: platform.logging.logs
-      - replicas: 3
         partitions: 64
         topicName: platform.upload.announce
 - apiVersion: v1
