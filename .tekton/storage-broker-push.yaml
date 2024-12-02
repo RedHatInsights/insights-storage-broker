@@ -88,7 +88,7 @@ spec:
       name: image-expires-after
     - default: "true"
       description: Build a source image.
-      name: -image
+      name: build-source-image
       type: string
     - default: "false"
       description: Add built image into an OCI image index
