@@ -7,7 +7,7 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=[
-        "prometheus-client==0.7.1",
+        "prometheus-client==0.21.1",
         "logstash-formatter==0.5.17",
         "boto3==1.28.21",
         "watchtower==3.0.1",
