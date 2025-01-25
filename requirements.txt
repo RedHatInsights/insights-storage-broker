@@ -8,5 +8,5 @@ Flask==2.3.3
 logstash_formatter==0.5.17
 prometheus_client==0.21.1
 PyYAML==6.0.2
-setuptools==70.0.0
+setuptools==75.8.0
 watchtower==3.3.1
