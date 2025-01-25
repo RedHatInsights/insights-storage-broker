@@ -20,7 +20,7 @@ logstash_formatter = "^0.5.17"
 Flask = "2.3.3"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.4.1"
+pytest = "^8.0.0"
 flake8 = "^3.7.9"
 
 [build-system]
