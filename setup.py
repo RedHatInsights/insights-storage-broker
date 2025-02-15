@@ -13,7 +13,7 @@ setup(
         "watchtower==3.3.1",
         "confluent-kafka==2.2.0",
         "pyyaml==6.0.2",
-        "attrs==18.2.0",
+        "attrs==25.1.0",
         "app-common-python==0.2.3"
     ],
     extras_require={"test": ["pytest>=5.4.1", "flake8>=3.7.9"]},
