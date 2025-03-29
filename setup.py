@@ -10,7 +10,7 @@ setup(
         "prometheus-client==0.21.1",
         "logstash-formatter==0.5.17",
         "boto3==1.36.26",
-        "watchtower==3.3.1",
+        "watchtower==3.4.0",
         "confluent-kafka==2.8.2",
         "pyyaml==6.0.2",
         "attrs==18.2.0",

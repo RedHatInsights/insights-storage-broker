@@ -9,4 +9,4 @@ logstash_formatter==0.5.17
 prometheus_client==0.21.1
 PyYAML==6.0.2
 setuptools==75.9.1
-watchtower==3.3.1
+watchtower==3.4.0
