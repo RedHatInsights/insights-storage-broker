@@ -11,7 +11,7 @@ setup(
         "logstash-formatter==0.5.17",
         "watchtower==3.4.0",
         "boto3==1.37.33",
-        "confluent-kafka==2.9.0",
+        "confluent-kafka==2.10.0",
         "pyyaml==6.0.2",
         "attrs==18.2.0",
         "app-common-python==0.2.3"
