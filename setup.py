@@ -7,7 +7,7 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=[
-        "prometheus-client==0.21.1",
+        "prometheus-client==0.22.1",
         "logstash-formatter==0.5.17",
         "watchtower==3.4.0",
         "confluent-kafka==2.10.0",
