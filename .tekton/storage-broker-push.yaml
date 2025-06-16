@@ -7,13 +7,13 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "master"
+      == "security-compliance"
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: storage-broker
-    appstudio.openshift.io/component: storage-broker
+    appstudio.openshift.io/application: storage-broker-sc
+    appstudio.openshift.io/component: storage-broker-sc
     pipelines.appstudio.openshift.io/type: build
-  name: storage-broker-on-push
+  name: storage-broker-sc-on-push
   namespace: hcc-integrations-tenant
 spec:
   params:
@@ -22,7 +22,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/hcc-integrations-tenant/storage-broker/storage-broker:{{revision}}
+    value: quay.io/redhat-user-workloads/hcc-fr-tenant/hcc-integrations-tenant/storage-broker-sc/storage-broker-sc:{{revision}}
   - name: dockerfile
     value: Dockerfile
   pipelineRef:
