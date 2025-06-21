@@ -2,14 +2,14 @@
 
 [[package]]
 name = "app-common-python"
-version = "0.2.3"
+version = "0.2.7"
 description = ""
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "app-common-python-0.2.3.tar.gz", hash = "sha256:ac4156343d84c2504deb6816eb7f7a5b68d25678234b5a03deb46d153eb3f622"},
-    {file = "app_common_python-0.2.3-py3-none-any.whl", hash = "sha256:a28e599ab569f6f5fb104a2e9f0e12996320191d9216e5854212e2612fb74db2"},
+    {file = "app_common_python-0.2.7-py3-none-any.whl", hash = "sha256:9388623371c7f4c04727b0057578d85bf6c7086961f10058370e023b7620eea3"},
+    {file = "app_common_python-0.2.7.tar.gz", hash = "sha256:bd3c7fea89eae26eac26d3ca5cddb45459408e0d84fa1b805d0a3c1ad782351b"},
 ]
 
 [[package]]
@@ -610,4 +610,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "0ec0266821f2b84d34086faac41da3f77d37847402c9136d2edae3ef25f57f28"
+content-hash = "49382550ca4db56cb844520d5b49afb7e3cf4ea3b93122367d07a11f013d94ca"
