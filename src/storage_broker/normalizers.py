@@ -30,6 +30,7 @@ class Validation(object):
     system_id = attr.ib(default=None)
     hostname = attr.ib(default=None)
     size = attr.ib(default=None)
+    timestamp = attr.ib(default=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
 
 
     @classmethod
@@ -60,7 +61,8 @@ class Validation(object):
             return cls(
                 validation=validation, service=service, request_id=request_id,
                 reason=reason, reporter=reporter, system_id=system_id,
-                hostname=hostname, account=account, org_id=org_id, size=size
+                hostname=hostname, account=account, org_id=org_id, size=size,
+                timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"),
             )
         except Exception:
             logger.exception("Unable to deserialize JSON: %s", doc)
