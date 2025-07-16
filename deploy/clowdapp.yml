@@ -125,6 +125,9 @@ objects:
           automation-hub:
             format: "{org_id}/{request_id}"
             bucket: ${TOWER_BUCKET}
+          ols:
+            format: "{service}/{org_id}/{cluster_id}/{timestamp}/{request_id}.tgz"
+            bucket: ${LIGHTSPEED_ASSISTANTS_BUCKET}
 
 parameters:
 - description: Minimum number of replicas required
@@ -183,4 +186,6 @@ parameters:
 - description: policy based key
   name: POLICY_BASED_KEY
   value: "ingress-buckets-read-write"
-
+- description: bucket for data from lightspeed assistants
+  name: LIGHTSPEED_ASSISTANTS_BUCKET
+  value: "rh-lightspeed-assistant-archives"
