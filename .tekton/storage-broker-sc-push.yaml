@@ -23,7 +23,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/hcc-fr-tenant/hcc-integrations-tenant/storage-broker-sc/storage-broker-sc:{{revision}}
+    value: quay.io/redhat-user-workloads/hcc-integrations-tenant/storage-broker-sc/storage-broker-sc:{{revision}}
   - name: dockerfile
     value: Dockerfile
   pipelineRef:
