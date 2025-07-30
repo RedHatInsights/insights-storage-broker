@@ -128,6 +128,9 @@ objects:
           ols:
             format: "{service}/{org_id}/{cluster_id}/{timestamp}/{request_id}.tgz"
             bucket: ${LIGHTSPEED_ASSISTANTS_BUCKET}
+          ocm-assisted-chat:
+            format: "{service}/{org_id}/{cluster_id}/{timestamp}/{request_id}.tgz"
+            bucket: ${LIGHTSPEED_ASSISTANTS_BUCKET}
 
 parameters:
 - description: Minimum number of replicas required
