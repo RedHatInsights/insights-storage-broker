@@ -597,7 +597,7 @@ data:
             "options": [],
             "query": "prometheus",
             "refresh": 1,
-            "regex": "/.*crc.*/",
+            "regex": "/^(crc.*|hcc.01ue1-prometheus)$/",
             "skipUrlSync": false,
             "type": "datasource"
           }
