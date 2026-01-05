@@ -3,7 +3,7 @@ attrs==25.3.0
 botocore==1.39.4
 boto3==1.39.4
 Flask==3.1.1
-confluent_kafka==2.11.0
+confluent_kafka==2.13.0
 logstash_formatter==0.5.17
 prometheus_client==0.22.1
 PyYAML==6.0.2
