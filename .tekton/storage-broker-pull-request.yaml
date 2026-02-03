@@ -29,6 +29,8 @@ spec:
     value: 5d
   - name: dockerfile
     value: Dockerfile
+  - name: buildah-format
+    value: oci
   pipelineRef:
     name: docker-build-oci-ta
   taskRunTemplate:
