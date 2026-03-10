@@ -26,6 +26,10 @@ spec:
     value: quay.io/redhat-user-workloads/hcc-integrations-tenant/storage-broker/storage-broker:{{revision}}
   - name: dockerfile
     value: Dockerfile
+  - name: hermetic
+    value: "true"
+  - name: prefetch-input
+    value: '[{"type": "pip", "path": "."}]'
   pipelineRef:
     name: docker-build-oci-ta
   taskRunTemplate:
