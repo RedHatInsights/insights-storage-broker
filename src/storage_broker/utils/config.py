@@ -1,6 +1,6 @@
 import os
 import logging
-import yaml
+from ruamel.yaml import YAML
 
 APP_NAME = os.getenv("APP_NAME", "insights-storage-broker")
 BUCKET_MAP_FILE = os.getenv("BUCKET_MAP_FILE", "/opt/app-root/src/default_map.yaml")
@@ -30,7 +30,7 @@ def get_namespace():
 def load_bucket_map(_file):
     try:
         with open(_file, "rb") as f:
-            bucket_map = yaml.safe_load(f)
+            bucket_map = YAML(typ='safe').load(f)
     except Exception as e:
         logger.exception(e)
         bucket_map = {}
