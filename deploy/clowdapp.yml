@@ -167,7 +167,7 @@ parameters:
   required: true
 - descripton: Insights-storage-broker image name
   name: IMAGE
-  value: "quay.io/cloudservices/insights-storage-broker"
+  value: quay.io/redhat-services-prod/hcc-integrations-tenant/storage-broker
 - description: Permanent Bucket
   name: PERM_BUCKET
   value: "insights-dev-upload-perm"
