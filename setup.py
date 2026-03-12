@@ -13,7 +13,7 @@ setup(
         "confluent-kafka==2.11.0",
         "boto3==1.39.4",
         "pyyaml==6.0.2",
-        "attrs==25.3.0",
+        "attrs==25.4.0",
         "app-common-python==0.2.8"
     ],
     extras_require={"test": ["pytest>=8.0.0", "flake8>=7.3.0"]},
