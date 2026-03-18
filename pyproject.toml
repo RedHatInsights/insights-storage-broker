@@ -1,34 +1,37 @@
-[tool.poetry]
+[project]
 name = "insights-storage-broker"
 version = "0.1.0"
 description = "Manages objects in cloud storage"
-authors = ["Stephen Adams <sadams@redhat.com>"]
-packages = [
-    { include = "src/storage_broker"}
+authors = [{name = "Stephen Adams", email = "sadams@redhat.com"}]
+requires-python = ">=3.12"
+dependencies = [
+    "confluent-kafka>=2.2.0",
+    "attrs==25.3.0",
+    "prometheus-client==0.22.1",
+    "ruamel.yaml==0.19.1",
+    "app-common-python==0.2.8",
+    "boto3>=1.28.21",
+    "watchtower>=3.0.1",
+    "logstash-formatter>=0.5.17",
+    "Flask==3.1.3",
+    "werkzeug==3.1.6",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-confluent-kafka = "^2.2.0"
-attrs = "25.3.0"
-prometheus-client = "0.22.1"
-pyyaml = "6.0.2"
-app-common-python = "0.2.8"
-boto3 = "^1.28.21"
-watchtower = "^3.0.1"
-logstash_formatter = "^0.5.17"
-Flask = "3.1.3"
-werkzeug = "3.1.6"
-
-[tool.poetry.dev-dependencies]
-pytest = "^8.0.0"
-flake8 = "^7.3.0"
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "flake8>=7.3.0",
+]
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["setuptools>=80.0.0"]
+build-backend = "setuptools.build_meta"
 
-[tool.poetry.scripts]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src.storage_broker*"]
+
+[project.scripts]
 storage_broker = "src.storage_broker.app:main"
 storage_broker_api = "src.storage_broker.api:main"
 storage_broker_consumer_api = "src.storage_broker.consumer_api:main"

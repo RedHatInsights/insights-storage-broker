@@ -29,6 +29,10 @@ spec:
     value: 5d
   - name: dockerfile
     value: Dockerfile
+  - name: hermetic
+    value: "true"
+  - name: prefetch-input
+    value: '[{"type": "pip", "path": "."}, {"type": "rpm", "path": "."}]'
   pipelineRef:
     name: docker-build-oci-ta
   taskRunTemplate:
