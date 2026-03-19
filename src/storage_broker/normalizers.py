@@ -3,7 +3,7 @@ import logging
 import json
 import uuid
 
-from datetime import datetime
+from datetime import datetime, UTC
 from base64 import b64decode
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ class Validation(object):
     system_id = attr.ib(default=None)
     hostname = attr.ib(default=None)
     size = attr.ib(default=None)
-    timestamp = attr.ib(default=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
+    timestamp = attr.ib(default=datetime.now(UTC).strftime("%Y%m%d%H%M%S"))
 
 
     @classmethod
@@ -62,7 +62,7 @@ class Validation(object):
                 validation=validation, service=service, request_id=request_id,
                 reason=reason, reporter=reporter, system_id=system_id,
                 hostname=hostname, account=account, org_id=org_id, size=size,
-                timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"),
+                timestamp=datetime.now(UTC).strftime("%Y%m%d%H%M%S"),
             )
         except Exception:
             logger.exception("Unable to deserialize JSON: %s", doc)
@@ -77,7 +77,7 @@ class Openshift(object):
     org_id = attr.ib(default=None)
     account = attr.ib(default=None)
     service = attr.ib(default=None)
-    timestamp = attr.ib(default=datetime.utcnow().strftime("%Y%m%d%H%M%S"))
+    timestamp = attr.ib(default=datetime.now(UTC).strftime("%Y%m%d%H%M%S"))
 
     @classmethod
     def from_json(cls, doc):
@@ -100,7 +100,7 @@ class Openshift(object):
                 service=service,
                 request_id=request_id,
                 size=size,
-                timestamp=datetime.utcnow().strftime("%Y%m%d%H%M%S"),
+                timestamp=datetime.now(UTC).strftime("%Y%m%d%H%M%S"),
             )
         except Exception:
             logger.exception("Unable to deserialize JSON")
