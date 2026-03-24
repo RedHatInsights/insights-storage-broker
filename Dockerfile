@@ -2,7 +2,10 @@ FROM registry.access.redhat.com/ubi10/python-312-minimal:latest
 
 WORKDIR /app-root/
 
-RUN microdnf install -y gcc python3-devel && microdnf clean all
+USER 0
+
+RUN microdnf install -y gcc python3-devel && \
+    microdnf clean all
 
 COPY src src
 
