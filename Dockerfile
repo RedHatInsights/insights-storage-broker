@@ -4,8 +4,12 @@ WORKDIR /app-root/
 
 USER 0
 
-RUN microdnf install -y gcc python3-devel && \
-    microdnf clean all
+COPY hermetic/confluent-archive.key /tmp/confluent-archive.key
+RUN rpm --import /tmp/confluent-archive.key && \
+    microdnf install -y gcc python3-devel && \
+    microdnf install -y librdkafka-devel || true && \
+    microdnf clean all && \
+    rm -f /tmp/confluent-archive.key
 
 COPY src src
 
