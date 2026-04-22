@@ -9,7 +9,7 @@ RUN microdnf install -y gcc gcc-c++ python3-devel make && \
 
 COPY hermetic/librdkafka /tmp/librdkafka
 RUN cd /tmp/librdkafka && \
-    ./configure --prefix=/usr && \
+    ./configure --prefix=/usr --libdir=/usr/lib64 && \
     make && \
     make INSTALL=/usr/bin/install install && \
     ldconfig
