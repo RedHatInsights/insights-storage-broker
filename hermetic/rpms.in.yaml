@@ -4,8 +4,9 @@ contentOrigin:
 
 packages:
   - gcc
+  - gcc-c++
   - python3-devel
-  - librdkafka-devel
+  - make
 
 arches:
   - x86_64

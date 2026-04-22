@@ -1,26 +1,38 @@
+FROM registry.access.redhat.com/ubi10/python-312-minimal:latest AS builder
+
+WORKDIR /app-root/
+
+USER 0
+
+RUN microdnf install -y gcc gcc-c++ python3-devel make && \
+    microdnf clean all
+
+COPY hermetic/librdkafka /tmp/librdkafka
+RUN cd /tmp/librdkafka && \
+    ./configure --prefix=/usr && \
+    make && \
+    make install && \
+    ldconfig
+
+COPY src src
+COPY pyproject.toml pyproject.toml
+
+RUN python3 -m pip install --use-pep517 .
+
 FROM registry.access.redhat.com/ubi10/python-312-minimal:latest
 
 WORKDIR /app-root/
 
 USER 0
 
-COPY hermetic/confluent-archive.key /tmp/confluent-archive.key
-RUN rpm --import /tmp/confluent-archive.key && \
-    microdnf install -y gcc python3-devel && \
-    microdnf install -y librdkafka-devel || true && \
-    microdnf clean all && \
-    rm -f /tmp/confluent-archive.key
+COPY --from=builder /usr/lib64/librdkafka* /usr/lib64/
+RUN ldconfig
 
-COPY src src
-
-COPY pyproject.toml pyproject.toml
+COPY --from=builder /opt/app-root/ /opt/app-root/
 
 COPY default_map.yaml /opt/app-root/src/default_map.yaml
 COPY rhosak_map.yaml /opt/app-root/src/rhosak_map.yaml
-
 COPY licenses/LICENSE /licenses/LICENSE
-
-RUN python3 -m pip install --use-pep517 .
 
 USER 1001
 

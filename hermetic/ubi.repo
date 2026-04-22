@@ -11,10 +11,3 @@ baseurl = https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/$basearch/
 enabled = 1
 gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 gpgcheck = 1
-
-[confluent-clients]
-name = Confluent Clients - EL10
-baseurl = https://packages.confluent.io/clients/rpm/centos/10/$basearch
-enabled = 1
-gpgkey = https://packages.confluent.io/clients/rpm/archive.key
-gpgcheck = 1
