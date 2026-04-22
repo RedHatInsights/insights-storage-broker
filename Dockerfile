@@ -11,7 +11,7 @@ COPY hermetic/librdkafka /tmp/librdkafka
 RUN cd /tmp/librdkafka && \
     ./configure --prefix=/usr && \
     make && \
-    make install && \
+    make INSTALL=/usr/bin/install install && \
     ldconfig
 
 COPY src src
