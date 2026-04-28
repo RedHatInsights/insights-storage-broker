@@ -4,17 +4,22 @@ platform.upload.announce:
   normalizer: Openshift
   services:
     openshift:
+      normalizer: Openshift
       format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
       bucket: "insights-buck-it-openshift"
     ansible:
+      normalizer: Openshift
       format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
       bucket: "insights-buck-it-ansible"
     tower:
+      normalizer: Openshift
       format: "{org_id}/{request_id}"
       bucket: "insights-upload-tower-analytics-stage"
     automation-hub:
+      normalizer: Openshift
       format: "{org_id}/{request_id}"
       bucket: "insights-upload-tower-analytics-stage"
     pinakes:
+      normalizer: Openshift
       format: "{org_id}/{request_id}"
       bucket: "insights-upload-tower-analytics-stage"
