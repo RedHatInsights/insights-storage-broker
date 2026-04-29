@@ -1,0 +1,3 @@
+[submodule "hermetic/librdkafka"]
+	path = hermetic/librdkafka
+	url = https://github.com/confluentinc/librdkafka.git

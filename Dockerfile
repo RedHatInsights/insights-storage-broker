@@ -1,25 +1,35 @@
-FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
+FROM quay.io/hummingbird/python:latest-fips-builder AS builder
 
-WORKDIR /app-root/
+USER 0
 
-RUN INSTALL_PKGS="python3.12 python3.12-devel python3.12-pip" && \
-    microdnf --nodocs -y upgrade && \
-    microdnf -y --setopt=tsflags=nodocs --setopt=install_weak_deps=0 install $INSTALL_PKGS && \
-    rpm -V $INSTALL_PKGS && \
-    microdnf -y clean all --enablerepo='*'
+RUN dnf5 install -y gcc gcc-c++ python3-devel make && \
+    dnf5 clean all
+
+COPY hermetic/librdkafka /tmp/librdkafka
+RUN cd /tmp/librdkafka && \
+    ./configure --prefix=/usr --libdir=/usr/lib64 && \
+    make && \
+    make INSTALL=/usr/bin/install install && \
+    ldconfig
 
 COPY src src
-
-COPY poetry.lock poetry.lock
-
 COPY pyproject.toml pyproject.toml
+
+RUN python3 -m pip install --use-pep517 .
+
+FROM quay.io/hummingbird/python:latest-fips
+
+USER 0
+
+COPY --from=builder /usr/lib64/librdkafka* /usr/lib64/
+RUN /usr/sbin/ldconfig
+
+COPY --from=builder /usr/local/lib/ /usr/local/lib/
+COPY --from=builder /usr/local/bin/ /usr/local/bin/
 
 COPY default_map.yaml /opt/app-root/src/default_map.yaml
 COPY rhosak_map.yaml /opt/app-root/src/rhosak_map.yaml
-
 COPY licenses/LICENSE /licenses/LICENSE
-
-RUN python3.12 -m pip install --upgrade pip && python3.12 -m pip install .
 
 USER 1001
 
