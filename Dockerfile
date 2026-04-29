@@ -19,11 +19,8 @@ RUN python3 -m pip install --use-pep517 .
 
 FROM quay.io/hummingbird/python:latest-fips
 
-USER 0
-
 COPY --from=builder /usr/lib64/librdkafka* /usr/lib64/
-RUN /usr/sbin/ldconfig
-
+COPY --from=builder /etc/ld.so.cache /etc/ld.so.cache
 COPY --from=builder /usr/local/lib/ /usr/local/lib/
 COPY --from=builder /usr/local/bin/ /usr/local/bin/
 
