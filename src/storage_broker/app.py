@@ -128,7 +128,8 @@ def main(exit_event=event):
 
         try:
             _map = bucket_map[msg.topic()]
-            data = normalize(_map, decoded_msg)
+            service = decoded_msg.get("service")
+            data = normalize(_map, decoded_msg, service=service)
             tracker_msg = TrackerMessage(attr.asdict(data))
             if msg.topic() == config.VALIDATION_TOPIC:
                 handle_validation(data, tracker_msg)
@@ -156,8 +157,8 @@ def main(exit_event=event):
     producer.flush()
 
 
-def normalize(_map, decoded_msg):
-    normalizer = getattr(normalizers, _map["normalizer"])
+def normalize(_map, decoded_msg, service=None):
+    normalizer = normalizers.resolve_normalizer(_map, service=service)
     data = normalizer.from_json(decoded_msg)
     logger.debug("Normalized Data structure: %s", data)
     return data
