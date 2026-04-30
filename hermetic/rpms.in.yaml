@@ -1,0 +1,15 @@
+contentOrigin:
+  repofiles:
+    - ./hummingbird.repo
+
+packages:
+  - gcc
+  - gcc-c++
+  - python3-devel
+  - make
+
+arches:
+  - x86_64
+
+context:
+  containerfile: ../Dockerfile
