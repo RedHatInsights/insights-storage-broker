@@ -130,13 +130,13 @@ arches:
     name: keyutils-libs
     evr: 1.6.3-7.1.hum1
     sourcerpm: keyutils-1.6.3-7.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/k/krb5-libs-1.22.2-6.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/k/krb5-libs-1.22.2-7.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 800851
-    checksum: sha256:143abaf5845d20dc9d5b2e01fd69ce98b55b7a3693e3a69754332a669c990583
+    size: 800737
+    checksum: sha256:a6361794dbe9b5f680d229b85886b2e5f673373f49dfb9d0e800af51b100e971
     name: krb5-libs
-    evr: 1.22.2-6.hum1
-    sourcerpm: krb5-1.22.2-6.hum1.src.rpm
+    evr: 1.22.2-7.hum1
+    sourcerpm: krb5-1.22.2-7.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libbrotli-1.2.0-3.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 364669
@@ -172,13 +172,13 @@ arches:
     name: libevent
     evr: 2.1.12-17.1.hum1
     sourcerpm: libevent-2.1.12-17.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libfido2-1.17.0-1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libfido2-1.17.0-2.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 109732
-    checksum: sha256:38d4521690f4b4d03714ddb0d3267876677d99e9f93b432826574f1db1cb97d3
+    size: 109813
+    checksum: sha256:610bc91c8b9ee6d0043561ca04b72c0cd7bdc4d5e5faab3b3a4a35176913ccb7
     name: libfido2
-    evr: 1.17.0-1.hum1
-    sourcerpm: libfido2-1.17.0-1.hum1.src.rpm
+    evr: 1.17.0-2.hum1
+    sourcerpm: libfido2-1.17.0-2.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libgomp-15.2.1-7.2.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 392237
