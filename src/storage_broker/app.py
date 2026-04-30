@@ -158,10 +158,7 @@ def main(exit_event=event):
 
 
 def normalize(_map, decoded_msg, service=None):
-    normalizer_name = _map.get("normalizer")
-    if service and "services" in _map and service in _map["services"]:
-        normalizer_name = _map["services"][service].get("normalizer", normalizer_name)
-    normalizer = getattr(normalizers, normalizer_name)
+    normalizer = normalizers.resolve_normalizer(_map, service=service)
     data = normalizer.from_json(decoded_msg)
     logger.debug("Normalized Data structure: %s", data)
     return data

@@ -1,4 +1,5 @@
 from storage_broker import normalizers
+from storage_broker.normalizers import resolve_normalizer
 
 
 VALIDATION_MSG = {
@@ -13,16 +14,6 @@ VALIDATION_MSG = {
     "reason": "error unpacking archive",
     "size": "12345",
 }
-
-
-def resolve_normalizer(_map, service=None):
-    """Mirror the normalizer resolution logic from app.normalize()."""
-    normalizer_name = _map.get("normalizer")
-    if service and "services" in _map and service in _map["services"]:
-        normalizer_name = _map["services"][service].get(
-            "normalizer", normalizer_name
-        )
-    return getattr(normalizers, normalizer_name)
 
 
 def test_topic_level_normalizer():

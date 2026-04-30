@@ -1,12 +1,27 @@
 import attr
 import logging
 import json
+import sys
 import uuid
 
 from datetime import datetime, UTC
 from base64 import b64decode
 
 logger = logging.getLogger(__name__)
+
+
+def resolve_normalizer(_map, service=None):
+    """Resolve the normalizer class for a given topic config and service.
+
+    Uses bracket access for the required topic-level ``normalizer`` key so
+    a missing key raises ``KeyError`` immediately.  When a *service* is
+    provided and the service config contains its own ``normalizer`` key,
+    that value takes precedence.
+    """
+    normalizer_name = _map["normalizer"]
+    if service and "services" in _map and service in _map["services"]:
+        normalizer_name = _map["services"][service].get("normalizer", normalizer_name)
+    return getattr(sys.modules[__name__], normalizer_name)
 
 
 def parse_identity(b64_identity):
