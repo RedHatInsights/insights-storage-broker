@@ -9,7 +9,7 @@ dependencies = [
     "attrs==25.3.0",
     "prometheus-client==0.22.1",
     "ruamel.yaml==0.19.1",
-    "app-common-python==0.2.8",
+    "app-common-python==0.2.9",
     "boto3>=1.28.21",
     "watchtower>=3.0.1",
     "logstash-formatter>=0.5.17",
