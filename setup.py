@@ -12,7 +12,7 @@ setup(
         "watchtower==3.4.0",
         "confluent-kafka==2.11.0",
         "boto3==1.39.4",
-        "pyyaml==6.0.2",
+        "ruamel.yaml==0.19.1",
         "attrs==25.3.0",
         "app-common-python==0.2.8"
     ],
