@@ -81,13 +81,13 @@ arches:
     name: gcc-c++
     evr: 15.2.1-7.2.hum1
     sourcerpm: gcc-15.2.1-7.2.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/glibc-devel-2.42-11.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/glibc-devel-2.42-12.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 624428
-    checksum: sha256:2de924f3343ed4d5c36e50d4bcf8a0e18468d94f10253fc2fbe7c34b0a08b5a6
+    size: 624933
+    checksum: sha256:b5dbca010d699d833f1494472b7cb5792c1e623f2e38f936cbde59f8f0091d72
     name: glibc-devel
-    evr: 2.42-11.1.hum1
-    sourcerpm: glibc-2.42-11.1.hum1.src.rpm
+    evr: 2.42-12.hum1
+    sourcerpm: glibc-2.42-12.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/gmp-6.3.0-5.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 333708
@@ -158,13 +158,13 @@ arches:
     name: libcom_err
     evr: 1.47.4-1.1.hum1
     sourcerpm: e2fsprogs-1.47.4-1.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libcurl-8.19.0-3.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libcurl-8.20.0-0.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 455582
-    checksum: sha256:5338a4b8d04ab576b20e32f7d58a54dfb7f909e58ee16503bb26da996bf2452e
+    size: 464817
+    checksum: sha256:708b0a0d66568ae5f4fcaf3d00a58ab26aedd80723de3f3dfc7df1ad2030ccc4
     name: libcurl
-    evr: 8.19.0-3.1.hum1
-    sourcerpm: curl-8.19.0-3.1.hum1.src.rpm
+    evr: 8.20.0-0.1.hum1
+    sourcerpm: curl-8.20.0-0.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libevent-2.1.12-17.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 273550
