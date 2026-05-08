@@ -7,6 +7,8 @@ packages:
   - gcc-c++
   - python3-devel
   - make
+  - openssl-devel
+  - cyrus-sasl-devel
 
 arches:
   - x86_64
