@@ -2,7 +2,8 @@ FROM registry.access.redhat.com/hi/python:latest-fips-builder AS builder
 
 USER 0
 
-RUN dnf5 install -y gcc gcc-c++ python3-devel make && \
+RUN dnf5 install -y gcc gcc-c++ python3-devel make \
+    openssl-devel cyrus-sasl-devel && \
     dnf5 clean all
 
 COPY hermetic/librdkafka /tmp/librdkafka
@@ -20,6 +21,7 @@ RUN python3 -m pip install --use-pep517 .
 FROM registry.access.redhat.com/hi/python:latest-fips
 
 COPY --from=builder /usr/lib64/librdkafka* /usr/lib64/
+COPY --from=builder /usr/lib64/libsasl2* /usr/lib64/
 COPY --from=builder /etc/ld.so.cache /etc/ld.so.cache
 COPY --from=builder /usr/local/lib/ /usr/local/lib/
 COPY --from=builder /usr/local/lib64/ /usr/local/lib64/
