@@ -22,9 +22,9 @@ boto3==1.39.4 \
     # via
     #   -r /tmp/requirements-in.txt
     #   watchtower
-botocore==1.39.4 \
-    --hash=sha256:c41e167ce01cfd1973c3fa9856ef5244a51ddf9c82cb131120d8617913b6812a \
-    --hash=sha256:e662ac35c681f7942a93f2ec7b4cde8f8b56dd399da47a79fa3e370338521a56
+botocore==1.43.11 \
+    --hash=sha256:0108b5604df5a26918936c845e1e761866ee9ea8d1c1f9358ed3c69afdc37436 \
+    --hash=sha256:d7d479cc2809ec2728f2898521003adfb79bfe6a4615c59dfd222ec52b0cee6b
     # via
     #   -r /tmp/requirements-in.txt
     #   boto3
