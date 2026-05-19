@@ -6,7 +6,7 @@ authors = [{name = "Stephen Adams", email = "sadams@redhat.com"}]
 requires-python = ">=3.12"
 dependencies = [
     "confluent-kafka>=2.2.0",
-    "attrs==25.3.0",
+    "attrs==25.4.0",
     "prometheus-client==0.22.1",
     "ruamel.yaml==0.19.1",
     "app-common-python==0.2.8",
