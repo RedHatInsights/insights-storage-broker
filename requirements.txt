@@ -16,9 +16,9 @@ blinker==1.9.0 \
     --hash=sha256:b4ce2265a7abece45e7cc896e98dbebe6cead56bcf805a3d23136d145f5445bf \
     --hash=sha256:ba0efaa9080b619ff2f3459d1d500c57bddea4a6b424b60a91141db6fd2f08bc
     # via flask
-boto3==1.39.4 \
-    --hash=sha256:6c955729a1d70181bc8368e02a7d3f350884290def63815ebca8408ee6d47571 \
-    --hash=sha256:f8e9534b429121aa5c5b7c685c6a94dd33edf14f87926e9a182d5b50220ba284
+boto3==1.43.23 \
+    --hash=sha256:5d26498702ffd021dc0d57d0eefcc7101cd995ea0ed08c057c9b631efccbaa48 \
+    --hash=sha256:8afc058924ef8a5c62467fe2e1e2e0304c22018587a044714da89f9c602ba856
     # via
     #   -r /tmp/requirements-in.txt
     #   watchtower
