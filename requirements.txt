@@ -4,9 +4,9 @@
 #
 #    pip-compile --allow-unsafe --generate-hashes --output-file=/tmp/requirements-new.txt /tmp/requirements-in.txt
 #
-app-common-python==0.2.8 \
-    --hash=sha256:4e3d12f17cec46755f3255c3a40abb192cef9fc04a13141e77f4abe7fd71fb58 \
-    --hash=sha256:bf0e020b1b4d77b03e6e0e97e4f1f5112e3c27954721c2c82cd2ac40d20cb0f6
+app-common-python==0.2.9 \
+    --hash=sha256:74125371e2865bcba7a7c34f0700d4b8b97a0c0a9ff67bbb06fdb20a3da4b75c \
+    --hash=sha256:861bd93482edabd00a85eb6512e0d7df08597be6f76b864be8e53d6294f81389
     # via -r /tmp/requirements-in.txt
 attrs==25.3.0 \
     --hash=sha256:427318ce031701fea540783410126f03899a97ffc6f61596ad581ac2e40e3bc3 \
