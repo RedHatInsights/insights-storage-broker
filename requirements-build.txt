@@ -57,11 +57,11 @@ pluggy==1.6.0 \
     --hash=sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3 \
     --hash=sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746
     # via hatchling
-setuptools-scm==7.1.0 \
-    --hash=sha256:6c508345a771aad7d56ebff0e70628bf2b0ec7573762be9960214730de278f27 \
-    --hash=sha256:73988b6d848709e2af142aa48c986ea29592bbcfca5375678064708205253d8e
+setuptools-scm==10.2.1 \
+    --hash=sha256:4fa7dd82cf8c800df59c9a288c90299b1657ff1ecfc3f5cc00287c5dbf5e27a9 \
+    --hash=sha256:b7c82f4102d389ee57dc66ccdb4f9b4bca3c40ba83b43f1f63d68ccd72db2580
     # via python-dateutil
-setuptools-scm==9.2.2 \
+setuptools-scm==10.2.1 \
     --hash=sha256:1c674ab4665686a0887d7e24c03ab25f24201c213e82ea689d2f3e169ef7ef57 \
     --hash=sha256:30e8f84d2ab1ba7cb0e653429b179395d0c33775d54807fc5f1dd6671801aef7
     # via
