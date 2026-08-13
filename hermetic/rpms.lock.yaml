@@ -4,13 +4,13 @@ lockfileVendor: redhat
 arches:
 - arch: x86_64
   packages:
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/b/bash-5.3.15-2.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/b/bash-5.3.15-2.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 1996422
-    checksum: sha256:3cc67f8314d7d3dc70b7935d75392755215ad4e0248c1d0289eeb1ed1d96bc81
+    size: 1996696
+    checksum: sha256:dc5fdf0ed2b6d259563bbfe6fa4a07f63adbb620dfe343b155ee7f12e1de12fe
     name: bash
-    evr: 5.3.15-2.hum1
-    sourcerpm: bash-5.3.15-2.hum1.src.rpm
+    evr: 5.3.15-2.1.hum1
+    sourcerpm: bash-5.3.15-2.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/b/binutils-2.46.1-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 6511088
@@ -32,13 +32,13 @@ arches:
     name: coreutils-common
     evr: 9.11-6.hum1
     sourcerpm: coreutils-9.11-6.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/c/cpp-16.2.1-1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/c/cpp-16.2.1-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 15369659
-    checksum: sha256:cf49308628d136a8efa4e4b3460453a2f5d8cdfc8db575856dc46c2ce510094d
+    size: 15381718
+    checksum: sha256:61458cddb26e3abdb6aecf6ec8a81ee5e88629a33fadb2e14aca18a60f103709
     name: cpp
-    evr: 16.2.1-1.hum1
-    sourcerpm: gcc-16.2.1-1.hum1.src.rpm
+    evr: 16.2.1-1.1.hum1
+    sourcerpm: gcc-16.2.1-1.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/c/cyrus-sasl-2.1.28-37.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 83357
@@ -81,20 +81,20 @@ arches:
     name: elfutils-libs
     evr: 0.195-3.hum1
     sourcerpm: elfutils-0.195-3.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/gcc-16.2.1-1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/gcc-16.2.1-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 45491866
-    checksum: sha256:8962b2f65b10c9b9a7cfc9f9482c249ec3c6b47c10f369389928998be6abafd3
+    size: 45466805
+    checksum: sha256:0a3e24f953171ce0a1441678692d12a66a4bf0b78f408ac708e8d4263b2a8cd2
     name: gcc
-    evr: 16.2.1-1.hum1
-    sourcerpm: gcc-16.2.1-1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/gcc-c++-16.2.1-1.hum1.x86_64.rpm
+    evr: 16.2.1-1.1.hum1
+    sourcerpm: gcc-16.2.1-1.1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/gcc-c++-16.2.1-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 18233627
-    checksum: sha256:490dbd492170ae064fdcf25b6440b29d128ab251448e61bee0d4528ff7cf779f
+    size: 18233019
+    checksum: sha256:4ba11d2d1c8884086e5d25ca59aace205e5c909adbe422865f02de1cbccc372f
     name: gcc-c++
-    evr: 16.2.1-1.hum1
-    sourcerpm: gcc-16.2.1-1.hum1.src.rpm
+    evr: 16.2.1-1.1.hum1
+    sourcerpm: gcc-16.2.1-1.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/glibc-devel-2.43-8.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 673522
@@ -151,13 +151,13 @@ arches:
     name: krb5-libs
     evr: 1.22.2-9.1.hum1
     sourcerpm: krb5-1.22.2-9.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libatomic-16.2.1-1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libatomic-16.2.1-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 62581
-    checksum: sha256:3c3647ece244a926c74f5238606a628daaf1fc7c3600113a28299b139d9b8550
+    size: 62597
+    checksum: sha256:cc5fec3fb2849e638b164803eb41da56302d853c382fa44bd767aeb917f08e56
     name: libatomic
-    evr: 16.2.1-1.hum1
-    sourcerpm: gcc-16.2.1-1.hum1.src.rpm
+    evr: 16.2.1-1.1.hum1
+    sourcerpm: gcc-16.2.1-1.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libblkid-2.42.2-3.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 142332
@@ -214,13 +214,20 @@ arches:
     name: libfido2
     evr: 1.17.0-5.hum1
     sourcerpm: libfido2-1.17.0-5.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libgomp-16.2.1-1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libgcc-16.2.1-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 413049
-    checksum: sha256:4881580a2c8bc2a2301ae6a65b5b9dcacbb0e9cd6619bd8decfe44f8e2f398a5
+    size: 145468
+    checksum: sha256:88c820e23345ab3b0e7f6c94a1a9672a1ecbb703f038551982de5c7d1c7f70f7
+    name: libgcc
+    evr: 16.2.1-1.1.hum1
+    sourcerpm: gcc-16.2.1-1.1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libgomp-16.2.1-1.1.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 413081
+    checksum: sha256:50277d32f0c7ac70c85cdb7097be134930f04b79199e6427f47321f7175f0d59
     name: libgomp
-    evr: 16.2.1-1.hum1
-    sourcerpm: gcc-16.2.1-1.hum1.src.rpm
+    evr: 16.2.1-1.1.hum1
+    sourcerpm: gcc-16.2.1-1.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libidn2-2.3.8-4.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 185630
@@ -298,13 +305,20 @@ arches:
     name: libssh-config
     evr: 0.12.2-1.hum1
     sourcerpm: libssh-0.12.2-1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libstdc++-devel-16.2.1-1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libstdc++-16.2.1-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 6338114
-    checksum: sha256:216e6456c7c7cf5982327c3352ee0836284d959719d7cadfbc79d7784c5859cd
+    size: 1058757
+    checksum: sha256:9ae97a9cb356cea0606ff1d60be7c1b98b05ff05d046276c0c1b9af235dd5854
+    name: libstdc++
+    evr: 16.2.1-1.1.hum1
+    sourcerpm: gcc-16.2.1-1.1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libstdc++-devel-16.2.1-1.1.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 6337752
+    checksum: sha256:3dd24d11b52f1c82087ea42a2c3198bc878339096929ab83d98776358f9a5cbf
     name: libstdc++-devel
-    evr: 16.2.1-1.hum1
-    sourcerpm: gcc-16.2.1-1.hum1.src.rpm
+    evr: 16.2.1-1.1.hum1
+    sourcerpm: gcc-16.2.1-1.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libtool-ltdl-2.5.4-11.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 44064
