@@ -36,6 +36,20 @@ to `hermetic/rpms.in.yaml` or `hermetic/hummingbird.repo`.
 
 4. Show the user the results and ask if they want to commit.
 
+## Commit style
+
+Keep it succinct. Conventional Commits `fix:` subject, body lists the
+notable version bumps. Example:
+
+```
+fix: regenerate RPM lockfile for updated Hummingbird repo
+
+Hummingbird repo bumped packages upstream. Notable bumps:
+kernel-headers 7.1.0 → 7.2.0, python3-devel 3.14.6 → 3.14.7,
+libcurl 8.21.0-0.1.1 → 8.21.0-5, openssl-devel 3.5.6-0.4 → 0.5,
+gcc 16.2.1-1 → 1.1. New dep openssl-config-fips added.
+```
+
 ## Notes
 
 - The auth.json mount provides registry credentials for skopeo to pull base
