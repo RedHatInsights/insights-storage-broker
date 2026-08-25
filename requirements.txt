@@ -18,9 +18,9 @@ boto3==1.39.4 \
     # via
     #   insights-storage-broker (pyproject.toml)
     #   watchtower
-botocore==1.39.4 \
-    --hash=sha256:c41e167ce01cfd1973c3fa9856ef5244a51ddf9c82cb131120d8617913b6812a \
-    --hash=sha256:e662ac35c681f7942a93f2ec7b4cde8f8b56dd399da47a79fa3e370338521a56
+botocore==1.43.78 \
+    --hash=sha256:ddd020493235e264b3bd12606f239a3d3b2dd7cfb1d25a0691061183c290c228 \
+    --hash=sha256:e8238d22c1e1342025d75d2e33d154a375e7caad0fc67f77d77faa2d82668b94
     # via
     #   boto3
     #   s3transfer
