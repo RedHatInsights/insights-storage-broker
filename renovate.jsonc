@@ -1,64 +1,49 @@
-// Set up with the MintMaker Automerge plugin v0.11.1: https://github.com/gwenneg/mintmaker-automerge
+// Set up with the MintMaker Automerge plugin v0.12.0: https://github.com/gwenneg/mintmaker-automerge
+// Overrides MintMaker's global config: https://github.com/konflux-ci/mintmaker/blob/main/config/renovate/renovate.json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  // Renovate overrides for this repository. MintMaker merges them on top of its
-  // global config, which sets the managers, the release-age delay, the
-  // vulnerability alerts, branch naming and PR limits:
-  // https://github.com/konflux-ci/mintmaker/blob/main/config/renovate/renovate.json
-  // A key set here replaces the inherited value; packageRules are added to the
-  // inherited ones; enabledManagers would replace the whole list, so it is never set.
-  // Policy: patch and minor updates of the ecosystems below merge on their own once
-  // the required checks pass. Majors stay on manual review unless a rule names them.
-  // MintMaker docs: https://konflux-ci.dev/docs/mintmaker/user/
-  // Renovate merges each PR itself, on the first run where GitHub allows the merge:
-  // GitHub's auto-merge feature never completes when a bypass actor is what satisfies
-  // the approval rule, so it stays off.
+  // GitHub auto-merge never completes when a bypass actor meets the approval rule.
+  // Renovate merges instead, on the first run where GitHub allows it.
   "platformAutomerge": false,
-  // Every check on the PR must be green first, required or not.
   "ignoreTests": false,
-  "minimumConfidence": "high",
+  // Throughput: no rebase or CI rerun after a merge, so each run merges two PRs, not one.
+  // Risk: those two are never tested together. Label a PR keep-updated to rebase it.
+  "rebaseWhen": "conflicted",
+  "keepUpdatedLabel": "keep-updated",
   "tekton": {
-    // Konflux pipeline updates in .tekton/: the PR's own Konflux build tests them.
+    // The PR's own Konflux build runs the updated pipeline.
     "automerge": true,
     // Any day, instead of MintMaker's Saturday batch.
     "schedule": ["at any time"]
   },
   "rpm-lockfile": {
-    // RPM lockfile refreshes, the [SECURITY] ones included: the Konflux PR build
-    // installs the refreshed RPMs and builds the image, and the tests run on it.
+    // The Konflux PR build installs the refreshed RPMs, builds the image, and tests it.
     "automerge": true
   },
-  // PRs are rebased only when they conflict, so a PR merges as tested against the
-  // base it was opened on, like a human merge without "Update branch". Two bumps
-  // merged in a row are never tested together: a broken combination shows on the
-  // base branch's build. The label below puts one PR back on rebase-when-behind.
-  "rebaseWhen": "conflicted",
-  "keepUpdatedLabel": "keep-updated",
   "packageRules": [
-    // --- python: patch and minor; majors stay manual
     {
+      // The Konflux PR build installs the deps and runs the tests against them.
       "matchManagers": ["pip_requirements", "pip_setup", "pep621"],
       "matchUpdateTypes": ["patch", "minor"],
       "automerge": true,
       "groupName": "Python dependencies"
     },
 
-    // --- dockerfile: digest updates of the base images; both use a `latest` tag,
-    // so a digest bump is the only update they can get. The Konflux PR build
-    // builds and tests the image.
     {
+      // Both images use a `latest` tag, so digest is the only update they can get.
+      // The Konflux PR build builds and tests the image.
       "matchManagers": ["dockerfile"],
       "matchUpdateTypes": ["digest"],
       "automerge": true,
       "groupName": "base images"
     },
     {
-      // Pins FROM lines to tag@sha256, so rebuilds of a tag arrive as digest PRs.
+      // Pins FROM lines to tag@sha256, so a tag rebuild arrives as a digest PR.
       "matchManagers": ["dockerfile"],
       "pinDigests": true
     },
     {
-      // Regenerates the RPM lockfiles in the same PR as a base image update, so the
+      // Regenerates the RPM lockfiles in the same PR as a base image bump, so the
       // Konflux build tests the new base with the RPMs resolved against it.
       "matchManagers": ["dockerfile"],
       "postUpgradeTasks": {
@@ -69,7 +54,7 @@
       }
     },
 
-    // Existing rules, kept as they were.
+    // Repository rules, not written by the plugin:
     {
       "minimumConfidence": "neutral",
       "matchPackageNames": [
@@ -80,5 +65,7 @@
       "matchManagers": ["tekton"],
       "minimumConfidence": "neutral"
     }
-  ]
+  ],
+  // Repository setting, not written by the plugin:
+  "minimumConfidence": "high"
 }
