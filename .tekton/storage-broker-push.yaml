@@ -26,12 +26,12 @@ spec:
     value: quay.io/redhat-user-workloads/hcc-integrations-tenant/storage-broker/storage-broker:{{revision}}
   - name: dockerfile
     value: Dockerfile
-  - name: hermetic
-    value: "true"
-  - name: prefetch-input
-    value: '[{"type": "pip", "path": "."}, {"type": "rpm", "path": "hermetic"}]'
-  - name: enable-package-registry-proxy
-    value: "true"
+#   - name: hermetic
+#     value: "true"
+#   - name: prefetch-input
+#     value: '[{"type": "pip", "path": "."}, {"type": "rpm", "path": "hermetic"}]'
+#   - name: enable-package-registry-proxy
+#     value: "true"
   pipelineRef:
     name: docker-build-oci-ta
   taskRunTemplate:
