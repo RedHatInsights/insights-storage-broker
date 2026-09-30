@@ -1,0 +1,71 @@
+// Set up with the MintMaker Automerge plugin v0.12.0: https://github.com/gwenneg/mintmaker-automerge
+// Overrides MintMaker's global config: https://github.com/konflux-ci/mintmaker/blob/main/config/renovate/renovate.json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  // GitHub auto-merge never completes when a bypass actor meets the approval rule.
+  // Renovate merges instead, on the first run where GitHub allows it.
+  "platformAutomerge": false,
+  "ignoreTests": false,
+  // Throughput: no rebase or CI rerun after a merge, so each run merges two PRs, not one.
+  // Risk: those two are never tested together. Label a PR keep-updated to rebase it.
+  "rebaseWhen": "conflicted",
+  "keepUpdatedLabel": "keep-updated",
+  "tekton": {
+    // The PR's own Konflux build runs the updated pipeline.
+    "automerge": true,
+    // Any day, instead of MintMaker's Saturday batch.
+    "schedule": ["at any time"]
+  },
+  "rpm-lockfile": {
+    // The Konflux PR build installs the refreshed RPMs, builds the image, and tests it.
+    "automerge": true
+  },
+  "packageRules": [
+    {
+      // The Konflux PR build installs the deps and runs the tests against them.
+      "matchManagers": ["pip_requirements", "pip_setup", "pep621"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true,
+      "groupName": "Python dependencies"
+    },
+
+    {
+      // Both images use a `latest` tag, so digest is the only update they can get.
+      // The Konflux PR build builds and tests the image.
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["digest"],
+      "automerge": true,
+      "groupName": "base images"
+    },
+    {
+      // Pins FROM lines to tag@sha256, so a tag rebuild arrives as a digest PR.
+      "matchManagers": ["dockerfile"],
+      "pinDigests": true
+    },
+    {
+      // Regenerates the RPM lockfiles in the same PR as a base image bump, so the
+      // Konflux build tests the new base with the RPMs resolved against it.
+      "matchManagers": ["dockerfile"],
+      "postUpgradeTasks": {
+        "commands": ["refresh-rpm-lockfiles -f \"$RENOVATE_POST_UPGRADE_COMMAND_DATA_FILE\""],
+        "fileFilters": ["**/rpms.lock.yaml"],
+        "executionMode": "branch",
+        "dataFileTemplate": "[{{#each upgrades}}{\"packageFile\": \"{{{packageFile}}}\"}{{#unless @last}},{{/unless}}{{/each}}]"
+      }
+    },
+
+    // Repository rules, not written by the plugin:
+    {
+      "minimumConfidence": "neutral",
+      "matchPackageNames": [
+        "/konflux-pipelines/"
+      ]
+    },
+    {
+      "matchManagers": ["tekton"],
+      "minimumConfidence": "neutral"
+    }
+  ],
+  // Repository setting, not written by the plugin:
+  "minimumConfidence": "high"
+}
