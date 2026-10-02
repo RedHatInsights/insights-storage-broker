@@ -52,20 +52,6 @@
         "executionMode": "branch",
         "dataFileTemplate": "[{{#each upgrades}}{\"packageFile\": \"{{{packageFile}}}\"}{{#unless @last}},{{/unless}}{{/each}}]"
       }
-    },
-
-    // Repository rules, not written by the plugin:
-    {
-      "minimumConfidence": "neutral",
-      "matchPackageNames": [
-        "/konflux-pipelines/"
-      ]
-    },
-    {
-      "matchManagers": ["tekton"],
-      "minimumConfidence": "neutral"
     }
-  ],
-  // Repository setting, not written by the plugin:
-  "minimumConfidence": "high"
+  ]
 }
