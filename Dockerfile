@@ -24,8 +24,8 @@ FROM registry.access.redhat.com/hi/python:latest-fips-builder@sha256:b9428ee1025
 
 USER 0
 
-# Install debugging tools
-RUN dnf5 install -y \
+# Install debugging tools (skip any that aren't available)
+RUN dnf5 install -y --skip-unavailable \
     bash \
     curl \
     wget \
@@ -37,6 +37,12 @@ RUN dnf5 install -y \
     openssl \
     strace \
     tcpdump \
+    procps-ng \
+    util-linux \
+    findutils \
+    grep \
+    sed \
+    gawk \
     && dnf5 clean all
 
 # Copy runtime dependencies from builder
@@ -74,8 +80,8 @@ echo "  storage_broker                                    - Run the main app"
 echo "  storage_broker_api                                - Run API server"
 echo "  storage_broker_consumer_api                       - Run consumer+API"
 echo ""
-echo "Debugging tools available:"
-echo "  curl, wget, openssl, dig, ping, netstat, strace, tcpdump"
+echo "Debugging tools available (if installed):"
+echo "  curl, wget, openssl, dig, ping, netstat, strace (use 'which' to check)"
 echo ""
 echo "Environment variables for S3 testing:"
 echo "  AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-<not set>}"
