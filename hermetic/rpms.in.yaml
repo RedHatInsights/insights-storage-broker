@@ -6,6 +6,7 @@ packages:
   - gcc
   - gcc-c++
   - python3-devel
+  - python3-pip
   - make
   - openssl-devel
   - cyrus-sasl-devel

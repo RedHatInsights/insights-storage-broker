@@ -3,7 +3,7 @@ FROM registry.access.redhat.com/hi/python:3.12-fips-builder AS builder
 USER 0
 
 RUN dnf5 install -y gcc gcc-c++ python3-devel make \
-    openssl-devel cyrus-sasl-devel libxcrypt && \
+    openssl-devel cyrus-sasl-devel libxcrypt python3-pip && \
     dnf5 clean all
 
 COPY hermetic/librdkafka /tmp/librdkafka
