@@ -43,7 +43,11 @@ RUN dnf5 install -y --skip-unavailable \
     grep \
     sed \
     gawk \
+    ca-certificates \
     && dnf5 clean all
+
+# Update CA certificate trust store
+RUN update-ca-trust extract || true
 
 # Copy runtime dependencies from builder
 COPY --from=builder /usr/lib64/librdkafka* /usr/lib64/
@@ -64,6 +68,7 @@ COPY test_ssl_debug.py /opt/app-root/test_ssl_debug.py
 COPY test_s3_connection.py /opt/app-root/test_s3_connection.py
 COPY debug_ssl_detailed.py /opt/app-root/debug_ssl_detailed.py
 COPY inspect_cipher_format.py /opt/app-root/inspect_cipher_format.py
+COPY check_ca_certs.py /opt/app-root/check_ca_certs.py
 
 # Create a debugging entrypoint script
 RUN cat > /opt/app-root/debug.sh << 'EOF'
@@ -76,6 +81,7 @@ echo "Python version: $(python3 --version)"
 echo "OpenSSL version: $(python3 -c 'import ssl; print(ssl.OPENSSL_VERSION)')"
 echo ""
 echo "Available commands:"
+echo "  python3 /opt/app-root/check_ca_certs.py          - Check CA certificate configuration"
 echo "  python3 /opt/app-root/test_ssl_debug.py          - Quick SSL/FIPS check"
 echo "  python3 /opt/app-root/debug_ssl_detailed.py      - DETAILED SSL debugging (max verbosity)"
 echo "  python3 /opt/app-root/test_s3_connection.py      - Test S3 connectivity"
