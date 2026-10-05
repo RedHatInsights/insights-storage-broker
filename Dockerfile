@@ -69,6 +69,7 @@ COPY test_s3_connection.py /opt/app-root/test_s3_connection.py
 COPY debug_ssl_detailed.py /opt/app-root/debug_ssl_detailed.py
 COPY inspect_cipher_format.py /opt/app-root/inspect_cipher_format.py
 COPY check_ca_certs.py /opt/app-root/check_ca_certs.py
+COPY test_rsa_pss_issue.py* /opt/app-root/test_rsa_pss_issue.py*
 
 # Create a debugging entrypoint script
 RUN cat > /opt/app-root/debug.sh << 'EOF'
