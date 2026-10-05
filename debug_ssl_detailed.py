@@ -11,6 +11,7 @@ import ssl
 import socket
 import logging
 import traceback
+from datetime import datetime
 
 
 def enable_debug_logging():
@@ -42,6 +43,234 @@ def print_section(title):
     print("=" * 80)
 
 
+def save_cipher_reproducers(context):
+    """Save cipher lists in formats for building reproducers"""
+    try:
+        if not hasattr(context, 'get_ciphers'):
+            return
+
+        ciphers = context.get_ciphers()
+        if not ciphers:
+            return
+
+        cipher_names = []
+        for cipher in ciphers:
+            if isinstance(cipher, dict):
+                name = cipher.get('name', '')
+                if name:
+                    cipher_names.append(name)
+            elif isinstance(cipher, tuple) and len(cipher) > 0:
+                cipher_names.append(str(cipher[0]))
+
+        if not cipher_names:
+            return
+
+        print(f"\n{'='*70}")
+        print("CIPHER REPRODUCER FORMATS")
+        print(f"{'='*70}")
+
+        # 1. OpenSSL command line format
+        openssl_cipher_string = ':'.join(cipher_names)
+        print("\n1. OpenSSL command line format:")
+        print(f"   Use with: openssl s_client -cipher '<cipher_string>'")
+        print(f"\n   Cipher string (copy this):")
+        print(f"   {openssl_cipher_string}")
+
+        # 2. Python ssl.SSLContext format (same as OpenSSL)
+        print("\n2. Python ssl.SSLContext.set_ciphers() format:")
+        print(f"   context.set_ciphers('{openssl_cipher_string}')")
+
+        # 3. Save to files
+        try:
+            # Save full cipher string
+            with open('cipher_string.txt', 'w') as f:
+                f.write(openssl_cipher_string)
+            print("\n3. Saved cipher string to: cipher_string.txt")
+
+            # Save OpenSSL test command
+            with open('test_openssl_ciphers.sh', 'w') as f:
+                f.write("#!/bin/bash\n")
+                f.write("# OpenSSL cipher test using detected ciphers\n")
+                f.write(f"# Generated: {datetime.now().isoformat()}\n\n")
+                f.write(f"ENDPOINT=\"{os.getenv('S3_ENDPOINT_URL', 'https://s3.us-east-1.amazonaws.com')}\"\n")
+                f.write(f"CIPHER_STRING=\"{openssl_cipher_string}\"\n\n")
+                f.write("# Parse hostname and port from endpoint\n")
+                f.write("HOSTNAME=$(echo \"$ENDPOINT\" | sed -e 's|^[^/]*//||' -e 's|:.*||' -e 's|/.*||')\n")
+                f.write("PORT=$(echo \"$ENDPOINT\" | sed -n 's|.*:\\([0-9]*\\).*|\\1|p')\n")
+                f.write("PORT=${PORT:-443}\n\n")
+                f.write('echo "Testing SSL connection to $HOSTNAME:$PORT with detected ciphers..."\n')
+                f.write('echo ""\n\n')
+                f.write('openssl s_client -connect "$HOSTNAME:$PORT" -servername "$HOSTNAME" -cipher "$CIPHER_STRING"\n')
+            os.chmod('test_openssl_ciphers.sh', 0o755)
+            print("4. Saved OpenSSL test script to: test_openssl_ciphers.sh")
+
+            # Save Python reproducer
+            with open('test_python_ssl_reproducer.py', 'w') as f:
+                f.write("#!/usr/bin/env python3\n")
+                f.write('"""\n')
+                f.write("SSL/TLS Reproducer using detected cipher suite\n")
+                f.write(f"Generated: {datetime.now().isoformat()}\n")
+                f.write('"""\n\n')
+                f.write("import ssl\n")
+                f.write("import socket\n")
+                f.write("import sys\n\n")
+                f.write(f"CIPHER_STRING = '{openssl_cipher_string}'\n\n")
+                f.write("def test_ssl_with_ciphers(hostname, port=443):\n")
+                f.write('    """Test SSL connection using specific cipher suite"""\n')
+                f.write(f'    print(f"Testing SSL to {{hostname}}:{{port}} with detected ciphers...")\n')
+                f.write(f'    print(f"Python: {{sys.version}}")\n')
+                f.write(f'    print(f"OpenSSL: {{ssl.OPENSSL_VERSION}}")\n')
+                f.write('    print(f"\\nCipher string: {CIPHER_STRING}\\n")\n\n')
+                f.write("    # Create socket\n")
+                f.write("    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n")
+                f.write("    sock.settimeout(10)\n\n")
+                f.write("    try:\n")
+                f.write("        # Connect\n")
+                f.write("        sock.connect((hostname, port))\n")
+                f.write('        print("✓ TCP connection established")\n\n')
+                f.write("        # Create SSL context with specific ciphers\n")
+                f.write("        context = ssl.create_default_context()\n")
+                f.write("        context.set_ciphers(CIPHER_STRING)\n")
+                f.write('        print("✓ SSL context created with cipher restriction")\n\n')
+                f.write("        # Wrap socket\n")
+                f.write("        ssl_sock = context.wrap_socket(sock, server_hostname=hostname)\n")
+                f.write('        print("✓ SSL handshake successful!")\n\n')
+                f.write("        # Show what was negotiated\n")
+                f.write('        print(f"  Protocol: {ssl_sock.version()}")\n')
+                f.write('        print(f"  Cipher: {ssl_sock.cipher()}")\n\n')
+                f.write("        ssl_sock.close()\n")
+                f.write("        return True\n\n")
+                f.write("    except ssl.SSLError as e:\n")
+                f.write('        print(f"\\n✗ SSL Error: {e}")\n')
+                f.write("        import traceback\n")
+                f.write("        traceback.print_exc()\n")
+                f.write("        return False\n")
+                f.write("    finally:\n")
+                f.write("        sock.close()\n\n")
+                f.write('if __name__ == "__main__":\n')
+                f.write('    import os\n')
+                f.write('    from urllib.parse import urlparse\n\n')
+                f.write('    # Get endpoint from environment or use default\n')
+                f.write(f'    endpoint = os.getenv("S3_ENDPOINT_URL", "https://s3.us-east-1.amazonaws.com")\n')
+                f.write('    parsed = urlparse(endpoint)\n')
+                f.write('    hostname = parsed.hostname or "s3.us-east-1.amazonaws.com"\n')
+                f.write('    port = parsed.port or 443\n\n')
+                f.write('    success = test_ssl_with_ciphers(hostname, port)\n')
+                f.write('    sys.exit(0 if success else 1)\n')
+            os.chmod('test_python_ssl_reproducer.py', 0o755)
+            print("5. Saved Python reproducer to: test_python_ssl_reproducer.py")
+
+            # Save boto3 reproducer
+            with open('test_boto3_reproducer.py', 'w') as f:
+                f.write("#!/usr/bin/env python3\n")
+                f.write('"""\n')
+                f.write("boto3 S3 Reproducer using detected cipher suite\n")
+                f.write(f"Generated: {datetime.now().isoformat()}\n")
+                f.write('"""\n\n')
+                f.write("import ssl\n")
+                f.write("import sys\n")
+                f.write("import os\n")
+                f.write("import logging\n\n")
+                f.write("# Enable debug logging\n")
+                f.write("logging.basicConfig(level=logging.DEBUG)\n\n")
+                f.write(f"CIPHER_STRING = '{openssl_cipher_string}'\n\n")
+                f.write("def test_boto3_with_ciphers():\n")
+                f.write('    """Test boto3 S3 with specific cipher suite"""\n')
+                f.write('    print("="*70)\n')
+                f.write('    print("boto3 S3 Reproducer with Detected Ciphers")\n')
+                f.write('    print("="*70)\n')
+                f.write(f'    print(f"Python: {{sys.version}}")\n')
+                f.write(f'    print(f"OpenSSL: {{ssl.OPENSSL_VERSION}}")\n\n')
+                f.write("    try:\n")
+                f.write("        import boto3\n")
+                f.write("        import botocore\n")
+                f.write('        print(f"boto3: {boto3.__version__}")\n')
+                f.write('        print(f"botocore: {botocore.__version__}")\n')
+                f.write("    except ImportError as e:\n")
+                f.write('        print(f"Cannot import boto3: {e}")\n')
+                f.write("        return False\n\n")
+                f.write('    print(f"\\nCipher string: {CIPHER_STRING}\\n")\n\n')
+                f.write("    # Monkey-patch SSL context creation to use our ciphers\n")
+                f.write("    original_create_default_context = ssl.create_default_context\n\n")
+                f.write("    def patched_create_default_context(*args, **kwargs):\n")
+                f.write("        context = original_create_default_context(*args, **kwargs)\n")
+                f.write("        context.set_ciphers(CIPHER_STRING)\n")
+                f.write('        print("✓ Patched SSL context to use detected ciphers")\n')
+                f.write("        return context\n\n")
+                f.write("    ssl.create_default_context = patched_create_default_context\n\n")
+                f.write("    try:\n")
+                f.write("        # Create S3 client\n")
+                f.write("        s3 = boto3.client(\n")
+                f.write("            's3',\n")
+                f.write("            endpoint_url=os.getenv('S3_ENDPOINT_URL'),\n")
+                f.write("            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),\n")
+                f.write("            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),\n")
+                f.write("        )\n")
+                f.write('        print("✓ S3 client created\\n")\n\n')
+                f.write("        # Test list_buckets\n")
+                f.write('        print("Attempting to list buckets...")\n')
+                f.write("        response = s3.list_buckets()\n")
+                f.write("        print(f\"✓ Successfully listed {len(response['Buckets'])} buckets\")\n")
+                f.write("        return True\n\n")
+                f.write("    except Exception as e:\n")
+                f.write('        print(f"\\n✗ Error: {e}")\n')
+                f.write("        import traceback\n")
+                f.write("        traceback.print_exc()\n")
+                f.write("        return False\n")
+                f.write("    finally:\n")
+                f.write("        # Restore original\n")
+                f.write("        ssl.create_default_context = original_create_default_context\n\n")
+                f.write('if __name__ == "__main__":\n')
+                f.write("    success = test_boto3_with_ciphers()\n")
+                f.write("    sys.exit(0 if success else 1)\n")
+            os.chmod('test_boto3_reproducer.py', 0o755)
+            print("6. Saved boto3 reproducer to: test_boto3_reproducer.py")
+
+            # Save cipher list (one per line)
+            with open('cipher_list.txt', 'w') as f:
+                for name in cipher_names:
+                    f.write(f"{name}\n")
+            print("7. Saved cipher list to: cipher_list.txt")
+
+            print(f"\n{'='*70}")
+            print("USAGE:")
+            print(f"{'='*70}")
+            print("\n  Test with OpenSSL:")
+            print("    ./test_openssl_ciphers.sh")
+            print("\n  Test with Python SSL:")
+            print("    python3 test_python_ssl_reproducer.py")
+            print("\n  Test with boto3:")
+            print("    export AWS_ACCESS_KEY_ID='your-key'")
+            print("    export AWS_SECRET_ACCESS_KEY='your-secret'")
+            print("    python3 test_boto3_reproducer.py")
+            print(f"\n{'='*70}\n")
+
+        except Exception as e:
+            print(f"Warning: Could not save reproducer files: {e}")
+
+    except Exception as e:
+        print(f"Error creating cipher reproducers: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+def inspect_cipher_structure(context):
+    """Inspect the actual structure of cipher data"""
+    try:
+        if hasattr(context, 'get_ciphers'):
+            ciphers = context.get_ciphers()
+            if ciphers:
+                first_cipher = ciphers[0]
+                print(f"\nCipher data type: {type(first_cipher)}")
+                if isinstance(first_cipher, dict):
+                    print(f"Cipher keys: {list(first_cipher.keys())}")
+                    print(f"First cipher full data: {first_cipher}")
+                else:
+                    print(f"First cipher: {first_cipher}")
+    except Exception as e:
+        print(f"Cannot inspect cipher structure: {e}")
+
+
 def check_ssl_context():
     """Check SSL context capabilities"""
     print_section("SSL Context Analysis")
@@ -70,6 +299,12 @@ def check_ssl_context():
         else:
             print("ssl.get_ciphers() not available (Python 3.14+ removed this)")
 
+        # Inspect cipher structure to understand the data format
+        inspect_cipher_structure(context)
+
+        # Save cipher reproducers
+        save_cipher_reproducers(context)
+
         # Check cipher suite on context
         if hasattr(context, 'get_ciphers'):
             try:
@@ -77,7 +312,21 @@ def check_ssl_context():
                 print(f"Context ciphers: {len(ctx_ciphers)}")
                 print("First 5 ciphers:")
                 for cipher in ctx_ciphers[:5]:
-                    print(f"  - {cipher['name']}: {cipher['protocol']}, {cipher['bits']} bits")
+                    # Handle different cipher data structures
+                    if isinstance(cipher, dict):
+                        name = cipher.get('name', 'Unknown')
+                        protocol = cipher.get('protocol', 'Unknown')
+                        # Python 3.14 uses 'strength_bits', older versions used 'bits'
+                        bits = cipher.get('strength_bits', cipher.get('bits', 'Unknown'))
+                        print(f"  - {name}: {protocol}, {bits} bits")
+                    elif isinstance(cipher, tuple):
+                        # Some Python versions return tuples
+                        print(f"  - {cipher}")
+                    else:
+                        print(f"  - {cipher}")
+            except KeyError as e:
+                print(f"Cannot access cipher attribute '{e}' - Python 3.14+ API change")
+                print("Cipher structure changed in Python 3.14+")
             except Exception as e:
                 print(f"Cannot get context ciphers: {e}")
 
