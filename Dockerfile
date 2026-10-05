@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/hi/python:latest-fips-builder@sha256:b9428ee102589e152733779b2e032bce9f50be385906f0b39faa98363ed9b190 AS builder
+FROM registry.access.redhat.com/hi/python:3.12-fips-builder AS builder
 
 USER 0
 
@@ -20,7 +20,7 @@ RUN python3 -m pip install --use-pep517 .
 
 # DEBUG VERSION: Use builder image as runtime (has shell and tools)
 # This gives us bash, dnf, and all the debugging tools we need
-FROM registry.access.redhat.com/hi/python:latest-fips-builder@sha256:b9428ee102589e152733779b2e032bce9f50be385906f0b39faa98363ed9b190
+FROM registry.access.redhat.com/hi/python:3.12-fips-builder
 
 USER 0
 
