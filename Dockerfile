@@ -62,6 +62,7 @@ COPY licenses/LICENSE /licenses/LICENSE
 # Copy test scripts for debugging
 COPY test_ssl_debug.py /opt/app-root/test_ssl_debug.py
 COPY test_s3_connection.py /opt/app-root/test_s3_connection.py
+COPY debug_ssl_detailed.py /opt/app-root/debug_ssl_detailed.py
 
 # Create a debugging entrypoint script
 RUN cat > /opt/app-root/debug.sh << 'EOF'
@@ -74,7 +75,8 @@ echo "Python version: $(python3 --version)"
 echo "OpenSSL version: $(python3 -c 'import ssl; print(ssl.OPENSSL_VERSION)')"
 echo ""
 echo "Available commands:"
-echo "  python3 /opt/app-root/test_ssl_debug.py          - SSL/FIPS diagnostics"
+echo "  python3 /opt/app-root/test_ssl_debug.py          - Quick SSL/FIPS check"
+echo "  python3 /opt/app-root/debug_ssl_detailed.py      - DETAILED SSL debugging (max verbosity)"
 echo "  python3 /opt/app-root/test_s3_connection.py      - Test S3 connectivity"
 echo "  storage_broker                                    - Run the main app"
 echo "  storage_broker_api                                - Run API server"
