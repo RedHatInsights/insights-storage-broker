@@ -95,13 +95,13 @@ arches:
     name: gcc-c++
     evr: 16.2.1-3.hum1
     sourcerpm: gcc-16.2.1-3.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/glibc-devel-2.43-9.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/glibc-devel-2.43-9.2.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 675616
-    checksum: sha256:6c4ef2afdd1a5c8432d75bc02ada4ec337d40539e30b24d7501e3733c0d35e8a
+    size: 675534
+    checksum: sha256:6238472290dcd2d2f47df5d077efaf4330fa8aa3b424045ef10f202d56eb6a42
     name: glibc-devel
-    evr: 2.43-9.1.hum1
-    sourcerpm: glibc-2.43-9.1.hum1.src.rpm
+    evr: 2.43-9.2.hum1
+    sourcerpm: glibc-2.43-9.2.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/gmp-6.3.0-6.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 336312
