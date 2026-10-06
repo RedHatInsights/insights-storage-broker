@@ -1,8 +1,8 @@
-FROM registry.access.redhat.com/hi/python:3.12-fips-builder@sha256:60755f5946932d2bc9d05a7ee6d49cf7a8c97cc27388cc4dd95e44492344e7ea AS builder
+FROM registry.access.redhat.com/hi/python:latest-fips-builder@sha256:35d43556aa727a8b8eceed551c24bf7b0fb1d68d1244cea66ac23c12e5640aa3 AS builder
 
 USER 0
 
-RUN dnf5 install -y gcc gcc-c++ python3.12-devel make \
+RUN dnf5 install -y gcc gcc-c++ python3-devel make \
     openssl-devel cyrus-sasl-devel libxcrypt && \
     dnf5 clean all
 
@@ -18,7 +18,7 @@ COPY pyproject.toml pyproject.toml
 
 RUN python3 -m pip install --use-pep517 .
 
-FROM registry.access.redhat.com/hi/python:3.12-fips@sha256:92e820c3d0b118ffc9e23af00823e73844d888b869f0c0e8163de3323357eb39
+FROM registry.access.redhat.com/hi/python:latest-fips@sha256:bdc461e2944773daf1c9c4645343e1e50e082830e91b768dcd6c778e2444f598
 
 COPY --from=builder /usr/lib64/librdkafka* /usr/lib64/
 COPY --from=builder /usr/lib64/libsasl2* /usr/lib64/
