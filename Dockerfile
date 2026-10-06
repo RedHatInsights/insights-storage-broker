@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/hi/python:3.12-fips-builder@sha256:60755f5946932
 
 USER 0
 
-RUN dnf5 install -y gcc gcc-c++ python3-devel make \
+RUN dnf5 install -y gcc gcc-c++ python3.12-devel make \
     openssl-devel cyrus-sasl-devel libxcrypt && \
     dnf5 clean all
 
