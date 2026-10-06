@@ -5,7 +5,7 @@ contentOrigin:
 packages:
   - gcc
   - gcc-c++
-  - python3.12-devel
+  - python3-devel
   - make
   - openssl-devel
   - cyrus-sasl-devel

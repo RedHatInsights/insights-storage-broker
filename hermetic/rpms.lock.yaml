@@ -137,6 +137,20 @@ arches:
     name: kernel-headers
     evr: 7.2.0-61.hum1
     sourcerpm: kernel-headers-7.2.0-61.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/k/keyutils-libs-1.6.3-8.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 38564
+    checksum: sha256:3188c0693d2e584454290bb1d49e9f5663c5b175ded852edcedd2ad433532c1c
+    name: keyutils-libs
+    evr: 1.6.3-8.hum1
+    sourcerpm: keyutils-1.6.3-8.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/k/krb5-libs-1.22.2-10.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 832032
+    checksum: sha256:ab46290f5ea647ca5a70a2d154b9877d87dc638717ea175168d27aef05879ddd
+    name: krb5-libs
+    evr: 1.22.2-10.hum1
+    sourcerpm: krb5-1.22.2-10.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libatomic-16.2.1-3.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 63050
@@ -165,6 +179,13 @@ arches:
     name: libcbor
     evr: 0.14.0-3.hum1
     sourcerpm: libcbor-0.14.0-3.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libcom_err-1.47.4-2.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 33499
+    checksum: sha256:e153010c101b791899975923ff77ba4b66d5115388089408b6393073ab6224aa
+    name: libcom_err
+    evr: 1.47.4-2.hum1
+    sourcerpm: e2fsprogs-1.47.4-2.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libcurl-8.22.0-1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 515584
@@ -193,6 +214,13 @@ arches:
     name: libfido2
     evr: 1.17.0-6.hum1
     sourcerpm: libfido2-1.17.0-6.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libgomp-16.2.1-3.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 413426
+    checksum: sha256:f86a208aaa7b7a90c264d33811a037cf679b78139d63749f792b63c2ec1d7e8a
+    name: libgomp
+    evr: 16.2.1-3.hum1
+    sourcerpm: gcc-16.2.1-3.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libidn2-2.3.8-4.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 185630
@@ -291,6 +319,20 @@ arches:
     name: libunistring
     evr: 1.1-12.hum1
     sourcerpm: libunistring-1.1-12.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libverto-0.3.2-13.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 27766
+    checksum: sha256:07af161ae71b17c3ddd3bdd423d249de93992d3d60edcdb90a889d5ad1de1df2
+    name: libverto
+    evr: 0.3.2-13.hum1
+    sourcerpm: libverto-0.3.2-13.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libxcrypt-4.5.2-4.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 141715
+    checksum: sha256:2a434fac4798d11fcd933b075d1ee3dc71ba09a3f61abfd7bf12f4bfb501c184
+    name: libxcrypt
+    evr: 4.5.2-4.hum1
+    sourcerpm: libxcrypt-4.5.2-4.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libxcrypt-devel-4.5.2-4.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 37978
@@ -298,13 +340,6 @@ arches:
     name: libxcrypt-devel
     evr: 4.5.2-4.hum1
     sourcerpm: libxcrypt-4.5.2-4.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libzstd-1.5.7-6.1.hum1.x86_64.rpm
-    repoid: public-hummingbird-x86_64-rpms
-    size: 378929
-    checksum: sha256:d5a2cf19140ccc0292a57a6e0e3baea9189f8366b3dbe9b9854600c95f018306
-    name: libzstd
-    evr: 1.5.7-6.1.hum1
-    sourcerpm: zstd-1.5.7-6.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/m/make-4.4.1-13.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 609197
@@ -375,13 +410,13 @@ arches:
     name: publicsuffix-list-dafsa
     evr: 20260624-2.hum1
     sourcerpm: publicsuffix-list-20260624-2.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3.12-devel-3.12.15-1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-devel-3.14.8-1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 338541
-    checksum: sha256:f38683e98e0b00ebc30ae1b6dd63b3151a9be5ecb2349770b2709b3a39009b7f
-    name: python3.12-devel
-    evr: 3.12.15-1.hum1
-    sourcerpm: python3.12-3.12.15-1.hum1.src.rpm
+    size: 475721
+    checksum: sha256:3cac6cd64d034c814903252d874e0f1a1f7bed48703bf9542af7dbdfc1e01ce3
+    name: python3-devel
+    evr: 3.14.8-1.hum1
+    sourcerpm: python3.14-3.14.8-1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/u/util-linux-2.42.4-2.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 1383634
