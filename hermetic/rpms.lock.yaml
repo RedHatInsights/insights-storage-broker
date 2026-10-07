@@ -410,13 +410,13 @@ arches:
     name: publicsuffix-list-dafsa
     evr: 20260624-2.hum1
     sourcerpm: publicsuffix-list-20260624-2.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-devel-3.14.8-1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-devel-3.14.8-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 475721
-    checksum: sha256:3cac6cd64d034c814903252d874e0f1a1f7bed48703bf9542af7dbdfc1e01ce3
+    size: 475737
+    checksum: sha256:92ed5d2751008838e223db95ec789650029798200c802021cbecca6c650e9539
     name: python3-devel
-    evr: 3.14.8-1.hum1
-    sourcerpm: python3.14-3.14.8-1.hum1.src.rpm
+    evr: 3.14.8-1.1.hum1
+    sourcerpm: python3.14-3.14.8-1.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/u/util-linux-2.42.4-2.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 1383634
