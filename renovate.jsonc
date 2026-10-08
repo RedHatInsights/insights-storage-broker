@@ -20,14 +20,10 @@
     // The Konflux PR build installs the refreshed RPMs, builds the image, and tests it.
     "automerge": true
   },
-  "poetry": {
-    // Covers poetry.lock refreshes; the Python packageRule below doesn't match this manager.
-    "automerge": true
-  },
   "packageRules": [
     {
       // The Konflux PR build installs the deps and runs the tests against them.
-      "matchManagers": ["pip_requirements", "pip_setup", "pep621"],
+      "matchManagers": ["pip_requirements", "pep621"],
       "matchUpdateTypes": ["patch", "minor"],
       "automerge": true,
       "groupName": "Python dependencies"
