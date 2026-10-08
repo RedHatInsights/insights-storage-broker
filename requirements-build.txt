@@ -11,3 +11,6 @@
 setuptools==84.0.0 \
     --hash=sha256:f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73
     # via pyproject.toml [build-system]
+wheel==0.48.0 \
+    --hash=sha256:94800765601e9171bf5d58d066e640662842bcedcbab982b2c90787a2c987322
+    # via confluent-kafka
