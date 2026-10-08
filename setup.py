@@ -7,14 +7,14 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=[
-        "prometheus-client==0.21.1",
+        "prometheus-client==0.26.0",
         "logstash-formatter==0.5.17",
         "watchtower==3.4.0",
-        "confluent-kafka==2.11.0",
-        "boto3==1.39.4",
+        "confluent-kafka==2.15.1",
+        "boto3==1.43.108",
         "ruamel.yaml==0.19.1",
-        "attrs==25.3.0",
-        "app-common-python==0.2.8"
+        "attrs==25.4.0",
+        "app-common-python==0.3.0"
     ],
     extras_require={"test": ["pytest>=8.0.0", "flake8>=7.3.0"]},
     entry_points={"console_scripts": ["storage_broker = storage_broker.app:main"]},
