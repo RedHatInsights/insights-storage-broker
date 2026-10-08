@@ -2,14 +2,14 @@
 
 [[package]]
 name = "app-common-python"
-version = "0.2.8"
+version = "0.3.0"
 description = ""
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "app_common_python-0.2.8-py3-none-any.whl", hash = "sha256:bf0e020b1b4d77b03e6e0e97e4f1f5112e3c27954721c2c82cd2ac40d20cb0f6"},
-    {file = "app_common_python-0.2.8.tar.gz", hash = "sha256:4e3d12f17cec46755f3255c3a40abb192cef9fc04a13141e77f4abe7fd71fb58"},
+    {file = "app_common_python-0.3.0-py3-none-any.whl", hash = "sha256:1eec3bcebbdae79b13332dd300c16e2037bfd02948804a529f2005dac2a94f4d"},
+    {file = "app_common_python-0.3.0.tar.gz", hash = "sha256:aa00beda4abcc40fdceb0a104776dbe33bc2131ea89d908716dcf47106c94dcf"},
 ]
 
 [[package]]
@@ -624,4 +624,4 @@ dev = ["flake8", "pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "8636ffc4a0f96d66c1b1e298d8cbdc4232dbcf6a6ba220405ec5deb32c8dd7bb"
+content-hash = "7171cbda8b240eb11f4084c6928aced8db168ab8b1eaf31dbb7aab69b1950c9e"
