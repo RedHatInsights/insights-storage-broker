@@ -2,12 +2,10 @@ FROM registry.access.redhat.com/hi/python:latest-fips-builder@sha256:b0ddbf5851c
 
 USER 0
 
-# Install system dependencies
 RUN dnf5 install -y gcc gcc-c++ python3-devel make \
     openssl-devel cyrus-sasl-devel libxcrypt && \
     dnf5 clean all
 
-# Build librdkafka
 COPY hermetic/librdkafka /tmp/librdkafka
 RUN cd /tmp/librdkafka && \
     ./configure --prefix=/usr --libdir=/usr/lib64 && \
@@ -15,15 +13,10 @@ RUN cd /tmp/librdkafka && \
     make INSTALL=/usr/bin/install install && \
     ldconfig
 
-# Install uv (option 1: from pip)
-RUN python3 -m pip install uv
-
-# Copy source and dependencies
 COPY src src
 COPY pyproject.toml pyproject.toml
 
-# Test 1: Install with uv directly (no lock file)
-RUN uv pip install --system .
+RUN python3 -m pip install --use-pep517 .
 
 FROM registry.access.redhat.com/hi/python:latest-fips@sha256:b42659de8901e25e1de3c040ce3673b88f63df323036ea68cb9c2c209db66424
 
