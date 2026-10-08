@@ -8,6 +8,9 @@
 #   pip download <package> --dest /tmp --no-deps
 #   sha256sum /tmp/<package>.whl
 #
+flit-core==4.1.0 \
+    --hash=sha256:62e12b63ead8335b37f59fabb977c7167fe476dafb5e41785dfa8c9aff843bc6
+    # via wheel
 setuptools==84.0.0 \
     --hash=sha256:f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73
     # via pyproject.toml [build-system]
