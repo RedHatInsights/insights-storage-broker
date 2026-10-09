@@ -207,13 +207,13 @@ arches:
     name: libfdisk
     evr: 2.42.4-2.hum1
     sourcerpm: util-linux-2.42.4-2.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libfido2-1.17.0-6.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libfido2-1.17.0-6.2.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 115978
-    checksum: sha256:9110ad3d36cc2e6c4cdcac033a638c039d6dc13dcd2af482ec53b59d36a55a76
+    size: 115983
+    checksum: sha256:a54e0f5ed8453b2c4dd768fcce91efbdc5312c83bdc9de777bea01ef418cabd0
     name: libfido2
-    evr: 1.17.0-6.1.hum1
-    sourcerpm: libfido2-1.17.0-6.1.hum1.src.rpm
+    evr: 1.17.0-6.2.hum1
+    sourcerpm: libfido2-1.17.0-6.2.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libgcc-16.2.1-3.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 145964
