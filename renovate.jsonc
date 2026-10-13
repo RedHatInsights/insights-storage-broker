@@ -17,7 +17,12 @@
   },
   "rpm-lockfile": {
     // The Konflux build installs the refreshed RPMs, so a refresh is tested like any PR.
-    "automerge": true
+    "automerge": true,
+    // Lock-file-maintenance branches are resolved through this nested config, not the
+    // automerge flag above: without it, scheduled lockfile refreshes never automerge.
+    "lockFileMaintenance": {
+      "automerge": true
+    }
   },
   "packageRules": [
     {
