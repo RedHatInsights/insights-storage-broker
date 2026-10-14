@@ -78,6 +78,17 @@ storage_broker_api
 make produce_validation_message
 ```
 
+### Running unit tests
+
+```
+pip install -e '.[dev]'
+pytest --cov
+```
+
+Kafka is faked and S3 is mocked with [moto](https://github.com/getmoto/moto), so no services need to be running.
+
+Known bugs are captured as `xfail(strict=True)` tests. Once a bug is fixed its test starts passing, which strict mode reports as a failure, so remove the `xfail` marker as part of the fix.
+
 ### Local AWS S3 interaction testing using Minio
 
 You can test the AWS interaction of storage broker using Minio.
