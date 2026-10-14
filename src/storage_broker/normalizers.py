@@ -47,7 +47,6 @@ class Validation(object):
     size = attr.ib(default=None)
     timestamp = attr.ib(default=datetime.now(UTC).strftime("%Y%m%d%H%M%S"))
 
-
     @classmethod
     def from_json(cls, doc):
         try:
@@ -56,7 +55,7 @@ class Validation(object):
                                   "org_id": None,
                                   "internal": {
                                       "org_id": None,
-                                      }
+                                  }
                                   }
                      }
             if doc.get("b64_identity"):

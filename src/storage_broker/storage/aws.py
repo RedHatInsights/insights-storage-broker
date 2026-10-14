@@ -27,6 +27,7 @@ def copy(key, src, dest, new_key, size, service):
         logger.exception("Unable to move %s to %s bucket", key, dest)
         metrics.storage_copy_error.labels(bucket=dest).inc()
 
+
 @metrics.storage_key_check_time.time()
 def check_key(bucket, request_id):
     try:
@@ -34,6 +35,7 @@ def check_key(bucket, request_id):
         return None
     except ClientError as e:
         return e
+
 
 @metrics.presigned_url_gen_time.time()
 def get_url(bucket, request_id, expiry):

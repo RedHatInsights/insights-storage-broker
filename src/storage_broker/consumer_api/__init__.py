@@ -7,10 +7,13 @@ from src.storage_broker.api import main as api
 
 event = Event()
 
+
 def signal_handler(signal, frame):
     event.set()
 
+
 signal.signal(signal.SIGTERM, signal_handler)
+
 
 def main():
     with ThreadPoolExecutor(max_workers=2) as executor:
