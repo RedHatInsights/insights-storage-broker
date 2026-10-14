@@ -1,4 +1,5 @@
 import os
+import ssl
 import sys
 import logging
 import socket
@@ -28,6 +29,16 @@ def non_clowder_config():
     aws_log_group = os.getenv("AWS_LOG_GROUP", "platform")
     create_log_group = str(os.getenv("AWS_CREATE_LOG_GROUP")).lower() == "true"
     return aws_access_key_id, aws_secret_access_key, aws_region_name, aws_log_group, create_log_group
+
+
+def log_ssl_info(logger):
+    """Log basic SSL/cipher info to help debug TLS issues (e.g. FIPS + Python 3.14+)."""
+    try:
+        logger.info("OpenSSL version: %s", ssl.OPENSSL_VERSION)
+        context = ssl.create_default_context()
+        logger.info("Available ciphers: %d", len(context.get_ciphers()))
+    except Exception as e:
+        logger.warning("Could not log SSL info: %s", e)
 
 
 def initialize_logging():
@@ -68,5 +79,7 @@ def initialize_logging():
         logging.root.addHandler(cw_handler)
 
     logger = logging.getLogger(config.APP_NAME)
+
+    log_ssl_info(logger)
 
     return logger
