@@ -186,13 +186,13 @@ arches:
     name: libcom_err
     evr: 1.47.4-2.1.hum1
     sourcerpm: e2fsprogs-1.47.4-2.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libcurl-8.22.0-1.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libcurl-8.23.0-0.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 515551
-    checksum: sha256:4fc2bc3ae7bc20d7460d77c55ed86ecb36b0400046beb5915776fb85bbd42d8f
+    size: 516887
+    checksum: sha256:eb30a1403bb6f470064748d048293526f0dc458f472aa66b8fe94ac6cb99ee20
     name: libcurl
-    evr: 8.22.0-1.1.hum1
-    sourcerpm: curl-8.22.0-1.1.hum1.src.rpm
+    evr: 8.23.0-0.1.hum1
+    sourcerpm: curl-8.23.0-0.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libevent-2.1.13-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 305421
