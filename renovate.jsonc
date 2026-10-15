@@ -9,6 +9,9 @@
     // Keep even when every action is pinned: it pins the next one added.
     "helpers:pinGitHubActionDigests"
   ],
+  // RPM vulnerability-remediation PRs are a separate MintMaker category from
+  // rpm-lockfile.lockFileMaintenance and stay manual unless this is set.
+  "rpmVulnerabilityAutomerge": "ALL",
   "tekton": {
     // The PR's own Konflux build runs the updated pipeline.
     "automerge": true,
