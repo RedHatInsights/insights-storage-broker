@@ -1,5 +1,3 @@
-from socket import timeout
-from time import time
 import uuid
 from datetime import datetime, timezone, timedelta
 from flask import Flask, request, jsonify
@@ -13,7 +11,7 @@ logger = broker_logging.initialize_logging()
 
 
 @app.route("/archive/url/", methods=['GET'])
-def get_archive_url():    
+def get_archive_url():
     request_id = request.args.get("request_id")
     if not request_id:
         return error_message('request_id param missing'), 400
@@ -36,6 +34,7 @@ def get_archive_url():
     response = {"request_id": request_id, "url": url, "timeout": timeout_str}
 
     return jsonify(response)
+
 
 @app.route("/", methods=['GET'])
 def health_check():

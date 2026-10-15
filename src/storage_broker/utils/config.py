@@ -37,6 +37,7 @@ def load_bucket_map(_file):
 
     return bucket_map
 
+
 def clowderize_bucket_map(bucket_map, topics):
     """
     Convert the bucket map to use clowder derived topic names
@@ -46,6 +47,7 @@ def clowderize_bucket_map(bucket_map, topics):
         clowderized_map[topics[topic].name] = bucket_info
 
     return clowderized_map
+
 
 # Inventory
 INVENTORY_URL = os.getenv(

@@ -1,5 +1,4 @@
 import datetime
-import json
 
 
 def get_time():
@@ -18,4 +17,3 @@ def create_msg(data, status, status_msg):
     }
 
     return msg
-

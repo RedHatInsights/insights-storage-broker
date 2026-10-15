@@ -10,9 +10,9 @@ logger = logging.getLogger(__name__)
 
 def init_producer():
 
-   connection_info = common.build_confluent_kafka_config(config)
+    connection_info = common.build_confluent_kafka_config(config)
 
-   return Producer(connection_info)
+    return Producer(connection_info)
 
 
 def delivery_report(err, msg=None, request_id=None):

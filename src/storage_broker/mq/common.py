@@ -1,5 +1,3 @@
-from src.storage_broker.utils import config
-
 def build_confluent_kafka_config(config):
 
     connection_info = {
