@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/hi/python:latest-fips-builder@sha256:aeb9288bad0638982d8c1131658a7660061cadb3e9e1d2f3f1cea0d41b56dec6 AS builder
+FROM registry.access.redhat.com/hi/python:latest-fips-builder@sha256:b022774c169f050ddc8a8cb459ec4e790a29c245cd868378acd5011be9805559 AS builder
 
 USER 0
 
@@ -18,7 +18,7 @@ COPY pyproject.toml pyproject.toml
 
 RUN python3 -m pip install --use-pep517 .
 
-FROM registry.access.redhat.com/hi/python:latest-fips@sha256:0fb294f032a4e279f1ec4b83b46fed9966e2a19234e7bf85b9d1fb651884e3dc
+FROM registry.access.redhat.com/hi/python:latest-fips@sha256:37aa583c7c1919eb8e1cc2f1446579db222efee7623ca79f52c72c2d126ee277
 
 COPY --from=builder /usr/lib64/librdkafka* /usr/lib64/
 COPY --from=builder /usr/lib64/libsasl2* /usr/lib64/
