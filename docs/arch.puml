@@ -1,0 +1,26 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+
+System_Ext(s3_api, "AWS Simple Storage Service")
+
+System_Boundary(clouddot, "cloud.redhat.com") {
+  System_Boundary(storage_broker, "Storage Broker") {
+    System(kafka_consumer, "consumer", "kafka consumer")
+    System(kafka_producer, "producer", "kafka producer")
+    Container(map_logic, "mapping", "python")
+    System(s3_client, "s3 client", "boto3")
+  }
+
+  System(kafka, "Kafka Broker")
+}
+
+
+Rel(kafka_consumer, kafka, "consumes from topics", "kafka")
+Rel(kafka_producer, kafka, "announce copy operations", "kafka")
+Rel(s3_client, s3_api, "issues copy command", "http")
+Rel(map_logic, kafka_consumer, "watches for payloads to copy")
+Rel(map_logic, s3_client, "administers copy")
+Rel(map_logic, kafka_producer, "announce copy")
+
+Lay_L(kafka_producer, kafka_consumer)
+@enduml

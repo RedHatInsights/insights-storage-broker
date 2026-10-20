@@ -1,0 +1,56 @@
+[project]
+name = "insights-storage-broker"
+version = "0.1.0"
+description = "Manages objects in cloud storage"
+authors = [{name = "Stephen Adams", email = "sadams@redhat.com"}]
+requires-python = ">=3.14"
+dependencies = [
+    "confluent-kafka>=2.2.0",
+    "attrs==25.4.0",
+    "prometheus-client==0.26.0",
+    "ruamel.yaml==0.19.1",
+    "app-common-python==0.3.0",
+    "boto3>=1.28.21",
+    "watchtower>=3.0.1",
+    "logstash-formatter>=0.5.17",
+    "Flask==3.1.3",
+    "werkzeug==3.1.6",
+    "click>=8.3.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=7.0.0",
+    "moto[s3]>=5.1.0",
+    "flake8>=7.3.0",
+]
+
+[build-system]
+requires = ["setuptools>=80.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src.storage_broker*"]
+
+[project.scripts]
+storage_broker = "src.storage_broker.app:main"
+storage_broker_api = "src.storage_broker.api:main"
+storage_broker_consumer_api = "src.storage_broker.consumer_api:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+# xfail tests document known bugs; strict mode turns them into failures
+# once the bug is fixed so the marker has to be removed.
+xfail_strict = true
+addopts = "-ra"
+
+[tool.coverage.run]
+source = ["src/storage_broker"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90

@@ -1,0 +1,148 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: insights-storage-broker
+objects:
+- annotations: null
+  apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  labels:
+    app: insights-storage-broker
+  metadata:
+    name: insights-storage-broker
+  name: insights-storage-broker
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      deploymentconfig: insights-storage-broker
+    strategy:
+      activeDeadlineSeconds: 21600
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      recreateParams: null
+      resources: {}
+      rollingParams: null
+      timeoutSeconds: 600
+      type: Rolling
+      updatePeriodSeconds: 1
+    template:
+      metadata:
+        labels:
+          app: insights-storage-broker
+          deploymentconfig: insights-storage-broker
+      spec:
+        containers:
+        - env:
+          - name: LOG_LEVEL
+            value: ${LOG_LEVEL}
+          - name: BOOTSTRAP_SERVERS
+            value: ${KAFKA_BOOTSTRAP_HOST}:${KAFKA_BOOTSTRAP_PORT}
+          - name: LOG_GROUP
+            value: ${LOG_GROUP}
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                key: aws_access_key_id
+                name: upload-s3
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                key: aws_secret_access_key
+                name: upload-s3
+          envFrom:
+          - secretRef:
+              name: cloudwatch
+          image: quay.io/cloudservices/insights-storage-broker:${IMAGE_TAG}
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /metrics
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 27
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /metrics
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 30
+          name: insights-storage-broker
+          ports: null
+          resources:
+            limits:
+              cpu: ${CPU_LIMIT}
+              memory: ${MEMORY_LIMIT}
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /var
+              name: storage-broker-map
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 60
+        volumes:
+          - configMap:
+              defaultMode: 420
+              name: storage-broker-map
+            name: storage-broker-map
+    test: false
+    triggers:
+    - type: ConfigChange
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: '8080'
+      prometheus.io/scrape: 'true'
+    labels:
+      app: insights-storage-broker
+    name: insights-storage-broker
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: insights-storage-broker
+    sessionAffinity: None
+    type: ClusterIP
+parameters:
+- description: Name of the namespace app images are pulled from (if not buildfactory)
+  name: IMAGE_NAMESPACE
+  value: buildfactory
+- name: KAFKA_BOOTSTRAP_HOST
+  value: mq-kafka
+- name: KAFKA_BOOTSTRAP_PORT
+  value: '29092'
+- description: The LOG_GROUP associated with cloudwatch
+  name: LOG_GROUP
+  value: platform-dev
+- name: LOG_LEVEL
+  value: INFO
+- description: Cpu limit of service
+  name: CPU_LIMIT
+  value: 500m
+- description: memory limit of service
+  name: MEMORY_LIMIT
+  value: 512Mi
+- description: Image tag
+  name: IMAGE_TAG
+  required: true

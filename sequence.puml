@@ -1,0 +1,21 @@
+@startuml Insights Storage Broker
+participant validating_service
+entity platform_upload_validation
+participant storage_broker
+entity platform_upload_available
+database stage_bucket
+database reject_bucket
+validating_service->platform_upload_validation: success/failure message
+alt succeed validation
+    Note right of validating_service: {"request_id": "abcd-1234",\n"validation": "success"}
+    platform_upload_validation->storage_broker: success message
+    storage_broker->platform_upload_available: advertisement of available payload
+    Note right of platform_upload_available: {<original msg content>, "url": "https://aws.bucket.url"}
+else failed validation
+    note right of validating_service: {"request_id": "abcd-1234",\n"validation": "failure"}
+    platform_upload_validation->storage_broker: failure message
+    storage_broker->stage_bucket: copy command
+    Note right of stage_bucket: "Moves payload to reject bucket"
+    stage_bucket->reject_bucket: payload copy
+end
+@enduml

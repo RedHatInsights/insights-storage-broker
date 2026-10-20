@@ -1,0 +1,9 @@
+@startuml
+(*) --> "Map service to storage bucket"
+note right: my-service => s3://my-service-bucket/
+--> "Apply layout formatting"
+note right: s3://my-service-bucket/{account_number}/{id}.tgz
+--> "Move data"
+note right: aws s3 cp s3://ingress/{request_id} s3://my-service-bucket/{account_number}/{id}.tgz
+--> (*)
+@enduml

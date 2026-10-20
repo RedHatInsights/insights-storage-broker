@@ -1,0 +1,10 @@
+@startuml Insights Storage Broker
+entity subscribed_topic
+participant storage_broker
+database stage_bucket
+database destination_bucket
+subscribed_topic->storage_broker: storage broker receives a message from a topic
+storage_broker->storage_broker: normalizes the data for processing
+storage_broker->stage_bucket: copies the file to the destination bucket
+storage_broker->destination_bucket: Uses the formatting provided in the bucket_map
+@enduml

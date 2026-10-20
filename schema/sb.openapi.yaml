@@ -1,0 +1,81 @@
+---
+openapi: 3.0.3
+info:
+  title: Storage Broker API
+  description: Storage Broker API returns url to download AWS archive
+  version: 1.0.0
+
+paths:
+  /archive/url:
+    get:
+      summary: Returns archive download url
+      description: Fetches an archive download url from AWS.
+      operationId: api.archive.fetch
+      parameters:
+      - $ref: '#/components/parameters/requestId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArchiveInfo'
+        '400':
+          description: '#/components/responses/BadRequest'
+
+components:
+  schemas:
+    ArchiveInfo:
+      type: object
+      properties:
+        request_id:
+          $ref: '#/components/schemas/RequestId'
+        url:
+          $ref: '#/components/schemas/Url'
+        timeout:
+          $ref: '#/components/schemas/Timeout'
+      required:
+      - request_id
+      - url
+      - timeout
+
+    RequestId:
+      description: The request id of a payload.
+      type: string
+      format: uuid
+
+    Url:
+      description: AWS archive download url for a payload.
+      type: string
+      format: url
+
+    Timeout:
+      description: AWS download url timeout in iso format date-time string.
+      type: string
+      format: date-time
+      example: "2022-04-19T21:54:57+00:00"
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+
+  parameters:
+    requestId:
+      in: query
+      name: request_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/RequestId'
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
