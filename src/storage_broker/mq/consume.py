@@ -24,7 +24,7 @@ def init_consumer(logger):
         consumer.subscribe(
             [config.VALIDATION_TOPIC, config.INGRESS_TOPIC]
         )
-        logger.debug("Subscribed to topics [%s, %s, %s]", config.VALIDATION_TOPIC,
+        logger.debug("Subscribed to topics [%s, %s]", config.VALIDATION_TOPIC,
                      config.INGRESS_TOPIC)
         return consumer
     except Exception as e:
