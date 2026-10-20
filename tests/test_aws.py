@@ -48,13 +48,24 @@ def test_copy_failure_is_reported_to_caller(s3):
         aws.copy("missing", config.STAGE_BUCKET, config.REJECT_BUCKET, "missing", 1, "advisor")
 
 
-@pytest.mark.xfail(raises=TypeError, reason="BUG: payload_size.observe() raises TypeError on string sizes before the S3 copy runs")
 def test_copy_accepts_string_size(staged):
     aws.copy(REQUEST_ID, config.STAGE_BUCKET, config.REJECT_BUCKET, REQUEST_ID, "7", "advisor")
     assert object_exists(staged, config.REJECT_BUCKET, REQUEST_ID)
 
 
-@pytest.mark.xfail(raises=TypeError, reason="BUG: payload_size.observe() raises TypeError when size is missing (None)")
+def test_copy_records_numeric_string_size(staged, metric_delta):
+    size = metric_delta("storage_broker_payload_size_bytes_sum", {"service": "advisor"})
+    aws.copy(REQUEST_ID, config.STAGE_BUCKET, config.REJECT_BUCKET, REQUEST_ID, "7", "advisor")
+    assert size.delta == 7
+
+
+def test_copy_ignores_unparseable_size(staged, metric_delta):
+    count = metric_delta("storage_broker_payload_size_bytes_count", {"service": "advisor"})
+    aws.copy(REQUEST_ID, config.STAGE_BUCKET, config.REJECT_BUCKET, REQUEST_ID, "big", "advisor")
+    assert object_exists(staged, config.REJECT_BUCKET, REQUEST_ID)
+    assert count.delta == 0
+
+
 def test_copy_accepts_missing_size(staged):
     aws.copy(REQUEST_ID, config.STAGE_BUCKET, config.REJECT_BUCKET, REQUEST_ID, None, "advisor")
     assert object_exists(staged, config.REJECT_BUCKET, REQUEST_ID)

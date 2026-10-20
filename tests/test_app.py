@@ -280,7 +280,6 @@ def test_main_validation_failure_copies_to_reject(run_main, staged):
     assert statuses(producer)[-1] == ("success", f"copied payload to {config.REJECT_BUCKET}")
 
 
-@pytest.mark.xfail(raises=AssertionError, reason="BUG: a validation failure without a size crashes in payload_size.observe() so the payload never reaches the reject bucket")
 def test_main_validation_failure_without_size(run_main, staged):
     msg = validation_msg("failure")
     del msg["size"]
@@ -288,7 +287,6 @@ def test_main_validation_failure_without_size(run_main, staged):
     assert object_exists(staged, config.REJECT_BUCKET, REQUEST_ID)
 
 
-@pytest.mark.xfail(raises=AssertionError, reason="BUG: a validation failure with a string size crashes in payload_size.observe() so the payload never reaches the reject bucket")
 def test_main_validation_failure_with_string_size(run_main, staged):
     run_main([FakeMessage(VALIDATION_TOPIC, validation_msg("failure", size="7"))])
     assert object_exists(staged, config.REJECT_BUCKET, REQUEST_ID)
