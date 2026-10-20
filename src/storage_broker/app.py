@@ -3,7 +3,7 @@ import signal
 from functools import partial
 
 import attr
-from confluent_kafka import KafkaError
+from confluent_kafka import KafkaException
 from prometheus_client import start_http_server
 from threading import Event
 from src.storage_broker import TrackerMessage, normalizers
@@ -188,11 +188,12 @@ def send_message(topic, msg, request_id=None, headers=None):
         producer.produce(
             topic, msg, headers=headers, callback=partial(produce.delivery_report, request_id=request_id)
         )
-    except KafkaError:
+    except (KafkaException, BufferError):
+        metrics.message_publish_error.inc()
         logger.exception(
             "Unable to produce to topic [%s] for request id [%s]",
             topic,
-            msg.get("request_id"),
+            request_id,
         )
 
 

@@ -4,7 +4,7 @@ from threading import Event
 
 import attr
 import pytest
-from confluent_kafka import KafkaError
+from confluent_kafka import KafkaException
 
 from src.storage_broker import TrackerMessage, app
 from src.storage_broker.normalizers import Openshift, Validation
@@ -187,15 +187,13 @@ def test_send_message_passes_headers(producer):
     assert producer.produced[0]["headers"] == [("h", b"v")]
 
 
-def test_kafka_error_is_not_an_exception_class():
-    # send_message does `except KafkaError`, which can never match anything
-    assert not issubclass(KafkaError, BaseException)
-
-
-@pytest.mark.xfail(raises=BufferError, reason="BUG: send_message catches KafkaError, which is not an exception class, so produce errors escape")
-def test_send_message_handles_produce_errors(monkeypatch):
-    monkeypatch.setattr(app, "producer", FakeProducer(produce_exc=BufferError("queue full")))
+@pytest.mark.parametrize("exc", [BufferError("queue full"), KafkaException("broker down")])
+def test_send_message_handles_produce_errors(monkeypatch, metric_delta, caplog, exc):
+    failed = metric_delta("storage_broker_message_publish_error_count_total")
+    monkeypatch.setattr(app, "producer", FakeProducer(produce_exc=exc))
     app.send_message(TRACKER_TOPIC, b"{}", request_id="rid")
+    assert failed.delta == 1
+    assert f"Unable to produce to topic [{TRACKER_TOPIC}] for request id [rid]" in caplog.text
 
 
 # --- handle_validation --------------------------------------------------------
