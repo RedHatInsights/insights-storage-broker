@@ -130,13 +130,13 @@ arches:
     name: json-c
     evr: 0.18-9.1.hum1
     sourcerpm: json-c-0.18-9.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/k/kernel-headers-7.2.0-61.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/k/kernel-headers-7.3.0-65.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 1908991
-    checksum: sha256:2ea658040c3a66b9fa39d8c359331cf4850818ea101fbb0d1d7cf27f19dfe5ca
+    size: 1922779
+    checksum: sha256:3f0b6ccd52d95f876c615c0d571c23fd32f780b61ef29de51b0b20281a19ddec
     name: kernel-headers
-    evr: 7.2.0-61.1.hum1
-    sourcerpm: kernel-headers-7.2.0-61.1.hum1.src.rpm
+    evr: 7.3.0-65.hum1
+    sourcerpm: kernel-headers-7.3.0-65.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/k/keyutils-libs-1.6.3-8.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 38581
