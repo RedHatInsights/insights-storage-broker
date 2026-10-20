@@ -37,12 +37,12 @@ def test_copy_records_timing(staged, metric_delta):
 
 def test_copy_missing_source_counts_error(s3, metric_delta):
     error = metric_delta("storage_broker_object_copy_error_count_total", {"bucket": config.REJECT_BUCKET})
-    aws.copy("missing", config.STAGE_BUCKET, config.REJECT_BUCKET, "missing", 1, "advisor")
+    with pytest.raises(Exception):
+        aws.copy("missing", config.STAGE_BUCKET, config.REJECT_BUCKET, "missing", 1, "advisor")
     assert error.delta == 1
     assert not object_exists(s3, config.REJECT_BUCKET, "missing")
 
 
-@pytest.mark.xfail(raises=pytest.fail.Exception, reason="BUG: aws.copy swallows S3 errors, so callers can't tell the copy failed")
 def test_copy_failure_is_reported_to_caller(s3):
     with pytest.raises(Exception):
         aws.copy("missing", config.STAGE_BUCKET, config.REJECT_BUCKET, "missing", 1, "advisor")

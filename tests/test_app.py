@@ -245,11 +245,15 @@ def test_handle_validation_tracker_carries_ids(producer, s3):
         assert msg["org_id"] == "123456"
 
 
-@pytest.mark.xfail(raises=AssertionError, reason="BUG: aws.copy swallows S3 errors so a failed reject copy is still reported as success")
 def test_handle_validation_failure_reports_copy_error(producer, s3):
     # nothing staged, so the copy to the reject bucket fails
     handle(validation_msg("failure"))
     assert statuses(producer)[-1][0] == "error"
+
+
+def test_handle_validation_failure_copy_error_message(producer, s3):
+    handle(validation_msg("failure"))
+    assert statuses(producer)[-1] == ("error", f"failed to copy payload to {config.REJECT_BUCKET}")
 
 
 # --- main loop ----------------------------------------------------------------
@@ -302,6 +306,17 @@ def test_main_announce_copies_to_service_bucket(run_main, staged, service, bucke
         ("received", f"received message from {service}"),
         ("success", f"copied payload to {bucket} as {key}"),
     ]
+
+
+def test_main_announce_copy_failure_reports_error(run_main, s3, metric_delta):
+    # nothing staged, so the buck-it copy fails
+    unpack = metric_delta("storage_broker_message_json_upack_error_count_total", {"topic": ANNOUNCE_TOPIC})
+    _, producer = run_main([announce("openshift")])
+    status, status_msg = statuses(producer)[-1]
+    assert status == "error"
+    assert status_msg.startswith("failed to copy payload to insights-buck-it-openshift as 123456/cluster-1/")
+    assert keys_in(s3, "insights-buck-it-openshift") == []
+    assert unpack.delta == 0
 
 
 def test_main_announce_unmonitored_service_is_skipped(run_main, staged, metric_delta):

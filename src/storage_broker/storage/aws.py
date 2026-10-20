@@ -35,6 +35,7 @@ def copy(key, src, dest, new_key, size, service):
     except Exception:
         logger.exception("Unable to move %s to %s bucket", key, dest)
         metrics.storage_copy_error.labels(bucket=dest).inc()
+        raise
 
 
 @metrics.storage_key_check_time.time()

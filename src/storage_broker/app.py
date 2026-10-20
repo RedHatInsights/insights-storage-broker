@@ -55,14 +55,18 @@ def handle_validation(data, tracker_msg):
         return
 
     if data.validation == "failure":
-        aws.copy(
-            data.request_id,
-            config.STAGE_BUCKET,
-            config.REJECT_BUCKET,
-            data.request_id,
-            data.size,
-            data.service,
-        )
+        try:
+            aws.copy(
+                data.request_id,
+                config.STAGE_BUCKET,
+                config.REJECT_BUCKET,
+                data.request_id,
+                data.size,
+                data.service,
+            )
+        except Exception:
+            track(tracker_msg.message("error", f"failed to copy payload to {config.REJECT_BUCKET}"))
+            return
         track(
             tracker_msg.message(
                 "success", f"copied payload to {config.REJECT_BUCKET}"
@@ -134,15 +138,19 @@ def main(exit_event=event):
                 handle_validation(data, tracker_msg)
             else:
                 key, bucket = get_bucket(_map, data)
-                aws.copy(
-                    data.request_id,
-                    config.STAGE_BUCKET,
-                    bucket,
-                    key,
-                    data.size,
-                    data.service,
-                )
-                message = tracker_msg.message("success", f"copied payload to {bucket} as {key}")
+                try:
+                    aws.copy(
+                        data.request_id,
+                        config.STAGE_BUCKET,
+                        bucket,
+                        key,
+                        data.size,
+                        data.service,
+                    )
+                except Exception:
+                    message = tracker_msg.message("error", f"failed to copy payload to {bucket} as {key}")
+                else:
+                    message = tracker_msg.message("success", f"copied payload to {bucket} as {key}")
                 send_message(config.TRACKER_TOPIC, message, request_id=data.request_id)
         except Exception:
             metrics.message_json_unpack_error.labels(topic=msg.topic()).inc()
