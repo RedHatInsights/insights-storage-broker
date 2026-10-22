@@ -60,27 +60,27 @@ arches:
     name: cyrus-sasl-lib
     evr: 2.1.28-37.2.hum1
     sourcerpm: cyrus-sasl-2.1.28-37.2.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/e/elfutils-debuginfod-client-0.196-1.1.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/e/elfutils-debuginfod-client-0.197-1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 55093
-    checksum: sha256:9f30e03e1fc7ed47fd40c2fbc7d462dffd7ab98c5be713d94b249c1167c7ac99
+    size: 55288
+    checksum: sha256:31610fa68740cea118df1c223ad18492460ee5e6b48dabc4ad5a1651a20562b0
     name: elfutils-debuginfod-client
-    evr: 0.196-1.1.1.hum1
-    sourcerpm: elfutils-0.196-1.1.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/e/elfutils-libelf-0.196-1.1.1.hum1.x86_64.rpm
+    evr: 0.197-1.hum1
+    sourcerpm: elfutils-0.197-1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/e/elfutils-libelf-0.197-1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 251439
-    checksum: sha256:c95f08efe1a8fec6f9f1e79bdcd25b1b68c9386f88da0106ce5bbec36e55837b
+    size: 279167
+    checksum: sha256:100611832507581ff3083f74b273b16f1d0b2e6e1fe5dba367662a541037191b
     name: elfutils-libelf
-    evr: 0.196-1.1.1.hum1
-    sourcerpm: elfutils-0.196-1.1.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/e/elfutils-libs-0.196-1.1.1.hum1.x86_64.rpm
+    evr: 0.197-1.hum1
+    sourcerpm: elfutils-0.197-1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/e/elfutils-libs-0.197-1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 298388
-    checksum: sha256:919e0c44b9cc745b898e1a430a0e99df7bb4661f9620b91691c89abdff6c9146
+    size: 298749
+    checksum: sha256:a83a1f965ba3340c86f7aae6a872deac16067980fdf9aa392bce95ac0f27e3df
     name: elfutils-libs
-    evr: 0.196-1.1.1.hum1
-    sourcerpm: elfutils-0.196-1.1.1.hum1.src.rpm
+    evr: 0.197-1.hum1
+    sourcerpm: elfutils-0.197-1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/gcc-16.2.1-3.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 45513990
@@ -165,13 +165,13 @@ arches:
     name: libblkid
     evr: 2.42.4-2.1.hum1
     sourcerpm: util-linux-2.42.4-2.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libbrotli-1.2.0-6.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libbrotli-1.2.1-0.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 363647
-    checksum: sha256:2b7cc780aa6a14fd557cc02055034001db468db26543150eec5a9b100e3f4342
+    size: 363407
+    checksum: sha256:bdf42b4f458e4c0168e4dd3c414ee497b17a24d7710de769463d52aeeab9306e
     name: libbrotli
-    evr: 1.2.0-6.1.hum1
-    sourcerpm: brotli-1.2.0-6.1.hum1.src.rpm
+    evr: 1.2.1-0.1.hum1
+    sourcerpm: brotli-1.2.1-0.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libcbor-0.14.0-3.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 43847
@@ -249,13 +249,13 @@ arches:
     name: libmpc
     evr: 1.4.1-2.1.hum1
     sourcerpm: libmpc-1.4.1-2.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libnghttp2-1.69.0-6.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libnghttp2-1.70.0-0.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 85628
-    checksum: sha256:132be5529dfac16e939e5c919ab0aa2592fd60b0a90b4fbe9859789683d0eb9a
+    size: 86019
+    checksum: sha256:1526440410b7d7d7bad97543ad22f0fbe4e6239d2df37567f732206f20b8bc6b
     name: libnghttp2
-    evr: 1.69.0-6.1.hum1
-    sourcerpm: nghttp2-1.69.0-6.1.hum1.src.rpm
+    evr: 1.70.0-0.1.hum1
+    sourcerpm: nghttp2-1.70.0-0.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libnghttp3-1.18.0-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 82415
@@ -312,13 +312,13 @@ arches:
     name: libtool-ltdl
     evr: 2.6.2-1.1.hum1
     sourcerpm: libtool-2.6.2-1.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libunistring-1.1-12.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libunistring-1.5-0.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 565071
-    checksum: sha256:2d1ab09d380603be85d7c1a77e2815110c09288c105723c6c21bb2cec4de49bb
+    size: 635736
+    checksum: sha256:4f6a258d0693c40d1187b8c233595fe0d6911006fd40325342f9d6516bd2d9bc
     name: libunistring
-    evr: 1.1-12.1.hum1
-    sourcerpm: libunistring-1.1-12.1.hum1.src.rpm
+    evr: 1.5-0.1.hum1
+    sourcerpm: libunistring-1.5-0.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libverto-0.3.2-13.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 27778
@@ -354,20 +354,20 @@ arches:
     name: mpfr
     evr: 4.2.2-4.1.hum1
     sourcerpm: mpfr-4.2.2-4.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/n/ngtcp2-1.22.1-3.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/n/ngtcp2-1.25.0-0.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 165927
-    checksum: sha256:9e807cd2f984f50dba2e2642c0b3d7d664eefdb93e05073d4245798d9f7e3dc9
+    size: 183660
+    checksum: sha256:629f189fe449ea75ef5ce44ed5142fbfe42e0fb20769970cf28862b337a3df32
     name: ngtcp2
-    evr: 1.22.1-3.1.hum1
-    sourcerpm: ngtcp2-1.22.1-3.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/n/ngtcp2-crypto-ossl-1.22.1-3.1.hum1.x86_64.rpm
+    evr: 1.25.0-0.1.hum1
+    sourcerpm: ngtcp2-1.25.0-0.1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/n/ngtcp2-crypto-ossl-1.25.0-0.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 33206
-    checksum: sha256:c8c45f6ebeb03a3500d02f07ce973e341bbd807d76acc0322e93e805b5b3b51c
+    size: 33578
+    checksum: sha256:493cc37a861545f251939216c9d4227fa4fea9f9d06905ea3bd80bdbdd9fac16
     name: ngtcp2-crypto-ossl
-    evr: 1.22.1-3.1.hum1
-    sourcerpm: ngtcp2-1.22.1-3.1.hum1.src.rpm
+    evr: 1.25.0-0.1.hum1
+    sourcerpm: ngtcp2-1.25.0-0.1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/o/openldap-2.6.15-1.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 288043
