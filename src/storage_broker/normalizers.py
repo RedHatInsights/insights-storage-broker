@@ -24,6 +24,14 @@ def resolve_normalizer(_map, service=None):
     return getattr(sys.modules[__name__], normalizer_name)
 
 
+def _new_request_id():
+    return uuid.uuid4().hex
+
+
+def _now_timestamp():
+    return datetime.now(UTC).strftime("%Y%m%d%H%M%S")
+
+
 def parse_identity(b64_identity):
     ident = json.loads(b64decode(b64_identity).decode("utf-8"))
     return ident
@@ -37,7 +45,7 @@ class Validation(object):
 
     validation = attr.ib(default=None)
     service = attr.ib(default=None)
-    request_id = attr.ib(default=str(uuid.uuid4().hex))
+    request_id = attr.ib(factory=_new_request_id)
     reason = attr.ib(default=None)
     account = attr.ib(default=None)
     org_id = attr.ib(default=None)
@@ -45,7 +53,7 @@ class Validation(object):
     system_id = attr.ib(default=None)
     hostname = attr.ib(default=None)
     size = attr.ib(default=None)
-    timestamp = attr.ib(default=datetime.now(UTC).strftime("%Y%m%d%H%M%S"))
+    timestamp = attr.ib(factory=_now_timestamp)
 
     @classmethod
     def from_json(cls, doc):
@@ -60,14 +68,14 @@ class Validation(object):
                      }
             if doc.get("b64_identity"):
                 ident = parse_identity(doc["b64_identity"])
-            if not ident["identity"].get("org_id") and ident["identity"]["internal"].get("org_id"):
-                ident["identity"]["org_id"] == ident["identity"]["internal"]["org_id"]
+            if not ident["identity"].get("org_id") and ident["identity"].get("internal", {}).get("org_id"):
+                ident["identity"]["org_id"] = ident["identity"]["internal"]["org_id"]
             validation = doc["validation"]
             service = doc.get("service")
             request_id = doc.get("request_id", str(uuid.uuid4().hex))
             reason = doc.get("reason")
             account = doc.get("account") if doc.get("account") else ident["identity"].get("account_number")
-            org_id = doc.get("org_id") if doc.get("org_id") else ident["identity"]["org_id"]
+            org_id = doc.get("org_id") if doc.get("org_id") else ident["identity"].get("org_id")
             reporter = doc.get("reporter")
             system_id = doc.get("system_id")
             hostname = doc.get("hostname")
@@ -86,12 +94,12 @@ class Validation(object):
 @attr.s
 class Openshift(object):
     size = attr.ib(default="0")
-    request_id = attr.ib(default=str(uuid.uuid4().hex))
+    request_id = attr.ib(factory=_new_request_id)
     cluster_id = attr.ib(default=None)
     org_id = attr.ib(default=None)
     account = attr.ib(default=None)
     service = attr.ib(default=None)
-    timestamp = attr.ib(default=datetime.now(UTC).strftime("%Y%m%d%H%M%S"))
+    timestamp = attr.ib(factory=_now_timestamp)
 
     @classmethod
     def from_json(cls, doc):

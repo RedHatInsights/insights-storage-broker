@@ -2,7 +2,6 @@ import json
 import logging
 from types import SimpleNamespace
 
-import pytest
 
 from src.storage_broker.mq import common, consume, produce
 from src.storage_broker.utils import config
@@ -85,7 +84,6 @@ def test_init_consumer_returns_none_on_failure(monkeypatch):
     assert consume.init_consumer(logging.getLogger("test")) is None
 
 
-@pytest.mark.xfail(raises=TypeError, reason="BUG: init_consumer logs 3 %s placeholders with only 2 arguments")
 def test_init_consumer_subscribe_log_formats(monkeypatch):
     records = []
 
@@ -136,7 +134,6 @@ def test_delivery_report_failure(metric_delta):
     assert published.delta == 0
 
 
-@pytest.mark.xfail(raises=AssertionError, reason="BUG: delivery_report passes err and request_id to the log in the wrong order")
 def test_delivery_report_failure_log_names_request_id(caplog):
     with caplog.at_level(logging.ERROR, logger=produce.__name__):
         produce.delivery_report("delivery failed", tracker_msg(), request_id="rid")

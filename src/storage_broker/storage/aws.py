@@ -15,9 +15,18 @@ s3 = boto3.client(
 )
 
 
+def _observe_size(size, service):
+    # Upstream services send size as an int, a numeric string, or not at all.
+    # A bad size must never stop the payload from being copied.
+    try:
+        metrics.payload_size.labels(service=service).observe(float(size))
+    except (TypeError, ValueError):
+        logger.warning("Ignoring invalid payload size %r for service %s", size, service)
+
+
 @metrics.storage_copy_time.time()
 def copy(key, src, dest, new_key, size, service):
-    metrics.payload_size.labels(service=service).observe(size)
+    _observe_size(size, service)
     copy_src = {"Bucket": src, "Key": key}
     try:
         s3.copy(copy_src, dest, new_key)
@@ -26,6 +35,7 @@ def copy(key, src, dest, new_key, size, service):
     except Exception:
         logger.exception("Unable to move %s to %s bucket", key, dest)
         metrics.storage_copy_error.labels(bucket=dest).inc()
+        raise
 
 
 @metrics.storage_key_check_time.time()

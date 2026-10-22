@@ -107,8 +107,8 @@ else:
     API_PORT = int(os.getenv("API_PORT", 5000))
 
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
-KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
-KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
+KAFKA_QUEUE_MAX_KBYTES = int(os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024))
+KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", "false").lower() in ("true", "1", "yes")
 KAFKA_LOG_LEVEL = os.getenv("KAFKA_LOG_LEVEL", "ERROR")
 MONITORED_SERVICES = os.getenv("MONITORED_SERVICES", "openshift,ansible").split(",")
 

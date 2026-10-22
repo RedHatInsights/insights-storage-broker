@@ -223,12 +223,15 @@ def test_allow_create_topics_defaults_off(reload_config):
     assert not reload_config(KAFKA_ALLOW_CREATE_TOPICS=None).KAFKA_ALLOW_CREATE_TOPICS
 
 
-@pytest.mark.xfail(raises=AssertionError, reason="BUG: KAFKA_ALLOW_CREATE_TOPICS is the raw env string, so 'false' is truthy")
+@pytest.mark.parametrize("value", ["true", "True", "1", "yes"])
+def test_allow_create_topics_true_values(reload_config, value):
+    assert reload_config(KAFKA_ALLOW_CREATE_TOPICS=value).KAFKA_ALLOW_CREATE_TOPICS is True
+
+
 def test_allow_create_topics_false_string(reload_config):
     assert not reload_config(KAFKA_ALLOW_CREATE_TOPICS="false").KAFKA_ALLOW_CREATE_TOPICS
 
 
-@pytest.mark.xfail(raises=AssertionError, reason="BUG: KAFKA_QUEUE_MAX_KBYTES is the raw env string when set, an int only by default")
 def test_queue_max_kbytes_is_int(reload_config):
     assert reload_config(KAFKA_QUEUE_MAX_KBYTES="2048").KAFKA_QUEUE_MAX_KBYTES == 2048
 

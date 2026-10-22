@@ -23,8 +23,8 @@ def delivery_report(err, msg=None, request_id=None):
         logger.error(
             "Message delivery for topic %s failed for request_id [%s]: %s",
             msg.topic(),
-            err,
             request_id,
+            err,
         )
         logger.debug("Message contents: %s", json.loads(msg.value().decode("utf-8")))
         metrics.message_publish_error.inc()

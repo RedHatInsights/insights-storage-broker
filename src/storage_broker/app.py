@@ -3,7 +3,7 @@ import signal
 from functools import partial
 
 import attr
-from confluent_kafka import KafkaError
+from confluent_kafka import KafkaException
 from prometheus_client import start_http_server
 from threading import Event
 from src.storage_broker import TrackerMessage, normalizers
@@ -55,14 +55,18 @@ def handle_validation(data, tracker_msg):
         return
 
     if data.validation == "failure":
-        aws.copy(
-            data.request_id,
-            config.STAGE_BUCKET,
-            config.REJECT_BUCKET,
-            data.request_id,
-            data.size,
-            data.service,
-        )
+        try:
+            aws.copy(
+                data.request_id,
+                config.STAGE_BUCKET,
+                config.REJECT_BUCKET,
+                data.request_id,
+                data.size,
+                data.service,
+            )
+        except Exception:
+            track(tracker_msg.message("error", f"failed to copy payload to {config.REJECT_BUCKET}"))
+            return
         track(
             tracker_msg.message(
                 "success", f"copied payload to {config.REJECT_BUCKET}"
@@ -134,15 +138,19 @@ def main(exit_event=event):
                 handle_validation(data, tracker_msg)
             else:
                 key, bucket = get_bucket(_map, data)
-                aws.copy(
-                    data.request_id,
-                    config.STAGE_BUCKET,
-                    bucket,
-                    key,
-                    data.size,
-                    data.service,
-                )
-                message = tracker_msg.message("success", f"copied payload to {bucket} as {key}")
+                try:
+                    aws.copy(
+                        data.request_id,
+                        config.STAGE_BUCKET,
+                        bucket,
+                        key,
+                        data.size,
+                        data.service,
+                    )
+                except Exception:
+                    message = tracker_msg.message("error", f"failed to copy payload to {bucket} as {key}")
+                else:
+                    message = tracker_msg.message("success", f"copied payload to {bucket} as {key}")
                 send_message(config.TRACKER_TOPIC, message, request_id=data.request_id)
         except Exception:
             metrics.message_json_unpack_error.labels(topic=msg.topic()).inc()
@@ -180,11 +188,12 @@ def send_message(topic, msg, request_id=None, headers=None):
         producer.produce(
             topic, msg, headers=headers, callback=partial(produce.delivery_report, request_id=request_id)
         )
-    except KafkaError:
+    except (KafkaException, BufferError):
+        metrics.message_publish_error.inc()
         logger.exception(
             "Unable to produce to topic [%s] for request id [%s]",
             topic,
-            msg.get("request_id"),
+            request_id,
         )
 
 

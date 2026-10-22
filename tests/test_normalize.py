@@ -213,7 +213,6 @@ def test_validation_message_ids_win_over_identity():
     assert data.org_id == "123456"
 
 
-@pytest.mark.xfail(raises=AssertionError, reason="BUG: Validation.from_json uses '==' instead of '=' so the internal.org_id fallback never applies")
 def test_validation_falls_back_to_internal_org_id():
     msg = {
         "validation": "success",
@@ -225,7 +224,6 @@ def test_validation_falls_back_to_internal_org_id():
     assert data.org_id == "internal-org"
 
 
-@pytest.mark.xfail(raises=KeyError, reason="BUG: Validation.from_json raises KeyError when identity has no top-level org_id key")
 def test_validation_identity_without_org_id_key():
     msg = {
         "validation": "success",
@@ -290,6 +288,5 @@ def test_openshift_requires_service():
         normalizers.Openshift.from_json(msg)
 
 
-@pytest.mark.xfail(raises=AssertionError, reason="BUG: attrs defaults for request_id are evaluated once at import, so every instance shares one id")
 def test_default_request_ids_are_unique():
     assert normalizers.Openshift().request_id != normalizers.Openshift().request_id
