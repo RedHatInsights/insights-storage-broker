@@ -114,7 +114,8 @@ objects:
         services:
           openshift:
             format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
-            bucket: ${OPENSHIFT_BUCKET}
+            # DO NOT MERGE: deliberately broken to prove the IQE smoke tests catch it
+            bucket: insights-buck-it-does-not-exist
           ansible:
             format: "{org_id}/{cluster_id}/{timestamp}-{request_id}"
             bucket: ${ANSIBLE_BUCKET}
