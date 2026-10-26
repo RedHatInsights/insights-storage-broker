@@ -317,6 +317,15 @@ def test_main_announce_copy_failure_reports_error(run_main, s3, metric_delta):
     assert unpack.delta == 0
 
 
+def test_main_announce_transient_copy_failure_reports_error(run_main, staged, fast_retries, inject_503):
+    # every CopyObject 503s, so the buck-it copy fails even after retrying
+    inject_503(staged, "CopyObject", 100)
+    _, producer = run_main([announce("openshift")])
+    status, status_msg = statuses(producer)[-1]
+    assert status == "error"
+    assert status_msg.startswith("failed to copy payload to insights-buck-it-openshift as 123456/cluster-1/")
+
+
 def test_main_announce_unmonitored_service_is_skipped(run_main, staged, metric_delta):
     consumed = metric_delta("storage_broker_message_consume_count_total")
     _, producer = run_main([announce("advisor")])
