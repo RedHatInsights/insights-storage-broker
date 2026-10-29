@@ -1,5 +1,6 @@
 import logging
 import boto3
+from botocore.config import Config
 from botocore.exceptions import ClientError
 
 from src.storage_broker.utils import config
@@ -7,12 +8,29 @@ from src.storage_broker.utils import metrics
 
 logger = logging.getLogger(config.APP_NAME)
 
-s3 = boto3.client(
-    "s3",
-    endpoint_url=config.S3_ENDPOINT_URL,
-    aws_access_key_id=config.AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=config.AWS_SECRET_ACCESS_KEY,
-)
+
+def _count_retries(parsed=None, model=None, **kwargs):
+    attempts = (parsed or {}).get("ResponseMetadata", {}).get("RetryAttempts", 0)
+    if attempts:
+        metrics.storage_retry_count.labels(operation=model.name).inc(attempts)
+
+
+def make_client():
+    client = boto3.client(
+        "s3",
+        endpoint_url=config.S3_ENDPOINT_URL,
+        aws_access_key_id=config.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=config.AWS_SECRET_ACCESS_KEY,
+        # botocore normalizes Config's "max_attempts" into "total_max_attempts"
+        # (value + 1), so pass total_max_attempts directly: it is the real
+        # attempt ceiling, initial request included.
+        config=Config(retries={"mode": "standard", "total_max_attempts": config.S3_MAX_ATTEMPTS}),
+    )
+    client.meta.events.register("after-call.s3", _count_retries)
+    return client
+
+
+s3 = make_client()
 
 
 def _observe_size(size, service):

@@ -29,6 +29,11 @@ storage_copy_success = Counter(
     "Total successful object moves",
     ["bucket"],
 )
+storage_retry_count = Counter(
+    "storage_broker_s3_retry_count",
+    "Total S3 request retries performed by the client",
+    ["operation"],
+)
 invalid_validation_status = Counter(
     "storage_broker_invalid_status_count",
     "Total invalid status messages received",

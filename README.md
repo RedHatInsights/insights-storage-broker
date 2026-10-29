@@ -108,6 +108,8 @@ AWS_ACCESS_KEY_ID=$MINIO_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$MINIO_SECRET_KEY S3_E
 
 Local Minio access keys are provided [here](https://github.com/RedHatInsights/insights-storage-broker/blob/master/.env).
 
+S3 requests are retried with botocore's standard retry mode (exponential backoff on transient errors only); set `S3_MAX_ATTEMPTS` (default 5) to change the attempt count, and watch `storage_broker_s3_retry_count_total` for retries performed.
+
 ## Updating dependencies
 
 ### Updating base image dependencies

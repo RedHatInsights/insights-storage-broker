@@ -121,6 +121,8 @@ AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", AWS_SECRET_ACCESS_KEY
 
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 
+S3_MAX_ATTEMPTS = int(os.getenv("S3_MAX_ATTEMPTS", 5))
+
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 NAMESPACE = get_namespace()
 HOSTNAME = os.environ.get("HOSTNAME")

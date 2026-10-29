@@ -100,3 +100,47 @@ def test_get_url_propagates_client_error(monkeypatch):
     monkeypatch.setattr(aws, "s3", Boom())
     with pytest.raises(ClientError):
         aws.get_url(config.STAGE_BUCKET, REQUEST_ID, 30)
+
+
+# --- bounded retries ----------------------------------------------------------
+
+
+def test_client_uses_standard_retries(s3):
+    retries = aws.s3.meta.config.retries
+    assert retries["mode"] == "standard"
+    assert retries["total_max_attempts"] == config.S3_MAX_ATTEMPTS
+
+
+def test_copy_recovers_from_transient_errors(staged, metric_delta, fast_retries, inject_503):
+    retries = metric_delta("storage_broker_s3_retry_count_total", {"operation": "CopyObject"})
+    calls = inject_503(staged, "CopyObject", 2)
+
+    aws.copy(REQUEST_ID, config.STAGE_BUCKET, config.REJECT_BUCKET, "new/key", 7, "advisor")
+
+    assert object_exists(staged, config.REJECT_BUCKET, "new/key")
+    assert len(calls) == 3
+    assert retries.delta == 2
+
+
+def test_copy_exhausts_retries(staged, metric_delta, fast_retries, inject_503):
+    retries = metric_delta("storage_broker_s3_retry_count_total", {"operation": "CopyObject"})
+    errors = metric_delta("storage_broker_object_copy_error_count_total", {"bucket": config.REJECT_BUCKET})
+    calls = inject_503(staged, "CopyObject", config.S3_MAX_ATTEMPTS)
+
+    with pytest.raises(Exception):
+        aws.copy(REQUEST_ID, config.STAGE_BUCKET, config.REJECT_BUCKET, "new/key", 7, "advisor")
+
+    assert errors.delta == 1
+    assert retries.delta == config.S3_MAX_ATTEMPTS - 1
+    assert len(calls) == config.S3_MAX_ATTEMPTS
+
+
+def test_copy_permanent_error_is_not_retried(s3, metric_delta, fast_retries):
+    retries = metric_delta("storage_broker_s3_retry_count_total", {"operation": "CopyObject"})
+    head = metric_delta("storage_broker_s3_retry_count_total", {"operation": "HeadObject"})
+
+    with pytest.raises(Exception):
+        aws.copy("missing", config.STAGE_BUCKET, config.REJECT_BUCKET, "missing", 1, "advisor")
+
+    assert retries.delta == 0
+    assert head.delta == 0

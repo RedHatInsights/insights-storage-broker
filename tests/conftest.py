@@ -17,7 +17,7 @@ os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
 os.environ.pop("AWS_REGION_NAME", None)
 os.environ.pop("S3_ENDPOINT_URL", None)
 
-import boto3  # noqa: E402
+from botocore.awsrequest import AWSResponse  # noqa: E402
 from moto import mock_aws  # noqa: E402
 from prometheus_client import REGISTRY  # noqa: E402
 
@@ -139,7 +139,7 @@ def fake_producer():
 def s3(monkeypatch):
     """A moto-backed S3 client wired into storage.aws with the standard buckets created."""
     with mock_aws():
-        client = boto3.client("s3", region_name="us-east-1")
+        client = aws.make_client()
         for bucket in (
             config.STAGE_BUCKET,
             config.REJECT_BUCKET,
@@ -154,3 +154,42 @@ def s3(monkeypatch):
 def object_exists(client, bucket, key):
     resp = client.list_objects_v2(Bucket=bucket, Prefix=key)
     return any(o["Key"] == key for o in resp.get("Contents", []))
+
+
+class _FakeRaw:
+    """Minimal raw body for AWSResponse: botocore only calls stream()."""
+
+    def __init__(self, body):
+        self._body = body
+
+    def stream(self, **kwargs):
+        yield self._body
+
+
+@pytest.fixture
+def fast_retries(monkeypatch):
+    """Standard retry mode sleeps with exponential backoff; drop the sleeps."""
+    monkeypatch.setattr("botocore.endpoint.time.sleep", lambda s: None)
+
+
+@pytest.fixture
+def inject_503():
+    """Return a helper that 503s the first N requests of an operation.
+
+    The handler is registered first on before-send so it runs before moto's
+    own before-send hook and short-circuits the real call with a 503.
+    """
+
+    def _inject(client, operation, failures):
+        calls = []
+
+        def handler(request, **kwargs):
+            calls.append(request)
+            if len(calls) <= failures:
+                body = b"<Error><Code>SlowDown</Code><Message>slow</Message></Error>"
+                return AWSResponse(request.url, 503, headers={}, raw=_FakeRaw(body))
+
+        client.meta.events.register_first(f"before-send.s3.{operation}", handler)
+        return calls
+
+    return _inject
