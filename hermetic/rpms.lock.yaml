@@ -144,13 +144,13 @@ arches:
     name: keyutils-libs
     evr: 1.6.3-8.1.hum1
     sourcerpm: keyutils-1.6.3-8.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/k/krb5-libs-1.22.2-10.3.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/k/krb5-libs-1.22.2-11.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 831930
-    checksum: sha256:5e448bf90055e5be74a2f35c92f97b97f99d0344797fd313142683e846a2a15e
+    size: 831886
+    checksum: sha256:9a273554f67bba101bbd6364130e6d2b23fc95fe70e9c6223e1dc91801a35620
     name: krb5-libs
-    evr: 1.22.2-10.3.hum1
-    sourcerpm: krb5-1.22.2-10.3.hum1.src.rpm
+    evr: 1.22.2-11.hum1
+    sourcerpm: krb5-1.22.2-11.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libatomic-16.2.1-3.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 63058
@@ -165,13 +165,13 @@ arches:
     name: libblkid
     evr: 2.42.4-2.1.hum1
     sourcerpm: util-linux-2.42.4-2.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libbrotli-1.2.1-0.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libbrotli-1.2.1-1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 363407
-    checksum: sha256:bdf42b4f458e4c0168e4dd3c414ee497b17a24d7710de769463d52aeeab9306e
+    size: 363522
+    checksum: sha256:09ad6914bbd3cbde328be8a6681953133415b75987df8c48c332b346f9a7131e
     name: libbrotli
-    evr: 1.2.1-0.1.hum1
-    sourcerpm: brotli-1.2.1-0.1.hum1.src.rpm
+    evr: 1.2.1-1.hum1
+    sourcerpm: brotli-1.2.1-1.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libcbor-0.14.0-3.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 43847
@@ -207,13 +207,13 @@ arches:
     name: libfdisk
     evr: 2.42.4-2.1.hum1
     sourcerpm: util-linux-2.42.4-2.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libfido2-1.17.0-6.2.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libfido2-1.17.0-7.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 115983
-    checksum: sha256:a54e0f5ed8453b2c4dd768fcce91efbdc5312c83bdc9de777bea01ef418cabd0
+    size: 116076
+    checksum: sha256:438bee068175b7a2c113369e2db7ff32820d40f19693f99073b08d2339fe072b
     name: libfido2
-    evr: 1.17.0-6.2.hum1
-    sourcerpm: libfido2-1.17.0-6.2.hum1.src.rpm
+    evr: 1.17.0-7.hum1
+    sourcerpm: libfido2-1.17.0-7.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libgomp-16.2.1-3.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 413557
@@ -410,13 +410,48 @@ arches:
     name: publicsuffix-list-dafsa
     evr: 20260624-2.1.hum1
     sourcerpm: publicsuffix-list-20260624-2.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-devel-3.14.8-1.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python-pip-wheel-26.2-0.2.hum1.noarch.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 475737
-    checksum: sha256:92ed5d2751008838e223db95ec789650029798200c802021cbecca6c650e9539
+    size: 1253056
+    checksum: sha256:f0eb720a09e169bb490afe42f2e7965e71056927a0cfd997febfbf7eb208a964
+    name: python-pip-wheel
+    evr: 26.2-0.2.hum1
+    sourcerpm: python-pip-26.2-0.2.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python-unversioned-command-3.14.10-1.hum1.noarch.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 18252
+    checksum: sha256:f1ced4825a44426c1e59ae21404e9b22f5907e96a8f1100b8afb38af111b59fb
+    name: python-unversioned-command
+    evr: 3.14.10-1.hum1
+    sourcerpm: python3.14-3.14.10-1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-3.14.10-1.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 36558
+    checksum: sha256:7869b08b52e42644eaebc812b18c1da46b67893a7a6460043ea0c7243306a14b
+    name: python3
+    evr: 3.14.10-1.hum1
+    sourcerpm: python3.14-3.14.10-1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-devel-3.14.10-1.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 484727
+    checksum: sha256:70d8b5f8d6d6c3dca3f7e6a6235f38600e38d16fa9e209a20f0f9b2ee75b745c
     name: python3-devel
-    evr: 3.14.8-1.1.hum1
-    sourcerpm: python3.14-3.14.8-1.1.hum1.src.rpm
+    evr: 3.14.10-1.hum1
+    sourcerpm: python3.14-3.14.10-1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-libs-3.14.10-1.hum1.x86_64.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 10777003
+    checksum: sha256:60429e52f87274bee5c444966986ecb686448e23dfc8dc901510c60e070032ed
+    name: python3-libs
+    evr: 3.14.10-1.hum1
+    sourcerpm: python3.14-3.14.10-1.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-pip-26.2-0.2.hum1.noarch.rpm
+    repoid: public-hummingbird-x86_64-rpms
+    size: 3021522
+    checksum: sha256:d78c64aa1567ac678f0a0dc781145d15bd9d43341eeef7305bb6267e09fc5be1
+    name: python3-pip
+    evr: 26.2-0.2.hum1
+    sourcerpm: python-pip-26.2-0.2.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/u/util-linux-2.42.4-2.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 1384908
