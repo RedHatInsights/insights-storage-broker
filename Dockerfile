@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/hi/python:3.14-fips-builder@sha256:955e7bbe29773fb9488691814e64dac31d7ab611a477b94e41239cebff73d17c AS builder
+FROM registry.access.redhat.com/hi/python:3.14-fips-builder@sha256:8be74cbf171ceed2af0b9042e7f79f3a42f00cbdbc984789de39b077058459fe AS builder
 
 USER 0
 
