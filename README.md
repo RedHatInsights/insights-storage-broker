@@ -89,24 +89,31 @@ Kafka is faked and S3 is mocked with [moto](https://github.com/getmoto/moto), so
 
 Known bugs are captured as `xfail(strict=True)` tests. Once a bug is fixed its test starts passing, which strict mode reports as a failure, so remove the `xfail` marker as part of the fix.
 
-### Local AWS S3 interaction testing using Minio
+### Local AWS S3 interaction testing
 
-You can test the AWS interaction of storage broker using Minio.
-To do so, you will need to set the following environment variables to the storage broker consumer or API.
+You can test the AWS interaction of storage broker against a local S3 server.
+`compose.yml` runs the [moto](https://github.com/getmoto/moto) S3 server, the same S3 emulator the unit tests use, on http://localhost:9000.
+It creates the `insights-upload-perma` stage bucket and the `insights-upload-rejected` reject bucket on startup.
+moto keeps everything in memory, so buckets and objects are reset whenever the `s3` container restarts.
+(MinIO was used here before, but MinIO no longer publishes its images on Docker Hub.)
+
+To use it, you will need to set the following environment variables to the storage broker consumer or API.
 
 ```
-S3_ENDPOINT_URL=<minio_api_endpoint/>
-AWS_ACCESS_KEY_ID=<minio_access_key_id/>
-AWS_SECRET_ACCESS_KEY=<minio_secret_access_key/>
+S3_ENDPOINT_URL=<s3_api_endpoint/>
+AWS_ACCESS_KEY_ID=<access_key_id/>
+AWS_SECRET_ACCESS_KEY=<secret_access_key/>
 STAGE_BUCKET=<bucket_name/>
 ```
 
 For example
 ```
-AWS_ACCESS_KEY_ID=$MINIO_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$MINIO_SECRET_KEY S3_ENDPOINT_URL=minio_api_endpoint:9000 STAGE_BUCKET=insights-dev-upload-perm storage_brokerer_api
+AWS_ACCESS_KEY_ID=$MINIO_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$MINIO_SECRET_KEY S3_ENDPOINT_URL=http://localhost:9000 STAGE_BUCKET=insights-upload-perma storage_broker_api
 ```
 
-Local Minio access keys are provided [here](https://github.com/RedHatInsights/insights-storage-broker/blob/master/.env).
+To test copying validation failures to the reject bucket, also set `REJECT_BUCKET=insights-upload-rejected` when running `storage_broker`.
+
+moto accepts any credentials. The example uses the keys from [.env](https://github.com/RedHatInsights/insights-storage-broker/blob/master/.env), which the local ingress service also uses.
 
 S3 requests are retried with botocore's standard retry mode (exponential backoff on transient errors only); set `S3_MAX_ATTEMPTS` (default 5) to change the attempt count, and watch `storage_broker_s3_retry_count_total` for retries performed.
 
