@@ -305,13 +305,13 @@ arches:
     name: libstdc++-devel
     evr: 16.2.1-3.2.hum1
     sourcerpm: gcc-16.2.1-3.2.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libtool-ltdl-2.6.2-1.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libtool-ltdl-2.6.2-2.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 42658
-    checksum: sha256:b4dbb1eb1bfecbf2e8626b4dc5f8ba531969cd53ff888c59b85f7743fff0890d
+    size: 42669
+    checksum: sha256:813dc9e811a4ceb70104472fea3083210b2a88995c52dea5f66903faad6392ea
     name: libtool-ltdl
-    evr: 2.6.2-1.1.hum1
-    sourcerpm: libtool-2.6.2-1.1.hum1.src.rpm
+    evr: 2.6.2-2.hum1
+    sourcerpm: libtool-2.6.2-2.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libunistring-1.5-0.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 635736
@@ -375,13 +375,13 @@ arches:
     name: openldap
     evr: 2.6.16-1.hum1
     sourcerpm: openldap-2.6.16-1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/o/openssl-devel-3.5.9-0.3.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/o/openssl-devel-3.5.9-0.4.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 4559208
-    checksum: sha256:62fe740f97f47b0ebe61d5b9bf82f32ecb251b359ecff73fe2da4550be785516
+    size: 4548452
+    checksum: sha256:2f182936bf2b076b3971e3d5ee342cfa920fa1d3dfb338a0100555fc7ed6259d
     name: openssl-devel
-    evr: 1:3.5.9-0.3.hum1
-    sourcerpm: openssl-3.5.9-0.3.hum1.src.rpm
+    evr: 1:3.5.9-0.4.hum1
+    sourcerpm: openssl-3.5.9-0.4.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/pkgconf-2.5.1-2.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 57459
