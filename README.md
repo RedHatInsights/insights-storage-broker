@@ -49,7 +49,7 @@ The only **required** keys in a normalizer at this point are `size`, `service`, 
 
 ### Prerequisites
 
-* Python 3.11
+* Python 3.14
 * docker-compose
 
 ### Step 1: Spin-up dependencies
