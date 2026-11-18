@@ -23,34 +23,30 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
       - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
 
-  minio:
-    image: minio/minio
-    command: server /data --console-address ":10000"
-    volumes:
-      # These vars are defined in .env
-      # These are configurable
-      # Ensure the directories exist prior to running this file
-      - minio_conf:/root/.minio:Z
-      - minio_data:/data:Z
+  s3:
+    # MinIO no longer publishes images on Docker Hub. moto is the same S3 emulator the
+    # unit tests use. It keeps data in memory, so buckets and objects reset on restart.
+    image: motoserver/moto:latest
     ports:
-      - '9000:9000'
-      - '10000:10000'
-    environment:
-      - MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY
-      - MINIO_SECRET_KEY=$MINIO_SECRET_KEY
-      - MINIO_ROOT_USER=$MINIO_ACCESS_KEY
-      - MINIO_ROOT_PASSWORD=$MINIO_SECRET_KEY
+      - '9000:5000'
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://localhost:5000/moto-api/"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
 
-  minio-createbuckets:
-    image: minio/mc
+  s3-createbuckets:
+    image: motoserver/moto:latest
     depends_on:
-      - minio
+      s3:
+        condition: service_healthy
     restart: on-failure
+    # moto accepts unsigned requests, so plain PUTs create the buckets.
+    # Each step must succeed, so a failure exits non-zero instead of being skipped silently.
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc alias set myminio http://minio:9000 "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" || exit 1;
-      /usr/bin/mc mb --ignore-existing myminio/insights-upload-perma;
-      /usr/bin/mc policy set upload myminio/insights-upload-perma;
+      curl -fsS -X PUT http://s3:5000/insights-upload-perma &&
+      curl -fsS -X PUT http://s3:5000/insights-upload-rejected
       "
 
   ingress:
@@ -58,7 +54,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - INGRESS_KAFKA_BROKERS=kafka:9092
+      - INGRESS_KAFKABROKERS=kafka:9092
       - INGRESS_STAGEBUCKET=insights-upload-perma
       - INGRESS_VALIDTOPICS=announce
       - OPENSHIFT_BUILD_COMMIT=somestring
@@ -66,11 +62,9 @@ services:
       - INGRESS_MINIODEV=true
       - INGRESS_MINIOACCESSKEY=$MINIO_ACCESS_KEY
       - INGRESS_MINIOSECRETKEY=$MINIO_SECRET_KEY
-      - INGRESS_MINIOENDPOINT=minio:9000
+      - INGRESS_MINIOENDPOINT=s3:5000
     depends_on:
-      - kafka
-
-
-volumes:
-  minio_conf: {}
-  minio_data: {}
+      kafka:
+        condition: service_started
+      s3-createbuckets:
+        condition: service_completed_successfully
