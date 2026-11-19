@@ -1,8 +1,7 @@
-import imp
 import os
 import json
 from functools import partial
-from confluent_kafka import KafkaError
+from confluent_kafka import KafkaException
 
 from src.storage_broker.mq import produce
 
@@ -20,7 +19,7 @@ SAMPLE_MSG = {
     "validation": "success",
     "service": "localhost",
     "reason": "validation success",
-    "size": "12345",
+    "size": 12345,
 }
 
 def send_message(topic, producer, msg, headers=None):
@@ -29,8 +28,8 @@ def send_message(topic, producer, msg, headers=None):
         producer.produce(
             topic, msg, headers=headers, callback=partial(produce.delivery_report)
         )
-    except KafkaError:
-        print("Unable to producer message", KafkaError)
+    except (KafkaException, BufferError) as e:
+        print("Unable to produce message:", e)
     producer.flush()
 
 def main():
