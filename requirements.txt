@@ -12,15 +12,15 @@ blinker==1.9.0 \
     --hash=sha256:b4ce2265a7abece45e7cc896e98dbebe6cead56bcf805a3d23136d145f5445bf \
     --hash=sha256:ba0efaa9080b619ff2f3459d1d500c57bddea4a6b424b60a91141db6fd2f08bc
     # via flask
-boto3==1.44.0 \
-    --hash=sha256:5d311d2988ae560f83e5fb8a284cb57b48e2c8d444ecb78a6d6752ae1740e04a \
-    --hash=sha256:ae3009db1294fd4ca2e30d9592ead8ab56f0e270bcad0b95e555f03f7875716d
+boto3==1.44.5 \
+    --hash=sha256:667b344e25d2bcbb7c42fcf6b92a07bb1d73ee9d6d12c3a7873ec4c490b6fb64 \
+    --hash=sha256:70c3e0409794b29ec1900bcaff0695b73234a2d32ffaed35045b94caa26212a5
     # via
     #   insights-storage-broker (pyproject.toml)
     #   watchtower
-botocore==1.44.0 \
-    --hash=sha256:224efbd3ee978856da460585533ebf1b97831960e575857ca2424f33e554917b \
-    --hash=sha256:9055745fc16400377ac7e825ac63b8f77af17305e1c77c9a5519a648d7b2e87c
+botocore==1.44.5 \
+    --hash=sha256:8f16a56d1dff125dd65322ae021efa7ba5195a6db5102b96862566055b748921 \
+    --hash=sha256:a988f39e3a4484def0b8010f41128f71157da0515a4804fccce4739aa8f216da
     # via
     #   boto3
     #   s3transfer
