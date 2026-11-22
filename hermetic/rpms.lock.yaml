@@ -207,13 +207,13 @@ arches:
     name: libfdisk
     evr: 2.42.4-2.1.hum1
     sourcerpm: util-linux-2.42.4-2.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libfido2-1.17.0-7.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libfido2-1.17.0-8.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 116076
-    checksum: sha256:438bee068175b7a2c113369e2db7ff32820d40f19693f99073b08d2339fe072b
+    size: 116198
+    checksum: sha256:701a1ba2b4a8d1b46f4fd5af9366f936e20bfc86c259eededea82c6eb20338fd
     name: libfido2
-    evr: 1.17.0-7.hum1
-    sourcerpm: libfido2-1.17.0-7.hum1.src.rpm
+    evr: 1.17.0-8.hum1
+    sourcerpm: libfido2-1.17.0-8.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libgomp-16.2.1-3.3.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 417152
@@ -410,13 +410,13 @@ arches:
     name: publicsuffix-list-dafsa
     evr: 20260624-2.1.hum1
     sourcerpm: publicsuffix-list-20260624-2.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-devel-3.14.10-1.5.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/p/python3-devel-3.14.10-2.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 484807
-    checksum: sha256:ef77d7924ee138e0e7a69dcffd7240e245208d0c6a4595f45dfc373fa9ab9efd
+    size: 484966
+    checksum: sha256:6538f9f09a359cabd3ac0872d3fe0dff1b95b8e9204529cd7960b25fd9701801
     name: python3-devel
-    evr: 3.14.10-1.5.hum1
-    sourcerpm: python3.14-3.14.10-1.5.hum1.src.rpm
+    evr: 3.14.10-2.hum1
+    sourcerpm: python3.14-3.14.10-2.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/u/util-linux-2.42.4-2.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 1384908
