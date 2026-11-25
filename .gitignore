@@ -12,3 +12,6 @@ htmlcov/
 .pytest_cache/
 coverage.xml
 junit.xml
+
+# fullsend lint/run cache
+/.fullsend/.fullsend-cache/
