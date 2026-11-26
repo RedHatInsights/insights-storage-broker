@@ -109,13 +109,13 @@ arches:
     name: gmp
     evr: 1:6.3.0-6.1.hum1
     sourcerpm: gmp-6.3.0-6.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/gnulib-l10n-20241231-4.1.hum1.noarch.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/g/gnulib-l10n-20241231-5.hum1.noarch.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 160090
-    checksum: sha256:d6672d472bf8d9eb52f077f07a8930883e8be75b5c1195ef5212da8c9adf4607
+    size: 160228
+    checksum: sha256:1e951c045d955e320c57bad0851a28d6125e58814ce3fed987276655b7938dd2
     name: gnulib-l10n
-    evr: 20241231-4.1.hum1
-    sourcerpm: gnulib-l10n-20241231-4.1.hum1.src.rpm
+    evr: 20241231-5.hum1
+    sourcerpm: gnulib-l10n-20241231-5.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/j/jansson-2.14-5.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 54388
@@ -326,20 +326,20 @@ arches:
     name: libverto
     evr: 0.3.2-13.1.hum1
     sourcerpm: libverto-0.3.2-13.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libxcrypt-4.5.2-4.1.hum1.x86_64.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libxcrypt-4.5.2-8.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 141726
-    checksum: sha256:a74261efab91e5f56cba16923bed2dd52c8a64d53da2be92bb947dff05ac0c87
+    size: 137940
+    checksum: sha256:4cc1d28e576ff5aafeda989738c67764fd33f7c09784ca0db38cbac1f6370af3
     name: libxcrypt
-    evr: 4.5.2-4.1.hum1
-    sourcerpm: libxcrypt-4.5.2-4.1.hum1.src.rpm
-  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libxcrypt-devel-4.5.2-4.1.hum1.x86_64.rpm
+    evr: 4.5.2-8.hum1
+    sourcerpm: libxcrypt-4.5.2-8.hum1.src.rpm
+  - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/l/libxcrypt-devel-4.5.2-8.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
-    size: 37982
-    checksum: sha256:a961da750cdfc3bec2f20def36e5054f40910c87cde991379a1962fd82f7aaf5
+    size: 34511
+    checksum: sha256:a7acae1c88bf8fe3ff346edd6d10b9d46cfe30f9bce4cddb60d18967fd42d6cd
     name: libxcrypt-devel
-    evr: 4.5.2-4.1.hum1
-    sourcerpm: libxcrypt-4.5.2-4.1.hum1.src.rpm
+    evr: 4.5.2-8.hum1
+    sourcerpm: libxcrypt-4.5.2-8.hum1.src.rpm
   - url: https://koji-s3-cache.hummingbird-project.io/packages.redhat.com/api/pulp-content/public-hummingbird/x86_64/Packages/m/make-4.4.1-13.1.hum1.x86_64.rpm
     repoid: public-hummingbird-x86_64-rpms
     size: 609113
